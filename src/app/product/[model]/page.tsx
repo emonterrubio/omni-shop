@@ -67,7 +67,7 @@ function getProductSpecs(product: any) {
   }
 }
 
-export default function ProductDetailPage({ params }: { params: { model: string } }) {
+export default function ProductDetailPage({ params }: any) {
   const model = typeof params.model === "string" ? decodeURIComponent(params.model) : Array.isArray(params.model) ? decodeURIComponent(params.model[0]) : "";
   const product = findProductByModel(model);
   const specs = product ? getProductSpecs(product) : [];
