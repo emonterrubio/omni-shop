@@ -54,7 +54,7 @@ function getProductsForCategory(category: string): ProductCardProps[] {
   }
 }
 
-export default function CategoryPage({ params }: { params: { category: string } }) {
+export default async function CategoryPage({ params }: { params: { category: string } }) {
   const category = typeof params.category === "string" ? params.category : Array.isArray(params.category) ? params.category[0] : "";
   const products: ProductCardProps[] = getProductsForCategory(category);
 
