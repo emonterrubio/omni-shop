@@ -85,8 +85,8 @@ export const hardwareData: HardwareSpec[] = [
       graphics: "Integrated 10-core GPU",
       operating_system: "macOS Sequoia",
       ports: "MagSafe 3 charging port, Two Thunderbolt 4 ports" ,
-      battery: "66.5 Wh lithium-polymer; up to 18 hours Apple TV playback, 15 hours wireless web" ,
-      other: "Magic Keyboard with Touch ID, 35W Dual USB-C Port Compact Power Adapter" ,
+      battery: "66.5 Wh lithium-polymer; up to 18 hours Apple TV playback",
+      other: "Magic Keyboard with Touch ID, 35W Dual USB-C Port",
       image: "/images/macbook_air_13.png" ,
       price: "1,695"
     },
@@ -104,7 +104,7 @@ export const hardwareData: HardwareSpec[] = [
       operating_system: "Windows 11 Home or Pro",
       ports: "One USB-C / Thunderbolt 4, One USB-A 3.1, Surface Connect, 3.5 mm jack",
       battery: "Up to 18 hrs (13.5″) or 17 hrs (15″) typical use",
-      other: "Alcantara or metal palm rest, Dolby Atmos, Windows Hello face auth, Fast-charge support",
+      other: "Alcantara or metal palm rest, Dolby Atmos, Fast-charge support",
       image: "/images/microsoft_surface_5.png",
       price: "2,398"
     },

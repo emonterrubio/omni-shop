@@ -61,7 +61,7 @@ export default function CategoryPage({ params }: any) {
   return (
     <div className="flex flex-col h-screen bg-gray-50 mb-12">
       <Header cartItems={0} />
-      <main className="flex-1 overflow-y-auto px-3 sm:px-10 md:px-16 py-6">
+      <main className="flex-1 overflow-y-auto px-6 sm:px-12 md:px-16 py-6">
         <Link
           href="/"
           className="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium transition-colors"

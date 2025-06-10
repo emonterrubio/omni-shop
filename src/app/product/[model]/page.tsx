@@ -95,9 +95,9 @@ export default function ProductDetailPage({ params }: any) {
     : Boolean(product.price);
 
   return (
-    <div className="flex flex-col h-screen bg-gray-50 mb-12">
+    <div className="flex flex-col h-screen bg-gray-50">
       <Header cartItems={0} />
-      <main className="flex-1 overflow-y-auto px-3 sm:px-10 md:px-16 py-6">
+      <main className="flex-1 overflow-y-auto px-6 sm:px-12 md:px-16 py-6">
         <Link
           href={backHref}
           className="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium transition-colors mb-4"
@@ -106,30 +106,39 @@ export default function ProductDetailPage({ params }: any) {
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back
         </Link>
-        <div className="flex flex-col md:flex-row mt-6">
+        <div className="flex flex-col md:flex-row">
           {/* Left: Image */}
-          <div className="flex flex-col md:w-1/2">
+          <div className="flex flex-col md:w-1/2 mt-6 mb-4 md:mb-0">
             <img
               src={product.image || "https://placehold.co/400x300?text=No+Image"}
               alt={product.model}
               className="w-full max-w-lg object-contain"
             />
+            <Link 
+              href={`/product/${product.model}/gallery`}
+              className="text-center text-blue-600 hover:text-blue-800 font-medium transition-colors mt-6"
+            >
+              View Gallery
+            </Link>
           </div>
           {/* Right: Details */}
-          <div className="ml-8 mt-4 md:w-1/2">
+          <div className="mt-4 ml-0 sm:ml-8 md:w-1/2">
             <h1 className="text-4xl font-medium mb-2">{product.model}</h1>
-            <div className="text-base text-gray-700 mb-6">{product.description}</div>
+            <div className="text-base font-regular text-gray-600 mb-6">{product.description}</div>
+            <h4 className="text-2xl font-medium">Product Specifications</h4>
+            <div className="bg-gray-50 rounded-lg">
               {specs.map((spec, idx) =>
                 spec.value ? (
                   <div
                     key={idx}
-                    className="flex justify-between items-center py-2 border-b last:border-b-0"
+                    className="py-3 border-b last:border-b-0 border-gray-200"
                   >
-                    <span className="font-semibold text-gray-800">{spec.label}</span>
-                    <span className="text-gray-900 text-right">{spec.value}</span>
+                    <div className="font-semibold text-gray-800">{spec.label}</div>
+                    <div className="text-gray-900">{spec.value}</div>
                   </div>
                 ) : null
               )}
+            </div>
             <div className={`flex items-center font-medium text-sm my-4 ${isEligible ? "text-green-600" : "text-red-600"}`}>
               {isEligible ? (
                 <CheckCircle className="w-5 h-5 mr-1" />

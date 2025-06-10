@@ -19,7 +19,7 @@ function QuickActionCard({ action, onActionClick }: { action: QuickAction; onAct
     <button
       key={action.id}
       onClick={() => onActionClick(action.title)}
-      className="w-full bg-white rounded-lg p-4 hover:shadow-md transition flex items-center justify-between"
+      className="w-full bg-white rounded-lg p-4 hover:shadow-md transition flex items-center justify-between border border-gray-200 rounded-md"
     >
       <div className="text-left">
         <h3 className="font-semibold text-blue-600 text-base">{action.title}</h3>
@@ -34,7 +34,7 @@ export function QuickActions({ actions, onActionClick }: QuickActionsProps) {
   return (
     <section className="mt-4 mb-8">
       <h2 className="font-semibold text-xl text-gray-900 mb-4">Quick Actions</h2>
-      <div className="grid grid-cols-2 grid-cols-2 gap-2">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
         {actions.map((action) => (
           <QuickActionCard key={action.id} action={action} onActionClick={onActionClick} />
         ))}

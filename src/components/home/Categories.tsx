@@ -14,7 +14,7 @@ function CategoryCard({ category, count }: { category: Category; count: number }
   const Icon = (LucideIcons as any)[category.iconName] || LucideIcons.Package;
   return (
     <button
-      className="flex flex-col items-center justify-center bg-white rounded-lg px-4 py-4 w-full hover:shadow-md transition-all"
+      className="flex flex-col items-center justify-center bg-white border border-gray-200 rounded-md px-4 py-4 w-full hover:shadow-md transition-all"
       type="button"
     >
       <Icon className="w-6 h-6 text-blue-600 mb-1" />

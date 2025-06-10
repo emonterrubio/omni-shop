@@ -6,7 +6,7 @@ import { RecentOrders } from "./home/RecentOrders";
 import { EligibilityInfo } from "./home/EligibilityInfo";
 import { SearchBarClient } from "./search/SearchBarClient";
 import { QuickActionsClient } from "./home/QuickActionsClient";
-import { BottomNavigationClient } from "./layout/BottomNavigationClient";
+import { MainNavigationClient } from "./layout/MainNavigationClient";
 
 interface ITStorefrontProps {
   categories: any[];
@@ -42,20 +42,22 @@ export function ITStorefront({
   const randomName = names[Math.floor(Math.random() * names.length)];
 
   return (
-    <div className="flex flex-col h-screen bg-gray-50 mb-12">
-      <Header cartItems={0} />
-      <main className="flex-1 overflow-y-auto px-3 sm:px-10 md:px-16 py-3">
-        <div className="max-w-5xl mx-auto w-full">
-          <h2 className="text-4xl font-medium mt-12 mb-6">Hello {randomName}, Welcome to Omni Shopping</h2>
+    <div className="flex flex-col h-screen bg-gray-50">
+      <div className="sticky top-0 z-50">
+        <Header cartItems={0} />
+        <MainNavigationClient />
+      </div>  
+      <main className="max-w-7xl mx-auto flex-1 overflow-y-auto px-6 sm:px-12 md:px-16">
+          <h2 className="text-3xl font-medium mt-12 mb-2">Hello
+            <span className="text-heritageBlue"> {randomName}</span>, welcome to</h2>
+          <h3 className="text-7xl font-medium mb-8">Omni Shopping</h3>
           <SearchBarClient />
           <Categories />
           <QuickActionsClient actions={quickActions} />
           <RecommendedItems displayedProducts={displayedProducts} showCompareButton={showCompareButton} />
           <RecentOrders orders={recentOrders} />
           <EligibilityInfo data={eligibilityData} />
-        </div>
       </main>
-      <BottomNavigationClient />
     </div>
   );
 } 

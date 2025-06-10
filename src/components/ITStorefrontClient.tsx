@@ -7,7 +7,7 @@ import { Categories } from "./home/Categories";
 import { RecommendedItems } from "./home/RecommendedItems";
 import { RecentOrders } from "./home/RecentOrders";
 import { EligibilityInfo } from "./home/EligibilityInfo";
-import { BottomNavigation } from "./layout/BottomNavigation";
+import { MainNavigation } from "./layout/MainNavigation";
 import { QuickAction, RecentOrder, EligibilityData, Category } from "@/types";
 import { HardwareSpec } from "@/data/hardwareData";
 
@@ -60,7 +60,6 @@ export function ITStorefrontClient({
 
   return (
     <>
-      <h1 className="text-4xl font-medium mt-12 mb-4">Hello Marlon, Welcome to Omni Shopping</h1>
       <SearchBar
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
@@ -79,7 +78,7 @@ export function ITStorefrontClient({
       <RecommendedItems displayedProducts={displayedProducts} showCompareButton={showCompareButton} />
       <RecentOrders orders={recentOrders} />
       <EligibilityInfo data={eligibilityData} />
-      <BottomNavigation activeTab={activeTab} onTabChange={setActiveTab} />
+      <MainNavigation />
     </>
   );
 } 
