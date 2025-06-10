@@ -9,7 +9,7 @@ import { MainNavigation } from "@/components/layout/MainNavigation";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 
-export default function BrandCatalogPage({ params }: { params: { brand: string } }) {
+export default function BrandCatalogPage({ params }: any) {
   const brand = decodeURIComponent(params.brand);
 
   // Map monitorData to ProductCardProps
