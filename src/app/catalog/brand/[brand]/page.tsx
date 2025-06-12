@@ -1,6 +1,6 @@
 import { hardwareData } from "@/data/hardwareData";
 import { monitorData } from "@/data/monitorData";
-// import { headphoneData } from "@/data/headphoneData";
+import { headphoneData } from "@/data/headphoneData";
 // import { mouseData } from "@/data/mouseData";
 // import { keyboardData } from "@/data/keyboardData";
 import { ProductCard } from "@/components/ui/ProductCard";
@@ -23,10 +23,21 @@ export default function BrandCatalogPage({ params }: any) {
     price: item.price,
   }));
 
+  // Map headphoneData to ProductCardProps
+  const headphoneProducts = headphoneData.map((item) => ({
+    brand: item.brand,
+    model: item.model,
+    category: "Headphones",
+    description: item.features, // or item.description if available
+    features: item.features,
+    image: item.image,
+    price: item.price,
+  }));
+
   const allProducts = [
     ...hardwareData,
     ...monitorProducts,
-    // ...headphoneData,
+    ...headphoneProducts,
     // ...mouseData,
     // ...keyboardData,
   ];
@@ -37,7 +48,7 @@ export default function BrandCatalogPage({ params }: any) {
     <div className="flex flex-col min-h-screen bg-gray-50">
       <Header cartItems={0} />
       <MainNavigation />
-      <main className="flex-1 overflow-y-auto px-6 sm:px-12 md:px-16 py-6 mb-16">
+      <main className="max-w-7xl mx-auto flex-1 overflow-y-auto px-6 sm:px-12 md:px-16 py-6 mb-16">
         <Link
           href="/catalog"
           className="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium transition-colors mb-4"

@@ -10,7 +10,7 @@ export const quickActions: QuickAction[] = [
   { 
     id: 2, 
     icon: "Laptop",
-    title: "Audio/Video for meetings", 
+    title: "Audio / Video for meetings", 
     description: "Headset, webcam and accessories for conference calls" 
   },
   { 

@@ -46,7 +46,7 @@ export function ComparisonProductCard({
         </div>
 
         {/* Description */}
-        <div className="text-base/5 font-medium text-gray-900 text-center mt-2">{description}</div>
+        <div className="text-sm leading-snug font-medium text-gray-900 text-center mt-2">{description}</div>
 
         {/* Divider */}
         <div className="w-full h-px bg-gray-200 my-6"></div>

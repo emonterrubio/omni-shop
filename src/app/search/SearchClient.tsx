@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { hardwareData } from "@/data/hardwareData";
 import { ProductCard } from "@/components/ui/ProductCard";
 import { Header } from "@/components/layout/Header";
+import { MainNavigation } from "@/components/layout/MainNavigation";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 
@@ -71,6 +72,7 @@ export default function SearchClient() {
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
       <Header cartItems={0} />
+      <MainNavigation />
       <main className="flex-1 max-w-5xl mx-auto py-8 w-full">
         <Link
           href={backHref}

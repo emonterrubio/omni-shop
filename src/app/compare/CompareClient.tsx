@@ -4,6 +4,7 @@ import { useSearchParams } from "next/navigation";
 import { hardwareData, HardwareSpec } from "@/data/hardwareData";
 import { ComparisonProductCard } from "@/components/ui/ComparisonProductCard";
 import { Header } from "@/components/layout/Header";
+import { MainNavigation } from "@/components/layout/MainNavigation";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
@@ -32,6 +33,7 @@ export default function CompareClient() {
   return (
     <div className="flex flex-col h-screen bg-gray-50 mb-12">
       <Header cartItems={0} />
+      <MainNavigation />
       <main className="flex-1 overflow-y-auto px-6 sm:px-12 md:px-16 py-6">
         <Link
           href="/"

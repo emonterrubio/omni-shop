@@ -28,9 +28,9 @@ export function ProductCard({ product }: { product: ProductCardProps }) {
   console.log("SERVER/CLIENT", typeof window === "undefined" ? "server" : "client", product.model);
 
   return (
-    <div className="bg-white rounded-lg shadow-sm flex flex-col max-w-md w-full mx-auto h-full hover:shadow-md transition-shadow">
+    <div className="flex flex-col max-w-md w-full mx-auto h-full bg-white rounded-lg shadow-sm hover:shadow-lg transition-shadow">
       {/* Image */}
-      <div className="w-full bg-gray-100 relative mb-3">
+      <div className="w-full bg-gray-200 relative mb-3 rounded-t-lg">
         <img
           src={product.image || PLACEHOLDER_IMAGE}
           alt={product.model}
@@ -39,9 +39,9 @@ export function ProductCard({ product }: { product: ProductCardProps }) {
       </div>
       <div className="p-5 flex flex-col flex-1 w-full h-full">
         {/* Category */}
-        {/* <span className="text-blue-600 text-sm font-medium mb-1">{product.brand}</span> */}
+        <span className="text-blue-600 text-sm font-medium mb-1">{product.brand}</span>
         {/* Model Name */}
-        <h3 className="text-xl font-semibold text-gray-900 mb-1">{product.model}</h3>
+        <h3 className="text-xl font-medium text-gray-900 mb-1">{product.model}</h3>
         <div className="space-y-1 pb-4">
           {product.description && <div className="text-gray-700 text-sm leading-tight">{product.description}</div>}
         </div>
@@ -60,9 +60,10 @@ export function ProductCard({ product }: { product: ProductCardProps }) {
         <div className="flex items-center justify-end gap-2 mt-4">
           <Link
             href={`/product/${encodeURIComponent(product.model)}`}
-            className="flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors w-auto"
+            // className="flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors w-auto"
+            className="flex items-center justify-center px-4 py-2 text-blue-600 hover:text-blue-800 transition-colors w-auto"
           >
-            View Details
+            Learn More
           </Link>
         </div>
       </div>

@@ -14,8 +14,8 @@ export const MainNavigationClient = () => {
   };
 
   return (
-    <nav className="bg-steelGrey">
-      <div className="max-w-7xl mx-auto px-6 sm:px-12 md:px-16">
+    <nav className="bg-gray-200">
+      <div className="max-w-7xl mx-auto flex-1 overflow-y-auto px-6 md:px-10">
         <div className="flex justify-between h-auto">
           <div className="hidden md:flex items-center space-x-10">
             <Link href="/" className={`font-medium text-gray-900 border-b-4 py-3 border-transparent hover:border-b-4 hover:border-heritageBlue ${pathname === "/" ? "border-b-4 border-heritageBlue !border-heritageBlue" : ""}`}>
@@ -31,13 +31,13 @@ export const MainNavigationClient = () => {
               Support
             </Link>
           </div>
-          <div className="md:hidden flex items-center">
+          <div className="md:hidden flex items-center justify-end">
             <button
               onClick={toggleMenu}
               className="text-gray-600 hover:text-gray-900 focus:outline-none py-3"
               aria-label="Toggle menu"
             >
-              {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              {isOpen ? <X className="h-10 w-10" /> : <Menu className="h-6 w-6" />}
             </button>
           </div>
         </div>
@@ -47,7 +47,7 @@ export const MainNavigationClient = () => {
           <div className="px-2 pb-3 space-y-1 sm:px-3">
             <Link
               href="/"
-              className={`block px-4 py-3 text-3xl font-regular text-gray-900 ${pathname === "/catalog" ? "!text-heritageBlue" : ""}`}
+              className={`block px-4 py-3 text-3xl font-regular text-gray-900 ${pathname === "/" ? "!text-heritageBlue" : ""}`}
             >
               Home
             </Link>
@@ -59,7 +59,7 @@ export const MainNavigationClient = () => {
             </Link>
             <Link
               href="/orders"
-              className={`block px-4 py-3 text-3xl font-regular text-gray-900 ${pathname === "/compare" ? "!text-heritageBlue" : ""}`}
+              className={`block px-4 py-3 text-3xl font-regular text-gray-900 ${pathname === "/orders" ? "!text-heritageBlue" : ""}`}
             >
               Orders
             </Link>
@@ -71,13 +71,13 @@ export const MainNavigationClient = () => {
             </Link>
             <Link
               href="/profile"
-              className={`block px-4 py-3 text-3xl font-regular text-gray-900 ${pathname === "/cart" ? "!text-heritageBlue" : ""}`}
+              className={`block px-4 py-3 text-3xl font-regular text-gray-900 ${pathname === "/profile" ? "!text-heritageBlue" : ""}`}
             >
               Profile
             </Link>
             <Link
               href="/support"
-              className={`block px-4 py-3 text-3xl font-regular text-gray-900 ${pathname === "/cart" ? "!text-heritageBlue" : ""}`}
+              className={`block px-4 py-3 text-3xl font-regular text-gray-900 ${pathname === "/support" ? "!text-heritageBlue" : ""}`}
             >
               Support
             </Link>

@@ -14,7 +14,7 @@ export function Header({ cartItems }: HeaderProps) {
   const isHome = pathname === "/";
 
   return (
-    <header className="sticky top-0 z-50 bg-deepBlue border-b border-gray-200 relative">
+    <header className="sticky top-0 z-50 bg-deepBlue relative">
       <div className="absolute left-0 w-full h-full pointer-events-none z-0">
         <svg
           viewBox="0 0 200 100"
@@ -46,7 +46,7 @@ export function Header({ cartItems }: HeaderProps) {
         </svg>
       </div>
       <div className="relative z-10">
-        <div className="flex items-center justify-between px-4 py4 md:py-8">
+        <div className="flex items-center justify-between ml-2 px-6 md:px-8 py-6">
           <div className="flex items-center">
             <Link href="/">
               <img src="/logo/ea_logo_white.svg" alt="Omni Shopping" className="h-10 object-contain" />

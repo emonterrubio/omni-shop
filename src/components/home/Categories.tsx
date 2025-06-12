@@ -4,6 +4,7 @@ import * as LucideIcons from "lucide-react";
 import Link from "next/link";
 import { hardwareData } from "@/data/hardwareData";
 import { monitorData } from "@/data/monitorData";
+import { headphoneData } from "@/data/headphoneData";
 
 interface Category {
   name: string;
@@ -33,6 +34,8 @@ export function Categories() {
           let count;
           if (category.name.toLowerCase() === "monitors") {
             count = monitorData.length;
+          } else if (category.name.toLowerCase() === "headphones") {
+            count = headphoneData.length;
           } else {
             count = hardwareData.filter(item => 
               item.category.toLowerCase() === category.name.toLowerCase()
