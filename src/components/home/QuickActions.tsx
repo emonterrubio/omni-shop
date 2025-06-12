@@ -22,7 +22,7 @@ function QuickActionCard({ action, onActionClick }: { action: QuickAction; onAct
       className="w-full bg-white rounded-lg p-4 hover:shadow-md transition flex items-center justify-between border border-gray-200 rounded-md"
     >
       <div className="text-left">
-        <h3 className="font-semibold text-blue-600 text-base">{action.title}</h3>
+        <h3 className="font-medium text-blue-600 text-base">{action.title}</h3>
         <p className="text-sm text-gray-700 font-regular leading-snug">{action.description}</p>
       </div>
       <ArrowRight className="w-5 h-5 text-gray-400 ml-4 flex-shrink-0" aria-hidden="true" />

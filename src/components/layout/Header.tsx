@@ -71,7 +71,7 @@ export function Header({ cartItems }: HeaderProps) {
               )}
             </button>
             <button className="p-2 text-white hover:text-gray-100">
-              <User className="w-6 h-6" />
+              <img src="/images/ed-avatar.png" alt="User Avatar" className="h-10 object-contain rounded-full" />
             </button>
           </div>
         </div>

@@ -20,7 +20,7 @@ function CategoryCard({ category, count }: { category: Category; count: number }
       type="button"
     >
       <Icon className="w-6 h-6 text-blue-600 mb-1" />
-      <span className="text-base font-semibold text-gray-800">{category.name}</span>
+      <span className="text-base font-medium text-gray-800">{category.name}</span>
       <span className="text-sm font-regular text-gray-600">{count} items</span>
     </button>
   );

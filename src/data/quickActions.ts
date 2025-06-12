@@ -3,8 +3,8 @@ import { QuickAction } from "../types";
 export const quickActions: QuickAction[] = [
   { 
     id: 1, 
-    icon: "Home",
-    title: "Set up home office", 
+    icon: "IdCardLanyard",
+    title: "Setup New Employee", 
     description: "Complete package with monitor, dock, keyboard, etc." 
   },
   { 
