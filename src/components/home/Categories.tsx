@@ -5,6 +5,7 @@ import Link from "next/link";
 import { hardwareData } from "@/data/hardwareData";
 import { monitorData } from "@/data/monitorData";
 import { headphoneData } from "@/data/headphoneData";
+import { mouseData } from "@/data/mouseData";
 
 interface Category {
   name: string;
@@ -36,6 +37,8 @@ export function Categories() {
             count = monitorData.length;
           } else if (category.name.toLowerCase() === "headphones") {
             count = headphoneData.length;
+          } else if (category.name.toLowerCase() === "mice") {
+            count = mouseData.length;
           } else {
             count = hardwareData.filter(item => 
               item.category.toLowerCase() === category.name.toLowerCase()

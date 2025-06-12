@@ -19,10 +19,11 @@ function inferCategory(model: string, category: string): string {
   return "Other";
 }
 
-export function ProductCard({ product }: { product: ProductCardProps }) {
+export function ProductCard({ product, fromCatalog = false }: { product: ProductCardProps, fromCatalog?: boolean }) {
   const category = inferCategory(product.model, product.category);
-  // For demo, treat all as eligible if price exists (or you can adjust this logic)
-  const isEligible = Boolean(product.price);
+  // Eligible if price is a number and <= 2800
+  const priceNumber = Number(String(product.price).replace(/,/g, ""));
+  const isEligible = !isNaN(priceNumber) && priceNumber <= 2800;
 
   console.log("ProductCard brand:", product.brand);
   console.log("SERVER/CLIENT", typeof window === "undefined" ? "server" : "client", product.model);
@@ -42,25 +43,21 @@ export function ProductCard({ product }: { product: ProductCardProps }) {
         <span className="text-blue-600 text-sm font-medium mb-1">{product.brand}</span>
         {/* Model Name */}
         <h3 className="text-xl font-medium text-gray-900 mb-1">{product.model}</h3>
-        <div className="space-y-1 pb-4">
+        <div className="space-y-1 pb-4 flex-1">
           {product.description && <div className="text-gray-700 text-sm leading-tight">{product.description}</div>}
         </div>
-        <div className={`flex items-center font-medium text-sm mb-1 ${isEligible ? "text-green-600" : "text-red-600"}`}>
-          {isEligible ? (
-            <CheckCircle className="w-5 h-5 mr-1" />
-          ) : (
-            <AlertCircle className="w-5 h-5 mr-1" />
-          )}
-          {isEligible ? "Eligible" : "Not Eligible"}
-        </div>
-        <div className="text-gray-400 text-sm mb-2">
-          {isEligible ? "Recommended based on your role" : "Not recommended"}
-        </div>
-        <div className="flex-1" />
-        <div className="flex items-center justify-end gap-2 mt-4">
+        <div className="flex items-center justify-between mt-4">
+          <div className={`flex items-center font-medium text-sm ${isEligible ? "text-green-600" : "text-gray-600"}`}>
+            {isEligible ? (
+              <CheckCircle className="w-5 h-5 mr-1" />
+            ) : (
+              // <AlertCircle className="w-5 h-5 mr-1" />
+              ""
+            )}
+            {isEligible ? "Recommended" : ""}
+          </div>
           <Link
-            href={`/product/${encodeURIComponent(product.model)}`}
-            // className="flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors w-auto"
+            href={fromCatalog ? `/product/${encodeURIComponent(product.model)}?from=catalog` : `/product/${encodeURIComponent(product.model)}`}
             className="flex items-center justify-center px-4 py-2 text-blue-600 hover:text-blue-800 transition-colors w-auto"
           >
             Learn More

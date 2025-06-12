@@ -3,7 +3,7 @@ import Link from "next/link";
 import { hardwareData } from "@/data/hardwareData";
 import { monitorData } from "@/data/monitorData";
 import { headphoneData } from "@/data/headphoneData";
-// import { mouseData } from "@/data/mouseData";
+import { mouseData } from "@/data/mouseData";
 // import { keyboardData } from "@/data/keyboardData";
 import { ProductCard } from "@/components/ui/ProductCard";
 import { ProductCardProps } from "@/types/ProductCardProps";
@@ -46,8 +46,16 @@ function getProductsForCategory(category: string): ProductCardProps[] {
         image: item.image,
         price: item.price,
       }));
-    // case "mice":
-    //   return mouseData.map(item => ({ ... }));
+    case "mice":
+      return mouseData.map(item => ({
+        brand: item.brand,
+        model: item.model,
+        category: "Mice",
+        description: item.description,
+        features: item.description,
+        image: item.image,
+        price: item.price,
+      }));
     // case "keyboards":
     //   return keyboardData.map(item => ({ ... }));
     default:

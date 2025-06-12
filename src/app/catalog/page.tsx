@@ -3,7 +3,7 @@
 import { hardwareData } from "@/data/hardwareData";
 import { monitorData } from "@/data/monitorData";
 import { headphoneData } from "@/data/headphoneData";
-// import { mouseData } from "@/data/mouseData";
+import { mouseData } from "@/data/mouseData";
 // import { keyboardData } from "@/data/keyboardData";
 import { ProductCard } from "@/components/ui/ProductCard";
 import { Header } from "@/components/layout/Header";
@@ -29,8 +29,19 @@ export default function CatalogPage() {
     brand: item.brand,
     model: item.model,
     category: "Headphones",
-    description: item.features, // or item.description if available
+    description: item.description, // or item.description if available
     features: item.features,
+    image: item.image,
+    price: item.price,
+  }));
+
+  // Map mouseData to ProductCardProps
+  const mouseProducts = mouseData.map((item) => ({
+    brand: item.brand,
+    model: item.model,
+    category: "Mice",
+    description: item.description,
+    features: item.description, // Using description as features
     image: item.image,
     price: item.price,
   }));
@@ -40,7 +51,7 @@ export default function CatalogPage() {
     ...hardwareData,
     ...monitorProducts,
     ...headphoneProducts,
-    // ...mouseData,
+    ...mouseProducts
     // ...keyboardData,
   ];
 
@@ -216,7 +227,7 @@ export default function CatalogPage() {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {sortedProducts.map((product, idx) => (
-            <ProductCard key={`${product.model}-${idx}`} product={product} />
+            <ProductCard key={`${product.model}-${idx}`} product={product} fromCatalog={true} />
           ))}
         </div>
       </main>

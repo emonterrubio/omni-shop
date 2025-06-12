@@ -67,7 +67,7 @@ export function ComparisonProductCard({
       <div className="flex flex-col w-full items-center mt-auto space-y-2 pb-4 px-6">
         <div className={`flex items-center font-medium text-sm ${isEligible ? "text-green-600" : "text-red-600"}`}>
           {isEligible ? <CheckCircle className="w-5 h-5 mr-1" /> : <AlertCircle className="w-5 h-5 mr-1" />}
-          {isEligible ? "Eligible" : "Not Eligible"}
+          {isEligible ? "Recommended" : ""}
         </div>
         <div className="text-gray-600 text-sm">Recommended based on your role</div>
         <div className="text-2xl font-semibold">${price}.00</div>

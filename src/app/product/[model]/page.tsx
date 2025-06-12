@@ -1,9 +1,12 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
+import { useParams, useSearchParams } from "next/navigation";
 import { hardwareData } from "@/data/hardwareData";
 import { monitorData } from "@/data/monitorData";
 import { headphoneData } from "@/data/headphoneData";
-// import { mouseData } from "@/data/mouseData";
+import { mouseData } from "@/data/mouseData";
 // import { keyboardData } from "@/data/keyboardData";
 import { Header } from "@/components/layout/Header";
 import { MainNavigation } from "@/components/layout/MainNavigation";
@@ -50,6 +53,24 @@ function findProductByModel(model: string) {
     };
   }
 
+  const mouse = mouseData.find(p => p.model === model);
+  if (mouse) {
+    return {
+      ...mouse,
+      category: "Mice",
+      processor: "",
+      memory: "",
+      storage: "",
+      display: "",
+      graphics: "",
+      operating_system: "",
+      ports: "",
+      battery: "",
+      other: "",
+      features: "",
+    };
+  }
+
   // Add similar logic for other categories...
   return null;
 }
@@ -91,21 +112,42 @@ function getProductSpecs(product: any) {
         { label: "Charging", value: product.charging },
         { label: "Features", value: product.features },
       ];
+    case "Mice":
+      return [
+        { label: "Model", value: product.model },
+        { label: "DPI", value: product.dpi },
+        { label: "Connection", value: product.connection },
+        { label: "Battery", value: product.battery },
+        { label: "Features", value: product.features },
+        { label: "Connectivity", value: product.connectivity },
+        { label: "Button Quantity", value: product.button_quantity },
+        { label: "Compatibility", value: product.compatibility },
+      ];
     // Add cases for other categories...
     default:
       return [];
   }
 }
 
-export default function ProductDetailPage({ params }: any) {
-  const model = typeof params.model === "string" ? decodeURIComponent(params.model) : Array.isArray(params.model) ? decodeURIComponent(params.model[0]) : "";
+export default function ProductDetailPage() {
+  const params = useParams();
+  const searchParams = useSearchParams();
+  const from = searchParams.get("from");
+
+  const modelParam = params.model;
+  const model = Array.isArray(modelParam)
+    ? decodeURIComponent(modelParam[0])
+    : decodeURIComponent(modelParam || "");
+
   const product = findProductByModel(model);
   const specs = product ? getProductSpecs(product) : [];
 
-  // Set back link based on category
-  const backHref = product && product.category === "Monitors"
-    ? "/category/monitors"
-    : "/";
+  // Set back link based on context
+  const backHref = from === "catalog"
+    ? "/catalog"
+    : product && product.category === "Monitors"
+      ? "/category/monitors"
+      : "/";
 
   if (!product) {
     return (
@@ -155,6 +197,7 @@ export default function ProductDetailPage({ params }: any) {
           </div>
           {/* Right: Details */}
           <div className="mt-4 md:w-1/2">
+            <span className="text-blue-600 text-lg font-medium mb-2">{product.brand}</span>
             <h1 className="text-4xl font-medium mb-2">{product.model}</h1>
             <div className="text-base font-regular text-gray-600 leading-snug mb-6">{product.description}</div>
             <h4 className="text-2xl font-medium">Product Specifications</h4>
