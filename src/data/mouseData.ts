@@ -8,6 +8,7 @@ export interface MouseSpec {
   compatibility: string;
   price: string;
   image: string;
+  recommended: boolean;
 }
 
 export const mouseData: MouseSpec[] = [
@@ -20,7 +21,8 @@ export const mouseData: MouseSpec[] = [
     button_quantity: 3,
     compatibility: "Windows, macOS, Linux",
     price: "16",
-    image: "/images/hp_x3000_g3_mouse.png"
+    image: "/images/hp_x3000_g3_mouse.png",
+    recommended: true
   },
   {
     brand: "Logitech",
@@ -31,7 +33,8 @@ export const mouseData: MouseSpec[] = [
     button_quantity: 2,
     compatibility: "Windows, macOS, Linux",
     price: "15",
-    image: "/images/logitech_m185_mouse.png"
+    image: "/images/logitech_m185_mouse.png",
+    recommended: false
   },
   {
     brand: "Apple",
@@ -42,7 +45,8 @@ export const mouseData: MouseSpec[] = [
     button_quantity: 2,
     compatibility: "macOS",
     price: "80",
-    image: "/images/apple_magic_mouse.png"
+    image: "/images/apple_magic_mouse.png",
+    recommended: true
   },
   {
     brand: "Cherry",
@@ -53,7 +57,8 @@ export const mouseData: MouseSpec[] = [
     button_quantity: 6,
     compatibility: "Windows, macOS, Android",
     price: "55",
-    image: "/images/cherry_mw8c_ergo_mouse.png"
+    image: "/images/cherry_mw8c_ergo_mouse.png",
+    recommended: false
   },
   {
     brand: "Logitech",
@@ -64,7 +69,8 @@ export const mouseData: MouseSpec[] = [
     button_quantity: 3,
     compatibility: "Windows, macOS",
     price: "25",
-    image: "/images/logitech_m510_mouse.png"
+    image: "/images/logitech_m510_mouse.png",
+    recommended: true
   },
   {
     brand: "Logitech",
@@ -75,7 +81,8 @@ export const mouseData: MouseSpec[] = [
     button_quantity: 8,
     compatibility: "Windows, macOS",
     price: "70",
-    image: "/images/logitech_mx_master_2s_mouse.png"
+    image: "/images/logitech_mx_master_2s_mouse.png",
+    recommended: false
   },
   {
     brand: "Logitech",
@@ -86,7 +93,8 @@ export const mouseData: MouseSpec[] = [
     button_quantity: 6,
     compatibility: "Windows, macOS",
     price: "35",
-    image: "/images/logitech_m650_mouse.png"
+    image: "/images/logitech_m650_mouse.png",
+    recommended: true
   },
   {
     brand: "Dell",
@@ -97,7 +105,8 @@ export const mouseData: MouseSpec[] = [
     button_quantity: 3,
     compatibility: "Windows, macOS",
     price: "50",
-    image: "/images/dell_ms700_mouse.png"
+    image: "/images/dell_ms700_mouse.png",
+    recommended: false
   },
   {
     brand: "Nulea",
@@ -108,6 +117,7 @@ export const mouseData: MouseSpec[] = [
     button_quantity: 7,
     compatibility: "Windows, macOS, Linux",
     price: "34",
-    image: "/images/nulea_m501_mouse.png"
+    image: "/images/nulea_m501_mouse.png",
+    recommended: true
   }
 ]

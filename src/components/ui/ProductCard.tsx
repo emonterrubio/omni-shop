@@ -21,9 +21,8 @@ function inferCategory(model: string, category: string): string {
 
 export function ProductCard({ product, fromCatalog = false }: { product: ProductCardProps, fromCatalog?: boolean }) {
   const category = inferCategory(product.model, product.category);
-  // Eligible if price is a number and <= 2800
-  const priceNumber = Number(String(product.price).replace(/,/g, ""));
-  const isEligible = !isNaN(priceNumber) && priceNumber <= 2800;
+  // Eligibility is now based on the recommended property
+  const isEligible = product.recommended === true;
 
   console.log("ProductCard brand:", product.brand);
   console.log("SERVER/CLIENT", typeof window === "undefined" ? "server" : "client", product.model);

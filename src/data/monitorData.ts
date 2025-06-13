@@ -12,6 +12,7 @@ export interface MonitorSpec {
   refresh_rate: string;
   image: string;
   price: string;
+  recommended: boolean;
 }
 
 export const monitorData: MonitorSpec[] = [
@@ -28,6 +29,7 @@ export const monitorData: MonitorSpec[] = [
     refresh_rate: "120Hz",
     image: "/images/dell_s3225qs_monitor.png",
     price: "329",
+    recommended: true,
   },
   {
     brand: "Samsung",
@@ -42,6 +44,7 @@ export const monitorData: MonitorSpec[] = [
     refresh_rate: "60Hz",
     image: "/images/samsung_viewfinity_s8_monitor.png",
     price: "369",
+    recommended: false,
   },
   {
     brand: "LG",
@@ -56,6 +59,7 @@ export const monitorData: MonitorSpec[] = [
     refresh_rate: "60Hz",
     image: "/images/lg_ultrafine_27_monitor.png",
     price: "363",
+    recommended: true,
   },
   {
     brand: "Alienware",
@@ -70,6 +74,7 @@ export const monitorData: MonitorSpec[] = [
     refresh_rate: "240Hz",
     image: "/images/alienware_aw34dw_monitor.png",
     price: "799",
+    recommended: false,
   },
   {
     brand: "Dell",
@@ -84,6 +89,7 @@ export const monitorData: MonitorSpec[] = [
     refresh_rate: "60Hz",
     image: "/images/dell_u3419w_monitor.png",
     price: "",
+    recommended: true,
   },
   {
     brand: "Samsung",
@@ -98,6 +104,7 @@ export const monitorData: MonitorSpec[] = [
     refresh_rate: "100Hz",
     image: "/images/samsung_viewfinity_s65ua_monitor.png",
     price: "427",
+    recommended: false,
   },
   {
     brand: "LG",
@@ -112,6 +119,7 @@ export const monitorData: MonitorSpec[] = [
     refresh_rate: "10Hz",
     image: "/images/lg_ultrawide_29_monitor.png",
     price: "199",
+    recommended: true,
   },
   {
     brand: "Acer",
@@ -126,6 +134,7 @@ export const monitorData: MonitorSpec[] = [
     refresh_rate: "180Hz",
     image: "/images/acer_nitro_27_monitor.png",
     price: "199",
+    recommended: false,
   },
   {
     brand: "Alienware",
@@ -140,6 +149,7 @@ export const monitorData: MonitorSpec[] = [
     refresh_rate: "175Hz",
     image: "/images/alienware_awqd34dw_monitor.png",
     price: "779",
+    recommended: true,
   },
   {
     brand: "Dell",
@@ -154,6 +164,7 @@ export const monitorData: MonitorSpec[] = [
     refresh_rate: "180Hz",
     image: "/images/dell_g2725d_monitor.png",
     price: "200",
+    recommended: false,
   },
   {
     brand: "Samsung",
@@ -168,6 +179,7 @@ export const monitorData: MonitorSpec[] = [
     refresh_rate: "180Hz",
     image: "/images/samsung_odyssey_g50d_monitor.png",
     price: "429",
+    recommended: true,
   },
   {
     brand: "Dell",
@@ -182,5 +194,6 @@ export const monitorData: MonitorSpec[] = [
     refresh_rate: "",
     image: "/images/dell_u2723qe_monitor.png",
     price: "",
+    recommended: false,
   }
 ]

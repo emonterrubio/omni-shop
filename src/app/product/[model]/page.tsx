@@ -7,6 +7,7 @@ import { hardwareData } from "@/data/hardwareData";
 import { monitorData } from "@/data/monitorData";
 import { headphoneData } from "@/data/headphoneData";
 import { mouseData } from "@/data/mouseData";
+import { keyboardData } from "@/data/keyboardData";
 // import { keyboardData } from "@/data/keyboardData";
 import { Header } from "@/components/layout/Header";
 import { MainNavigation } from "@/components/layout/MainNavigation";
@@ -71,6 +72,24 @@ function findProductByModel(model: string) {
     };
   }
 
+  const keyboard = keyboardData.find(p => p.model === model);
+  if (keyboard) {
+    return {
+      ...keyboard,
+      category: "Keyboards",
+      processor: "",
+      memory: "",
+      storage: "",
+      display: "",
+      graphics: "",
+      operating_system: "",
+      ports: "",
+      battery: keyboard.battery,
+      other: keyboard.compatibility,
+      features: `${keyboard.connectivity}, ${keyboard.number_keys} keys`,
+    };
+  }
+
   // Add similar logic for other categories...
   return null;
 }
@@ -122,6 +141,16 @@ function getProductSpecs(product: any) {
         { label: "Connectivity", value: product.connectivity },
         { label: "Button Quantity", value: product.button_quantity },
         { label: "Compatibility", value: product.compatibility },
+      ];
+    case "Keyboards":
+      return [
+        { label: "Brand", value: product.brand },
+        { label: "Model", value: product.model },
+        { label: "Connectivity", value: product.connectivity },
+        { label: "Compatibility", value: product.compatibility },
+        { label: "Number of Keys", value: product.number_keys },
+        { label: "Battery", value: product.battery },
+        { label: "Features", value: product.features },
       ];
     // Add cases for other categories...
     default:

@@ -4,7 +4,7 @@ import { hardwareData } from "@/data/hardwareData";
 import { monitorData } from "@/data/monitorData";
 import { headphoneData } from "@/data/headphoneData";
 import { mouseData } from "@/data/mouseData";
-// import { keyboardData } from "@/data/keyboardData";
+import { keyboardData } from "@/data/keyboardData";
 import { ProductCard } from "@/components/ui/ProductCard";
 import { ProductCardProps } from "@/types/ProductCardProps";
 import { Header } from "@/components/layout/Header";
@@ -25,6 +25,7 @@ function getProductsForCategory(category: string): ProductCardProps[] {
           features: item.features,
           image: item.image,
           price: item.price,
+          recommended: item.recommended,
         }));
     case "monitors":
       return monitorData.map(item => ({
@@ -35,6 +36,7 @@ function getProductsForCategory(category: string): ProductCardProps[] {
         features: `${item.display_resolution}, ${item.aspect_ratio}, ${item.display_type}`,
         image: item.image,
         price: item.price,
+        recommended: item.recommended,
       }));
     case "headphones":
       return headphoneData.map(item => ({
@@ -45,6 +47,7 @@ function getProductsForCategory(category: string): ProductCardProps[] {
         features: item.features,
         image: item.image,
         price: item.price,
+        recommended: item.recommended,
       }));
     case "mice":
       return mouseData.map(item => ({
@@ -55,9 +58,19 @@ function getProductsForCategory(category: string): ProductCardProps[] {
         features: item.description,
         image: item.image,
         price: item.price,
+        recommended: item.recommended,
       }));
-    // case "keyboards":
-    //   return keyboardData.map(item => ({ ... }));
+    case "keyboards":
+      return keyboardData.map(item => ({
+        brand: item.brand,
+        model: item.model,
+        category: "Keyboards",
+        description: item.description,
+        features: `${item.connectivity}, ${item.compatibility}, ${item.number_keys} keys`,
+        image: item.image,
+        price: item.price,
+        recommended: item.recommended,
+      }));
     default:
       return [];
   }

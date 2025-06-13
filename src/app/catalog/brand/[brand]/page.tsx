@@ -1,8 +1,8 @@
 import { hardwareData } from "@/data/hardwareData";
 import { monitorData } from "@/data/monitorData";
 import { headphoneData } from "@/data/headphoneData";
-// import { mouseData } from "@/data/mouseData";
-// import { keyboardData } from "@/data/keyboardData";
+import { keyboardData } from "@/data/keyboardData";
+import { mouseData } from "@/data/mouseData";
 import { ProductCard } from "@/components/ui/ProductCard";
 import { Header } from "@/components/layout/Header";
 import { MainNavigation } from "@/components/layout/MainNavigation";
@@ -21,6 +21,7 @@ export default function BrandCatalogPage({ params }: any) {
     features: `${item.display_resolution}, ${item.aspect_ratio}, ${item.display_type}`,
     image: item.image,
     price: item.price,
+    recommended: item.recommended,
   }));
 
   // Map headphoneData to ProductCardProps
@@ -32,14 +33,39 @@ export default function BrandCatalogPage({ params }: any) {
     features: item.features,
     image: item.image,
     price: item.price,
+    recommended: item.recommended,
+  }));
+
+  // Map keyboardData to ProductCardProps
+  const keyboardProducts = keyboardData.map((item) => ({
+    brand: item.brand,
+    model: item.model,
+    category: "Keyboards",
+    description: item.description,
+    features: `${item.connectivity}, ${item.compatibility}, ${item.number_keys} keys`,
+    image: item.image,
+    price: item.price,
+    recommended: item.recommended,
+  }));
+
+  // Map mouseData to ProductCardProps
+  const mouseProducts = mouseData.map((item) => ({
+    brand: item.brand,
+    model: item.model,
+    category: "Mice",
+    description: item.description,
+    features: item.description,
+    image: item.image,
+    price: item.price,
+    recommended: item.recommended,
   }));
 
   const allProducts = [
     ...hardwareData,
     ...monitorProducts,
     ...headphoneProducts,
-    // ...mouseData,
-    // ...keyboardData,
+    ...mouseProducts,
+    ...keyboardProducts
   ];
 
   const brandProducts = allProducts.filter((p) => p.brand === brand);

@@ -6,6 +6,7 @@ export interface ProductCardProps {
   features: string;
   image: string;
   price: string;
+  recommended: boolean;
   // Optionally, add any other fields ProductCard may use
   // You can extend this as needed for future categories
 } 

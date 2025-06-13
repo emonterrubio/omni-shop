@@ -4,7 +4,7 @@ import { hardwareData } from "@/data/hardwareData";
 import { monitorData } from "@/data/monitorData";
 import { headphoneData } from "@/data/headphoneData";
 import { mouseData } from "@/data/mouseData";
-// import { keyboardData } from "@/data/keyboardData";
+import { keyboardData } from "@/data/keyboardData";
 import { ProductCard } from "@/components/ui/ProductCard";
 import { Header } from "@/components/layout/Header";
 import { MainNavigation } from "@/components/layout/MainNavigation";
@@ -22,6 +22,7 @@ export default function CatalogPage() {
     features: `${item.display_resolution}, ${item.aspect_ratio}, ${item.display_type}`,
     image: item.image,
     price: item.price,
+    recommended: item.recommended,
   }));
 
   // Map headphoneData to ProductCardProps
@@ -33,6 +34,7 @@ export default function CatalogPage() {
     features: item.features,
     image: item.image,
     price: item.price,
+    recommended: item.recommended,
   }));
 
   // Map mouseData to ProductCardProps
@@ -44,6 +46,19 @@ export default function CatalogPage() {
     features: item.description, // Using description as features
     image: item.image,
     price: item.price,
+    recommended: item.recommended,
+  }));
+
+  // Map keyboardData to ProductCardProps
+  const keyboardProducts = keyboardData.map((item) => ({
+    brand: item.brand,
+    model: item.model,
+    category: "Keyboards",
+    description: item.description,
+    features: `${item.connectivity}, ${item.compatibility}, ${item.number_keys} keys`,
+    image: item.image,
+    price: item.price,
+    recommended: item.recommended,
   }));
 
   // Combine all products (add more as you expand)
@@ -51,8 +66,8 @@ export default function CatalogPage() {
     ...hardwareData,
     ...monitorProducts,
     ...headphoneProducts,
-    ...mouseProducts
-    // ...keyboardData,
+    ...mouseProducts,
+    ...keyboardProducts
   ];
 
   // Group products by brand

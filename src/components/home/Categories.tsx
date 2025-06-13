@@ -6,6 +6,7 @@ import { hardwareData } from "@/data/hardwareData";
 import { monitorData } from "@/data/monitorData";
 import { headphoneData } from "@/data/headphoneData";
 import { mouseData } from "@/data/mouseData";
+import { keyboardData } from "@/data/keyboardData";
 
 interface Category {
   name: string;
@@ -39,6 +40,8 @@ export function Categories() {
             count = headphoneData.length;
           } else if (category.name.toLowerCase() === "mice") {
             count = mouseData.length;
+          } else if (category.name.toLowerCase() === "keyboards") {
+            count = keyboardData.length;
           } else {
             count = hardwareData.filter(item => 
               item.category.toLowerCase() === category.name.toLowerCase()

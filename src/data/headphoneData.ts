@@ -10,6 +10,7 @@ export interface HeadphoneSpec {
   features: string;
   image: string;
   price: string;
+  recommended: boolean;
 }
 
 export const headphoneData: HeadphoneSpec[] = [
@@ -24,7 +25,8 @@ export const headphoneData: HeadphoneSpec[] = [
       charging: "USB-C to USB-C cable",
       features: "Active Noise Cancelling, lightweight, comfortable ear cushions, multipoint pairing",
       image: "/images/bose_quietcomfort_45_headphones.png",
-      price: "199"
+      price: "199",
+      recommended: true
     },
     {
       brand: "Bose",
@@ -37,7 +39,8 @@ export const headphoneData: HeadphoneSpec[] = [
       charging: "USB-C cable",
       features: "Adjustable noise cancellation, built-in microphone, sleek design, quick charge",
       image: "/images/bose_quietcomfort_headphones.png",
-      price: "249"
+      price: "249",
+      recommended: false
     },
     {
       brand: "Bose",
@@ -50,7 +53,8 @@ export const headphoneData: HeadphoneSpec[] = [
       charging: "USB-C to USB-C cable, wireless charging compatible",
       features: "Noise cancelling, secure fit, sweat resistant, transparency mode",
       image: "/images/bose_quietcomfort_ultra_headphones.png",
-      price: "399"
+      price: "399",
+      recommended: true
     },
     {
       brand: "Apple",
@@ -63,12 +67,13 @@ export const headphoneData: HeadphoneSpec[] = [
       charging: "Lightning to USB-C cable",
       features: "Spatial audio, dynamic head tracking, knit mesh canopy headband, Smart Case",
       image: "/images/apple_airpods_max_headphones.png",
-      price: "499"
+      price: "499",
+      recommended: false
     },
     {
       brand: "Apple",
       model: "Beats Studio Pro",
-      description: "The Beats Studio Pro custom acoustic platform delivers rich, immersive sound whether you’re listening to music or taking calls",
+      description: "The Beats Studio Pro custom acoustic platform delivers rich, immersive sound whether you're listening to music or taking calls",
       connectivity: "Bluetooth 5.0, wireless",
       controls: "force sensor, volume up/down, voice assistant",
       battery: "Rechargeable case, earbuds up to 6 hrs, case adds 18 hrs",
@@ -76,7 +81,8 @@ export const headphoneData: HeadphoneSpec[] = [
       charging: "USB-C to Lightning cable",
       features: "Secure-fit wingtips, ANC, Spatial audio support, sweat and water resistant",
       image: "/images/apple_beats_studio_pro_headphones.png",
-      price: "349"
+      price: "349",
+      recommended: true
     },
     {
       brand: "Sony",
@@ -89,7 +95,8 @@ export const headphoneData: HeadphoneSpec[] = [
       charging: "USB-C cable",
       features: "Industry-leading noise cancellation, auto wind noise reduction, quick charge",
       image: "/images/sony_wh-1000xm5_headphones.png",
-      price: "298"
+      price: "298",
+      recommended: false
     },
     {
       brand: "Sony",
@@ -102,12 +109,13 @@ export const headphoneData: HeadphoneSpec[] = [
       charging: "USB-C cable",
       features: "Active Noise Cancelling, foldable design, quick charge",
       image: "/images/sony_wh-cg720n_headphones.png",
-      price: "98"
+      price: "98",
+      recommended: true
     },
     {
       brand: "JBL",
       model: "Tune 770NC",
-      description: "Adaptive Noise Cancelling with Smart Ambient means zero distractions whether you’re working, studying or getting lost in the music.",
+      description: "Adaptive Noise Cancelling with Smart Ambient means zero distractions whether you're working, studying or getting lost in the music.",
       connectivity: "Bluetooth 5.0, wireless",
       controls: "buttons for volume/playback, ANC toggle",
       battery: "Rechargeable battery, up to 35 hours",
@@ -115,7 +123,8 @@ export const headphoneData: HeadphoneSpec[] = [
       charging: "USB-C cable",
       features: "Noise Cancelling, foldable design, ambient aware mode",
       image: "/images/jbl_tune_770nc_headphones.png",
-      price: "99"
+      price: "99",
+      recommended: false
     },
     {
       brand: "JBL",
@@ -128,7 +137,8 @@ export const headphoneData: HeadphoneSpec[] = [
       charging: "USB-C cable, wireless charging compatible",
       features: "Active Noise Cancelling, ear fins for secure fit, IPX7 waterproof",
       image: "/images/jbl_live_770nc_headphones.png",
-      price: "149"
+      price: "149",
+      recommended: true
     },
     {
       brand: "Beats",
@@ -141,7 +151,8 @@ export const headphoneData: HeadphoneSpec[] = [
       charging: "USB-A to micro-USB cable",
       features: "Pure Adaptive Noise Cancelling, Apple W1 chip, comfortable ear cushions",
       image: "/images/beats_studio3_headphones.png",
-      price: "299"
+      price: "299",
+      recommended: false
     },
     {
       brand: "Skullcandy",
@@ -154,7 +165,8 @@ export const headphoneData: HeadphoneSpec[] = [
       charging: "USB-C cable",
       features: "Sensory bass technology, built-in Tile tracker, foldable design",
       image: "/images/skullcandy_crusher_evo_headphones.png",
-      price: "129"
+      price: "129",
+      recommended: true
     },
     {
       brand: "Skullcandy",
@@ -167,6 +179,7 @@ export const headphoneData: HeadphoneSpec[] = [
       charging: "USB-C cable",
       features: "Comfort fit, water resistant, built-in Tile tracker",
       image: "/images/skullcandy_heash_anc_headphones.png",
-      price: "79"
+      price: "79",
+      recommended: false
     }
 ]
