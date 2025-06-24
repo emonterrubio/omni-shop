@@ -141,8 +141,8 @@ export default function CatalogPage() {
       <Header cartItems={0} />
       <MainNavigation />
       <main className="max-w-7xl mx-auto flex-1 overflow-y-auto px-6 sm:px-12 md:px-16 py-8 mb-16">
-        <h2 className="font-medium text-4xl text-center text-gray-900 mt-6 mb-4">All Products</h2>
-        <h4 className="max-w-2xl mx-auto font-base text-center text-gray-600 mb-8">Browse our catalog of products and find the perfect item for your needs.</h4>
+        <h2 className="font-medium text-5xl text-center text-gray-900 mt-6 mb-4">All Products</h2>
+        <h4 className="max-w-2xl mx-auto font-base text-center text-gray-600 text-gray-600 mb-8">Browse our catalog of products and find the perfect item for your needs.</h4>
         <div className="flex items-center justify-between mb-6 gap-4 flex-wrap w-full">
           <div className="text-sm font-regular text-gray-900 min-w-max">{sortedProducts.length} item{sortedProducts.length === 1 ? "" : "s"} found</div>
           {/* Desktop filter/sort dropdowns */}
@@ -242,7 +242,7 @@ export default function CatalogPage() {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {sortedProducts.map((product, idx) => (
-            <ProductCard key={`${product.model}-${idx}`} product={product} fromCatalog={true} />
+            <ProductCard key={`${product.model}-${idx}`} product={{...product, price: String(product.price)}} fromCatalog={true} />
           ))}
         </div>
       </main>

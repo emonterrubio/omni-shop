@@ -183,7 +183,7 @@ export default function ProductDetailPage() {
       <div className="flex flex-col h-screen bg-gray-50">
         <Header cartItems={0} />
         <MainNavigation />
-        <main className="flex-1 flex flex-col items-center justify-center">
+        <main className="max-w-7xl mx-auto flex-1 overflow-y-auto px-6 sm:px-12 md:px-16 py-8 mb-16">
           <div className="text-2xl font-semibold text-gray-700 mb-4">Product Not Found</div>
           <Link href="/" className="text-blue-600 hover:text-blue-800 font-medium">Back to Home</Link>
         </main>
@@ -200,7 +200,7 @@ export default function ProductDetailPage() {
     <div className="flex flex-col h-screen bg-gray-50">
       <Header cartItems={0} />
       <MainNavigation />
-      <main className="max-w-7xl mx-auto flex-1 overflow-y-auto px-6 md:px-10 py-6">
+      <main className="max-w-7xl mx-auto flex-1 overflow-y-auto px-6 sm:px-12 md:px-16 py-8 mb-16">
         <Link
           href={backHref}
           className="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium transition-colors mb-4"

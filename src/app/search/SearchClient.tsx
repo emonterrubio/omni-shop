@@ -73,7 +73,7 @@ export default function SearchClient() {
     <div className="flex flex-col min-h-screen bg-gray-50">
       <Header cartItems={0} />
       <MainNavigation />
-      <main className="flex-1 max-w-5xl mx-auto py-8 w-full">
+      <main className="max-w-7xl mx-auto flex-1 overflow-y-auto px-6 sm:px-12 md:px-16 py-8 mb-16">
         <Link
           href={backHref}
           className="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium transition-colors mb-4"
@@ -95,7 +95,7 @@ export default function SearchClient() {
             <div className="col-span-full text-center text-gray-500">No products found.</div>
           ) : (
             results.map((product, idx) => (
-              <ProductCard key={`${product.model}-${idx}`} product={product} />
+              <ProductCard key={`${product.model}-${idx}`} product={{ ...product, price: String(product.price) }} />
             ))
           )}
         </div>

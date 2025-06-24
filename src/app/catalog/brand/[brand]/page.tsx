@@ -74,19 +74,19 @@ export default function BrandCatalogPage({ params }: any) {
     <div className="flex flex-col min-h-screen bg-gray-50">
       <Header cartItems={0} />
       <MainNavigation />
-      <main className="max-w-7xl mx-auto flex-1 overflow-y-auto px-6 sm:px-12 md:px-16 py-6 mb-16">
+      <main className="max-w-7xl mx-auto flex-1 overflow-y-auto px-6 sm:px-12 md:px-16 py-8 mb-16">
         <Link
           href="/catalog"
-          className="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium transition-colors mb-4"
+          className="inline-flex items-center text-heritageBlue hover:text-blue-800 font-medium transition-colors mb-4"
           aria-label="Go back"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back
         </Link>
-        <h2 className="text-2xl font-semibold mb-6">{brand} Products</h2>
+        <h2 className="font-medium text-5xl text-center text-gray-900 mt-6 mb-4">{brand} Products</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {brandProducts.map((product, idx) => (
-            <ProductCard key={`${product.model}-${idx}`} product={product} />
+            <ProductCard key={`${product.model}-${idx}`} product={{...product, price: String(product.price)}} />
           ))}
         </div>
       </main>

@@ -24,7 +24,7 @@ function getProductsForCategory(category: string): ProductCardProps[] {
           description: item.description,
           features: item.features,
           image: item.image,
-          price: item.price,
+          price: String(item.price),
           recommended: item.recommended,
         }));
     case "monitors":
@@ -35,7 +35,7 @@ function getProductsForCategory(category: string): ProductCardProps[] {
         description: item.description || `${item.refresh_rate} ${item.display_resolution} Monitor`,
         features: `${item.display_resolution}, ${item.aspect_ratio}, ${item.display_type}`,
         image: item.image,
-        price: item.price,
+        price: String(item.price),
         recommended: item.recommended,
       }));
     case "headphones":
@@ -46,7 +46,7 @@ function getProductsForCategory(category: string): ProductCardProps[] {
         description: item.features,
         features: item.features,
         image: item.image,
-        price: item.price,
+        price: String(item.price),
         recommended: item.recommended,
       }));
     case "mice":
@@ -57,7 +57,7 @@ function getProductsForCategory(category: string): ProductCardProps[] {
         description: item.description,
         features: item.description,
         image: item.image,
-        price: item.price,
+        price: String(item.price),
         recommended: item.recommended,
       }));
     case "keyboards":
@@ -68,7 +68,7 @@ function getProductsForCategory(category: string): ProductCardProps[] {
         description: item.description,
         features: `${item.connectivity}, ${item.compatibility}, ${item.number_keys} keys`,
         image: item.image,
-        price: item.price,
+        price: String(item.price),
         recommended: item.recommended,
       }));
     default:
@@ -84,7 +84,7 @@ export default function CategoryPage({ params }: any) {
     <div className="flex flex-col h-screen bg-gray-50 mb-12">
       <Header cartItems={0} />
       <MainNavigation />
-      <main className="max-w-7xl mx-auto flex-1 overflow-y-auto px-10 md:px-8 py-6">
+      <main className="max-w-7xl mx-auto flex-1 overflow-y-auto px-6 sm:px-12 md:px-16 py-8 mb-16">
         <Link
           href="/"
           className="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium transition-colors"
@@ -93,7 +93,7 @@ export default function CategoryPage({ params }: any) {
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back
         </Link>
-        <h2 className="font-medium text-4xl text-center text-gray-900 mt-6 mb-4 capitalize">{category} <span className="normal-case">available</span></h2>
+        <h2 className="font-medium text-5xl text-center text-gray-900 mt-6 mb-4 capitalize">{category} <span className="normal-case">available</span></h2>
         <h4 className="max-w-2xl mx-auto font-base text-center text-gray-600 mb-8">Boost your productivity with high-performance equipment. Request hardware that keeps you focused on work—so you can be smarter, faster, and more efficient.</h4>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {products.length === 0 ? (

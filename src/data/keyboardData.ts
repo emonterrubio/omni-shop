@@ -6,7 +6,7 @@ export interface KeyboardSpec {
   connectivity: string;
   compatibility: string;
   number_keys: number;
-  price: string;
+  price: number;
   image: string;
   recommended: boolean;
 }
@@ -20,7 +20,7 @@ export const keyboardData: KeyboardSpec[] = [
       connectivity: "Bluetooth, USB",
       compatibility: "Windows, macOS, Linux, iOS, Android",
       number_keys: 104,
-      price: "44",
+      price: 44,
       image: "/images/logitech_k585_keyboard.png",
       recommended: true
     },
@@ -32,19 +32,19 @@ export const keyboardData: KeyboardSpec[] = [
       connectivity: "Lightspeed wireless, Bluetooth, wired USB-C",
       compatibility: "Windows, macOS (partial support)",
       number_keys: 104,
-      price: "25",
+      price: 25,
       image: "/images/arteck_stainless_keyboard.png",
       recommended: false
     },
     {
       brand: "Keychron",
       model: "K8 Tenkeyless Mechanical Keyboard",
-      description: "With a unique Mac layout while compatible with Windows, the Keychron K8 has all essential multimedia and function keys you need",
+      description: "With a unique Mac layout, the Keychron K8 has all essential multimedia and function keys you need",
       battery: "2× AAA batteries (up to 2 years)",
       connectivity: "Bluetooth, USB-A)",
       compatibility: "Windows, macOS",
       number_keys: 87,
-      price: "64",
+      price: 64,
       image: "/images/keychron_k8_keyboard.png",
       recommended: true
     },
@@ -56,7 +56,7 @@ export const keyboardData: KeyboardSpec[] = [
       connectivity: "Bluetooth, wired USB-C",
       compatibility: "Windows, macOS, Linux",
       number_keys: 104,
-      price: "34",
+      price: 34,
       image: "/images/logitech_pebble_keys2_keyboard.png",
       recommended: false
     },
@@ -68,7 +68,7 @@ export const keyboardData: KeyboardSpec[] = [
       connectivity: "Bluetooth 5.0",
       compatibility: "Windows",
       number_keys: 87,
-      price: "29",
+      price: 29,
       image: "/images/razer_ornatav3_keyboard.png",
       recommended: true
     },
@@ -80,7 +80,7 @@ export const keyboardData: KeyboardSpec[] = [
       connectivity: "Bluetooth, USB-A",
       compatibility: "Windows, macOS, Linux",
       number_keys: 100,
-      price: "199",
+      price: 199,
       image: "/images/arteck_hb193_keyboard.png",
       recommended: false
     },
@@ -92,7 +92,7 @@ export const keyboardData: KeyboardSpec[] = [
       connectivity: "Bluetooth",
       compatibility: "Windows, macOS",
       number_keys: 78,
-      price: "99",
+      price: 99,
       image: "/images/apple_magic_keyboard.png",
       recommended: true
     },
@@ -104,7 +104,7 @@ export const keyboardData: KeyboardSpec[] = [
       connectivity: "Wired USB-A",
       compatibility: "Windows",
       number_keys: 84,
-      price: "115",
+      price: 115,
       image: "/images/lenovo_thinkpad_keyboard.png",
       recommended: false
     }

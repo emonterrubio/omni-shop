@@ -34,7 +34,7 @@ export default function CompareClient() {
     <div className="flex flex-col h-screen bg-gray-50 mb-12">
       <Header cartItems={0} />
       <MainNavigation />
-      <main className="flex-1 overflow-y-auto px-6 sm:px-12 md:px-16 py-6">
+      <main className="max-w-7xl mx-auto flex-1 overflow-y-auto px-6 sm:px-12 md:px-16 py-8 mb-16">
         <Link
           href="/"
           className="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium transition-colors"
@@ -43,7 +43,7 @@ export default function CompareClient() {
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back
         </Link>
-        <h2 className="font-medium text-4xl text-center text-gray-900 mt-6 mb-4">Choose your equipment</h2>
+        <h2 className="font-medium text-5xl text-center text-gray-900 mt-6 mb-4">Choose your equipment</h2>
         <h4 className="max-w-2xl mx-auto font-base text-center text-gray-600 mb-8">Compare processor speed, battery life, and portability to find your ideal laptop—whether you need powerful multitasking or lightweight mobility, our range helps you choose.</h4>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {selectedProducts.filter(Boolean).map((product) => (
@@ -65,7 +65,7 @@ export default function CompareClient() {
                   product.battery,
                   product.other,
                 ]}
-                price={product.price}
+                price={product.price.toLocaleString()}
                 chip={
                   product.processor
                     .split(" ")

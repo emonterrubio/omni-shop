@@ -1,13 +1,6 @@
 import React from "react";
 import { QuickAction } from "@/types";
-import { Home, Laptop, Monitor, Truck, ArrowRight } from "lucide-react";
-
-const iconMap = {
-  Home,
-  Laptop,
-  Monitor,
-  Truck,
-};
+import { ArrowRight } from "lucide-react";
 
 interface QuickActionsProps {
   actions: QuickAction[];
@@ -19,7 +12,7 @@ function QuickActionCard({ action, onActionClick }: { action: QuickAction; onAct
     <button
       key={action.id}
       onClick={() => onActionClick(action.title)}
-      className="w-full bg-white rounded-lg p-4 hover:shadow-md transition flex items-center justify-between border border-gray-200 rounded-md"
+      className="w-full bg-white rounded-lg px-6 py-4 hover:shadow-md transition flex items-center justify-between border border-gray-200 rounded-md"
     >
       <div className="text-left">
         <h3 className="font-medium text-blue-600 text-base">{action.title}</h3>

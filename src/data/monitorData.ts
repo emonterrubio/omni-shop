@@ -29,7 +29,7 @@ export const monitorData: MonitorSpec[] = [
     refresh_rate: "120Hz",
     image: "/images/dell_s3225qs_monitor.png",
     price: "329",
-    recommended: true,
+    recommended: false,
   },
   {
     brand: "Samsung",
@@ -59,7 +59,7 @@ export const monitorData: MonitorSpec[] = [
     refresh_rate: "60Hz",
     image: "/images/lg_ultrafine_27_monitor.png",
     price: "363",
-    recommended: true,
+    recommended: false,
   },
   {
     brand: "Alienware",
@@ -74,7 +74,7 @@ export const monitorData: MonitorSpec[] = [
     refresh_rate: "240Hz",
     image: "/images/alienware_aw34dw_monitor.png",
     price: "799",
-    recommended: false,
+    recommended: true,
   },
   {
     brand: "Dell",
@@ -88,7 +88,7 @@ export const monitorData: MonitorSpec[] = [
     pixel_density: "1440p",
     refresh_rate: "60Hz",
     image: "/images/dell_u3419w_monitor.png",
-    price: "",
+    price: "829",
     recommended: true,
   },
   {
@@ -193,7 +193,7 @@ export const monitorData: MonitorSpec[] = [
     pixel_density: "1200p",
     refresh_rate: "",
     image: "/images/dell_u2723qe_monitor.png",
-    price: "",
+    price: "639",
     recommended: false,
   }
 ]

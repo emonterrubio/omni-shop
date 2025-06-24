@@ -4,7 +4,7 @@ export const quickActions: QuickAction[] = [
   { 
     id: 1, 
     icon: "IdCardLanyard",
-    title: "Setup New Employee", 
+    title: "New Employee Setup", 
     description: "Complete package with monitor, dock, keyboard, etc." 
   },
   { 
