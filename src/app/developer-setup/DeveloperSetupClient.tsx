@@ -110,7 +110,8 @@ export function DeveloperSetupClient() {
 
   // Calculate totals for checkout
   const subtotal = selectedItems.reduce((sum, item) => {
-    return sum + item.price;
+    const price = typeof item.price === 'string' ? parseFloat(String(item.price).replace(/,/g, '')) : item.price;
+    return sum + price;
   }, 0);
   // This would come from state in a real app
   const shippingCost = 14; 

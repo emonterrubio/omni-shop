@@ -81,6 +81,7 @@ export async function searchProducts(query: string): Promise<SearchResult> {
         features: product.features,
         image: product.image,
         price: product.price,
+        recommended: typeof product.recommended === 'boolean' ? product.recommended : false,
       }));
 
     // 5. Generate suggestions if no results or for refinement
@@ -89,7 +90,10 @@ export async function searchProducts(query: string): Promise<SearchResult> {
     console.log('Generated suggestions:', suggestions);
 
     return {
-      results,
+      results: results.map(product => ({
+        ...product,
+        recommended: typeof product.recommended === 'boolean' ? product.recommended : false,
+      })),
       suggestions,
       intent
     };
