@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useRouter } from "next/navigation";
 import { Header } from "@/components/layout/Header";
 import { MainNavigation } from "@/components/layout/MainNavigation";
 import Image from "next/image";
+import { CartContext } from "@/components/CartContext";
 
 function generateOrderNumber() {
   return `#${Math.floor(100000 + Math.random() * 900000)}`;
@@ -15,6 +16,7 @@ export default function OrderConfirmationPage() {
   const [order, setOrder] = useState<any>(null);
   const [orderNumber, setOrderNumber] = useState<string>("");
   const [orderDate, setOrderDate] = useState<string>("");
+  const { clearCart } = useContext(CartContext);
 
   useEffect(() => {
     // Read order data from localStorage
@@ -27,13 +29,14 @@ export default function OrderConfirmationPage() {
       // Clear order data and cart/selection
       localStorage.removeItem("devSetupOrder");
       localStorage.removeItem("devSetupCart");
+      clearCart(); // Hide cart bubble after order is confirmed
     }
-  }, []);
+  }, [clearCart]);
 
   if (!order) {
     return (
       <div className="flex flex-col h-screen bg-gray-50">
-        <Header cartItems={0} />
+        <Header />
         <MainNavigation />
         <main className="max-w-3xl mx-auto flex-1 flex flex-col items-center justify-center px-4">
           <h1 className="text-3xl font-semibold mb-4">No Order Found</h1>
@@ -53,7 +56,7 @@ export default function OrderConfirmationPage() {
 
   return (
     <div className="flex flex-col h-screen bg-gray-50 mb-12">
-      <Header cartItems={0} />
+      <Header />
       <MainNavigation />
       <main className="max-w-7xl flex-1 overflow-y-auto px-6 sm:px-12 md:px-16 py-8 mb-16">
         <button

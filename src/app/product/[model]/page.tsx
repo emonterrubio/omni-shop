@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useContext } from "react";
 import Link from "next/link";
 import { useParams, useSearchParams } from "next/navigation";
 import { hardwareData } from "@/data/hardwareData";
@@ -13,6 +13,7 @@ import { Header } from "@/components/layout/Header";
 import { MainNavigation } from "@/components/layout/MainNavigation";
 import { CheckCircle, AlertCircle, ArrowLeft, Box, Undo2 } from "lucide-react";
 import { SearchBar } from "@/components/search/SearchBar";
+import { CartContext } from "@/components/CartContext";
 
 function findProductByModel(model: string) {
   let product = hardwareData.find(p => p.model === model);
@@ -178,10 +179,12 @@ export default function ProductDetailPage() {
       ? "/category/monitors"
       : "/";
 
+  const { addToCart } = useContext(CartContext);
+
   if (!product) {
     return (
       <div className="flex flex-col h-screen bg-gray-50">
-        <Header cartItems={0} />
+        <Header />
         <MainNavigation />
         <main className="max-w-7xl mx-auto flex-1 overflow-y-auto px-6 sm:px-12 md:px-16 py-8 mb-16">
           <div className="text-2xl font-semibold text-gray-700 mb-4">Product Not Found</div>
@@ -198,7 +201,7 @@ export default function ProductDetailPage() {
 
   return (
     <div className="flex flex-col h-screen bg-gray-50">
-      <Header cartItems={0} />
+      <Header />
       <MainNavigation />
       <main className="max-w-7xl mx-auto flex-1 overflow-y-auto px-6 sm:px-12 md:px-16 py-8 mb-16">
         <Link
@@ -255,8 +258,22 @@ export default function ProductDetailPage() {
               {isEligible ? "Recommended based on your role" : "Not recommended"}
             </div>
             <div className="text-2xl font-bold text-gray-900 mb-4">${product.price}</div>
-            <button className="w-full bg-blue-600 text-white rounded-lg py-3 font-semibold hover:bg-blue-700 transition-colors mt-2 mb-8">
-              Select
+            <button
+              className="w-full bg-blue-600 text-white rounded-lg py-3 font-semibold hover:bg-blue-700 transition-colors mt-2 mb-8"
+              onClick={() => {
+                addToCart({
+                  model: product.model,
+                  brand: product.brand,
+                  image: product.image,
+                  price: product.price,
+                  quantity: 1,
+                  recommended: product.recommended,
+                });
+                // Optional: show a confirmation
+                // alert('Added to cart!');
+              }}
+            >
+              Add to cart
             </button>
           </div>
         </div>

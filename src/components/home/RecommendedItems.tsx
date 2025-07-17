@@ -17,7 +17,7 @@ export function RecommendedItems({ displayedProducts, showCompareButton }: Recom
           <div className="flex gap-2">
             <Link
               href={`/compare?models=${displayedProducts.map((p) => encodeURIComponent(p.model)).join(",")}`}
-              className="text-blue-600 hover:text-blue-800 font-medium px-4 py-2 transition-colors"
+              className="text-blue-600 hover:text-blue-800 font-medium py-2 transition-colors"
             >
               Compare models
             </Link>

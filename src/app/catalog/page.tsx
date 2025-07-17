@@ -127,7 +127,7 @@ export default function CatalogPage() {
   // Sorting logic
   let sortedProducts = filteredProducts;
   if (sortOption === "eligibility") {
-    sortedProducts = [...filteredProducts].sort((a, b) => Number(isEligible(b)) - Number(isEligible(a)));
+    sortedProducts = [...filteredProducts].sort((a, b) => Number(b.recommended) - Number(a.recommended));
   } else if (sortOption === "az") {
     sortedProducts = [...filteredProducts].sort((a, b) => a.model.localeCompare(b.model));
   } else if (sortOption === "za") {
@@ -138,7 +138,7 @@ export default function CatalogPage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
-      <Header cartItems={0} />
+      <Header />
       <MainNavigation />
       <main className="max-w-7xl mx-auto flex-1 overflow-y-auto px-6 sm:px-12 md:px-16 py-8 mb-16">
         <h2 className="font-medium text-5xl text-center text-gray-900 mt-6 mb-4">All Products</h2>

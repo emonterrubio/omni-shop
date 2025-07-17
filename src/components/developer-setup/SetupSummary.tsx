@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { SummaryProductCard } from './SummaryProductCard';
+import { SquarePen } from "lucide-react";
 
 // This should be a shared type, but for now, we define it here.
 interface Item {
@@ -15,10 +16,11 @@ interface Item {
 interface SetupSummaryProps {
   selectedItems: Item[];
   onEdit: () => void;
-  onCheckout: (costCenter?: string) => void;
+  onCheckout: (costCenter?: string, shippingMethod?: 'free' | 'express') => void;
+  onRemove?: (model: string) => void;
 }
 
-export function SetupSummary({ selectedItems, onEdit, onCheckout }: SetupSummaryProps) {
+export function SetupSummary({ selectedItems, onEdit, onCheckout, onRemove }: SetupSummaryProps) {
   const [cart, setCart] = useState(selectedItems.map(item => ({ ...item, quantity: 1 })));
   const [costCenterInput, setCostCenterInput] = useState('');
   const [costCenter, setCostCenter] = useState('');
@@ -35,7 +37,13 @@ export function SetupSummary({ selectedItems, onEdit, onCheckout }: SetupSummary
   };
 
   const handleRemove = (model: string) => {
-    setCart(prev => prev.filter(item => item.model !== model));
+    if (onRemove) {
+      // Use the external remove function (e.g., from CartContext)
+      onRemove(model);
+    } else {
+      // Use internal state management
+      setCart(prev => prev.filter(item => item.model !== model));
+    }
   };
 
   const handleApplyCostCenter = () => {
@@ -60,7 +68,7 @@ export function SetupSummary({ selectedItems, onEdit, onCheckout }: SetupSummary
       {/* Header */}
       <div className="text-center">
         <h1 className="text-5xl font-medium text-gray-900 mt-6 mb-4">Summary</h1>
-        <h4 className="max-w-2xl mx-auto font-base text-center text-gray-600 mb-8">Review and confirm your Developer Setup bundle details.</h4>
+        <h4 className="max-w-2xl mx-auto font-base text-center text-gray-600 mb-8">Review and confirm your order details.</h4>
       </div>
       {/* Summary */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-4">
@@ -71,7 +79,10 @@ export function SetupSummary({ selectedItems, onEdit, onCheckout }: SetupSummary
               <h2 className="text-2xl font-semibold">Your Order</h2>
               <p className="text-gray-600">There are {cart.length} products in your cart</p>
             </div>
-            <button onClick={onEdit} className="text-blue-600 hover:text-blue-700 font-medium text-base">Edit</button>
+            <button onClick={onEdit} className="text-blue-600 hover:text-blue-700 font-medium text-base flex items-center gap-1">
+              <SquarePen className="w-4 h-4 mr-1" />
+              Edit
+            </button>
           </div>
           {/* Products */}
           <div className="flex flex-col gap-2">
@@ -151,7 +162,7 @@ export function SetupSummary({ selectedItems, onEdit, onCheckout }: SetupSummary
             </div>
 
             <button 
-              onClick={() => onCheckout(costCenter)}
+              onClick={() => onCheckout(costCenter, shippingMethod)}
               className="w-full mt-6 bg-blue-600 text-white py-3 rounded-md font-semibold text-lg hover:bg-blue-700 transition"
             >
               Checkout

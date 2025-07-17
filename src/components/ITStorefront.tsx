@@ -44,7 +44,7 @@ export function ITStorefront({
   return (
     <div className="flex flex-col h-screen bg-gray-50">
       <div className="sticky top-0 z-50">
-        <Header cartItems={0} />
+        <Header />
         <MainNavigationClient />
       </div>  
       <main className="max-w-7xl mx-auto flex-1 overflow-y-auto px-6 sm:px-12 md:px-16">

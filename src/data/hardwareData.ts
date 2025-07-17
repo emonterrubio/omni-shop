@@ -14,7 +14,7 @@ export interface HardwareSpec {
   battery: string;
   other: string;
   image: string;
-  price: string;
+  price: number;
   recommended: boolean;
 }
 
@@ -35,7 +35,7 @@ export const hardwareData: HardwareSpec[] = [
       battery: "72.4 Wh lithium-polymer; up to 18 hours Apple TV playback, 12 hours wireless web",
       other: "Magic Keyboard with Touch ID, 70W USB-C Power Adapter",
       image: "/images/macbook_pro_16.png",
-      price: "2,822",
+      price: 2822,
       recommended: false
     },
     {
@@ -54,7 +54,7 @@ export const hardwareData: HardwareSpec[] = [
       battery: "Up to 18 hrs (13.5″) or 17 hrs (15″) typical use",
       other: "Alcantara or metal palm rest, Dolby Atmos, Fast-charge support",
       image: "/images/microsoft_surface_5.png",
-      price: "2,398",
+      price: 2398,
       recommended: false
     },
     {
@@ -73,7 +73,7 @@ export const hardwareData: HardwareSpec[] = [
       battery: "52.6 Wh lithium-polymer; up to 18 hours Apple TV playback, 15 hours wireless web",
       other: "Magic Keyboard with Touch ID, 35W Dual USB-C Port Compact Power Adapter",
       image: "/images/macbook_air_13.png",
-      price: "1,844",
+      price: 1844,
       recommended: false
     },
     {
@@ -92,7 +92,7 @@ export const hardwareData: HardwareSpec[] = [
       battery: "Up to 19 hrs (Intel Iris) or 18 hrs (RTX 4050) typical use",
       other: "Surface Studio Camera, Dolby Atmos, fast-charge, aluminum chassis",
       image: "/images/microsoft_surface_studio_2.png",
-      price: "2,923",
+      price: 2923,
       recommended: false
     },
     {
@@ -111,7 +111,7 @@ export const hardwareData: HardwareSpec[] = [
       battery: "Up to 19 hrs typical device usage (Wi-Fi models)",
       other: "Quad HD Studio Camera, 1440p wide-angle camera, dual Studio Mics, Dolby Atmos speakers, NFC",
       image: "/images/microsoft_surface_pro_10.png",
-      price: "2,565",
+      price: 2565,
       recommended: true
     },
     {
@@ -130,7 +130,7 @@ export const hardwareData: HardwareSpec[] = [
       battery: "66.5 Wh lithium-polymer; up to 18 hours Apple TV playback",
       other: "Magic Keyboard with Touch ID, 35W Dual USB-C Port",
       image: "/images/macbook_air_13.png" ,
-      price: "1,695",
+      price: 1695,
       recommended: false
     },
     {
@@ -149,7 +149,7 @@ export const hardwareData: HardwareSpec[] = [
       battery: "Up to 14 hrs video playback; up to 10 hrs web usage (business)",
       other: "Front 1440p Quad HD Studio Camera, dual Studio Mics, Dolby Atmos, NFC",
       image: "/images/microsoft_surface_pro_11.png",
-      price: "1,959",
+      price: 1959,
       recommended: true
     },
     {
@@ -168,7 +168,7 @@ export const hardwareData: HardwareSpec[] = [
       battery: "",
       other: "Intel HM870 chipset",
       image: "/images/leonovo_thinkpad_x1.png",
-      price: "3,262",
+      price: 3262,
       recommended: false
     },
     {
@@ -187,7 +187,7 @@ export const hardwareData: HardwareSpec[] = [
       battery: "Up to 18.5 hrs (13.5″) or 19 hrs (15″) typical use",
       other: "AI-enhanced 1080p Studio Camera, dual Studio Mics, Dolby Atmos, new Copilot key",
       image: "/images/microsoft_surface_6.png",
-      price: "2,315",
+      price: 2315,
       recommended: true
     },
     {
@@ -206,7 +206,7 @@ export const hardwareData: HardwareSpec[] = [
       battery: "57 Wh, up to 15 hours mixed use",
       other: "Wi-Fi 6E, Bluetooth 5.3, IR camera with ThinkShutter, fingerprint reader",
       image: "/images/leonovo_thinkpad_x1.png",
-      price: "2,145",
+      price: 2145,
       recommended: false
     },
     {
@@ -225,7 +225,7 @@ export const hardwareData: HardwareSpec[] = [
       battery: "100 Wh lithium-polymer; up to 22 hours Apple TV playback, 15 hours wireless web",
       other: "Magic Keyboard with Touch ID, 140W USB-C Power Adapter",
       image: "/images/macbook_pro_16.png",
-      price: "3,423",
+      price: 3423,
       recommended: true
     },
     {
@@ -244,7 +244,7 @@ export const hardwareData: HardwareSpec[] = [
       battery: "60 Wh, up to 14 hrs mixed use",
       other: "Wi-Fi 6 (802.11ax), Bluetooth 5.1, fingerprint reader, backlit keyboard",
       image: "/images/leonovo_yoga_slim_prox.png",
-      price: "999",
+      price: 999,
       recommended: false
     },
     {
@@ -263,7 +263,7 @@ export const hardwareData: HardwareSpec[] = [
       battery: "90 Wh Li-polymer, up to 12 hrs video playback",
       other: "Wi-Fi 6E, Bluetooth 5.2, 1080p IR hybrid privacy camera, fingerprint reader, spill-resistant keyboard",
       image: "/images/leonovo_thinkpad_p1.png",
-      price: "3,590",
+      price: 3590,
       recommended: true
     },
     {
@@ -282,7 +282,7 @@ export const hardwareData: HardwareSpec[] = [
       battery: "54 Wh (up to 10 hrs mixed use)",
       other: "Wi-Fi 6E, Bluetooth 5.3, optional fingerprint reader",
       image: "/images/dell_latitude_7440.png",
-      price: "1,617",
+      price: 1617,
       recommended: false
     },
     {
@@ -301,7 +301,7 @@ export const hardwareData: HardwareSpec[] = [
       battery: "Up to 20 hrs video (13.8″), 22 hrs video (15″); 12 hrs web (13.8″), 14 hrs web (15″)",
       other: "Studio Camera, Windows Studio Effects, dual Studio Mics, Dolby Atmos, Haptic touchpad",
       image: "/images/microsoft_surface_7.png",
-      price: "1,909",
+      price: 1909,
       recommended: true
     },
     {
@@ -320,7 +320,7 @@ export const hardwareData: HardwareSpec[] = [
       battery: "55 Wh (up to 8 hrs mixed use)",
       other: "Killer Wi-Fi 6E, fingerprint reader",
       image: "/images/dell_xps_13_plus.png",
-      price: "2,200",
+      price: 2200,
       recommended: false
     },
     {
@@ -339,7 +339,7 @@ export const hardwareData: HardwareSpec[] = [
       battery: "" ,
       other: "Realtek ALC3246 audio controller; multiple full-height PCIe Gen5/4 slots; SATA 3.0 bays; SD-card reader" ,
       image: "/images/dell_precision_7865_tower.png" ,
-      price: "3,789",
+      price: 3789,
       recommended: true
     },
     {
@@ -358,7 +358,7 @@ export const hardwareData: HardwareSpec[] = [
       battery: "" ,
       other: "Intel W680 chipset; SD-card reader; optional optical-drive bay",
       image: "/images/dell_precision_3680_tower.png",
-      price: "1,299",
+      price: 1299,
       recommended: false
     },
     {
@@ -377,7 +377,7 @@ export const hardwareData: HardwareSpec[] = [
       battery: "86 Whr 6-cell Lithium-ion; up to 10 hrs mixed use",
       other: "Wi-Fi 6E, Bluetooth 5.2, fingerprint reader, backlit keyboard, IR webcam",
       image: "/images/dell_inspiron_16_plus.png",
-      price: "1,150",
+      price: 1150,
       recommended: true
     },
     {
@@ -396,7 +396,7 @@ export const hardwareData: HardwareSpec[] = [
       battery: "72 Whr; up to 11 hours mixed use",  
       other: "Wi-Fi 7, Bluetooth 5.4; available in matte black or white finishes",  
       image: "/images/razer_blade_14.png",  
-      price: "2,299",
+      price: 2299,
       recommended: false
     },
     {
@@ -415,7 +415,7 @@ export const hardwareData: HardwareSpec[] = [
       battery: "90 Whr; up to 7 hrs gaming / 14 hrs video playback",  
       other: "Wi-Fi 6E, Bluetooth 5.4; vapor-chamber cooling with dynamic boost",  
       image: "/images/razer_blade_16.png",  
-      price: "2,999",
+      price: 2999,
       recommended: true
     },
     {
@@ -434,7 +434,7 @@ export const hardwareData: HardwareSpec[] = [
       battery: "90 Whr; up to 7 hrs gaming / 14 hrs video playback",  
       other: "Wi-Fi 6E, Bluetooth 5.4; vapor-chamber cooling with dynamic boost",  
       image: "/images/razer_blade_18.png",  
-      price: "4,499",
+      price: 4499,
       recommended: false
     }
 ]

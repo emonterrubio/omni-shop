@@ -59,7 +59,7 @@ export function ProductCard({ product, fromCatalog = false }: { product: Product
             href={fromCatalog ? `/product/${encodeURIComponent(product.model)}?from=catalog` : `/product/${encodeURIComponent(product.model)}`}
             className="flex items-center justify-center px-4 py-2 text-blue-600 hover:text-blue-800 transition-colors w-auto cursor-pointer"
           >
-            Learn More
+            See Details
           </Link>
         </div>
       </div>

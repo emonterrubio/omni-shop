@@ -25,7 +25,7 @@ export function CheckoutCartItem({ item }: CheckoutCartItemProps) {
         <div className="flex items-center gap-2 mt-1">
           <p className="text-xs text-gray-500">Qty {item.quantity}</p>
           {item.recommended && (
-            <span className="bg-teal-100 text-teal-700 text-xs font-medium px-2 py-0.5 rounded-full">Recommended</span>
+            <span className="bg-teal-500 text-white text-xs font-semibold px-3 py-1 rounded-md ml-2">Recommended</span>
           )}
         </div>
       </div>

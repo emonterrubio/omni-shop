@@ -31,8 +31,8 @@ export default function CompareClient() {
   }, [modelsParam, brandParam]);
 
   return (
-    <div className="flex flex-col h-screen bg-gray-50 mb-12">
-      <Header cartItems={0} />
+    <div className="flex flex-col min-h-screen bg-gray-50">
+      <Header />
       <MainNavigation />
       <main className="max-w-7xl mx-auto flex-1 overflow-y-auto px-6 sm:px-12 md:px-16 py-8 mb-16">
         <Link

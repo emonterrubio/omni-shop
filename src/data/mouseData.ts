@@ -6,7 +6,7 @@ export interface MouseSpec {
   connectivity: string;
   button_quantity: number;
   compatibility: string;
-  price: string;
+  price: number;
   image: string;
   recommended: boolean;
 }
@@ -20,7 +20,7 @@ export const mouseData: MouseSpec[] = [
     connectivity: "Bluetooth 4.0",
     button_quantity: 3,
     compatibility: "Windows, macOS, Linux",
-    price: "16",
+    price: 16,
     image: "/images/hp_x3000_g3_mouse.png",
     recommended: true
   },
@@ -32,7 +32,7 @@ export const mouseData: MouseSpec[] = [
     connectivity: "Bluetooth, Unifying USB receiver",
     button_quantity: 2,
     compatibility: "Windows, macOS, Linux",
-    price: "15",
+    price: 15,
     image: "/images/logitech_m185_mouse.png",
     recommended: false
   },
@@ -44,7 +44,7 @@ export const mouseData: MouseSpec[] = [
     connectivity: "Bluetooth 4.2",
     button_quantity: 2,
     compatibility: "macOS",
-    price: "80",
+    price: 80,
     image: "/images/apple_magic_mouse.png",
     recommended: true
   },
@@ -56,7 +56,7 @@ export const mouseData: MouseSpec[] = [
     connectivity: "Bluetooth 5.0",
     button_quantity: 6,
     compatibility: "Windows, macOS, Android",
-    price: "55",
+    price: 55,
     image: "/images/cherry_mw8c_ergo_mouse.png",
     recommended: false
   },
@@ -68,7 +68,7 @@ export const mouseData: MouseSpec[] = [
     connectivity: "2.4 GHz USB receiver",
     button_quantity: 3,
     compatibility: "Windows, macOS",
-    price: "25",
+    price: 25,
     image: "/images/logitech_m510_mouse.png",
     recommended: true
   },
@@ -80,7 +80,7 @@ export const mouseData: MouseSpec[] = [
     connectivity: "Wired USB-C",
     button_quantity: 8,
     compatibility: "Windows, macOS",
-    price: "70",
+    price: 70,
     image: "/images/logitech_mx_master_2s_mouse.png",
     recommended: false
   },
@@ -92,7 +92,7 @@ export const mouseData: MouseSpec[] = [
     connectivity: "Wireless USB receiver",
     button_quantity: 6,
     compatibility: "Windows, macOS",
-    price: "35",
+    price: 35,
     image: "/images/logitech_m650_mouse.png",
     recommended: true
   },
@@ -104,7 +104,7 @@ export const mouseData: MouseSpec[] = [
     connectivity: "Bluetooth, USB receiver",
     button_quantity: 3,
     compatibility: "Windows, macOS",
-    price: "50",
+    price: 50,
     image: "/images/dell_ms700_mouse.png",
     recommended: false
   },
@@ -116,7 +116,7 @@ export const mouseData: MouseSpec[] = [
     connectivity: "2.4 GHz USB dongle",
     button_quantity: 7,
     compatibility: "Windows, macOS, Linux",
-    price: "34",
+    price: 34,
     image: "/images/nulea_m501_mouse.png",
     recommended: true
   }

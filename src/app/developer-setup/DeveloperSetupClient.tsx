@@ -9,7 +9,7 @@ import { hardwareData } from '../../data/hardwareData';
 import { monitorData } from '../../data/monitorData';
 import { keyboardData } from '../../data/keyboardData';
 import { mouseData } from '../../data/mouseData';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { SelectionOptionCard } from '../../components/ui/SelectionOptionCard';
 import React from 'react';
 import Image from 'next/image';
@@ -17,6 +17,7 @@ import { Stepper } from '../../components/ui/Stepper';
 import { SelectionStep } from '../../components/developer-setup/SelectionStep';
 import { SetupSummary } from '../../components/developer-setup/SetupSummary';
 import { CheckoutPage } from '../../components/developer-setup/CheckoutPage';
+import { CartContext } from '../../components/CartContext';
 
 export function DeveloperSetupClient() {
   const [step, setStep] = useState(1);
@@ -38,6 +39,7 @@ export function DeveloperSetupClient() {
     description: '',
   });
   const [costCenter, setCostCenter] = useState<string | undefined>(undefined);
+  const { cartItems, clearCart } = useContext(CartContext);
 
   // Filter laptops from hardwareData and limit to 3
   const laptops = hardwareData
@@ -101,11 +103,13 @@ export function DeveloperSetupClient() {
     setCostCenter(costCenterValue);
     setShowSummary(false);
     setShowCheckout(true);
+    clearCart();
   }
 
   const handleBackFromCheckout = () => {
     setShowCheckout(false);
     setShowSummary(true);
+    clearCart();
   };
 
   // Calculate totals for checkout
@@ -122,7 +126,7 @@ export function DeveloperSetupClient() {
     const checkoutItems = selectedItems.map(item => ({ ...item, quantity: 1 }));
     return (
       <div className="flex flex-col h-screen bg-gray-50 mb-12">
-        <Header cartItems={0} />
+        <Header />
         <MainNavigation />
         <main>
           <CheckoutPage 
@@ -138,7 +142,7 @@ export function DeveloperSetupClient() {
 
   return (
     <div className="flex flex-col h-screen bg-gray-50 mb-12">
-      <Header cartItems={0} />
+      <Header />
       <MainNavigation />
       <main className="w-full mx-auto flex-1 overflow-y-auto px-6 md:px-10 py-6">
         <Link

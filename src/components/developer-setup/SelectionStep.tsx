@@ -13,6 +13,7 @@ interface Item {
   number_keys?: number;
   button_quantity?: number;
   recommended: boolean;
+  image?: string;
 }
 
 interface SelectionStepProps {
@@ -46,6 +47,7 @@ export function SelectionStep({ title, items, selectedItem, onSelectItem, radioN
             selected={selectedItem === item.model}
             onSelect={() => onSelectItem(item.model)}
             radioName={radioName}
+            image={item.image}
           />
         ))}
       </div>

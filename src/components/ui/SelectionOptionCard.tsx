@@ -30,8 +30,16 @@ export function SelectionOptionCard({
       role="button"
       tabIndex={0}
     >
-      <div className="flex flex-col">
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between md:gap-2">
+      {/* Image section */}
+      {image && (
+        <img
+          src={image}
+          alt={title}
+          className="w-20 h-20 object-contain mr-4 flex-shrink-0"
+        />
+      )}
+      <div className="flex flex-col flex-1">
+        <div className="flex flex-col md:flex-row md:items-center md:gap-2">
           <span className="font-medium text-lg">{title}</span>
           <div className="mb-1">
             {recommended && (

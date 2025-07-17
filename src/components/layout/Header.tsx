@@ -1,17 +1,17 @@
 "use client";
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import { ShoppingCart, User, Search as SearchIcon } from "lucide-react";
 import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
+import { CartContext } from "../CartContext";
+import type { CartContextType } from "../CartContext";
 
-interface HeaderProps {
-  cartItems: number;
-}
-
-export function Header({ cartItems }: HeaderProps) {
+export function Header({ cartItems: cartItemsProp }: { cartItems?: number }) {
   const router = useRouter();
   const pathname = usePathname();
   const isHome = pathname === "/";
+  const { cartItems: cartItemsContext, cartCount } = useContext(CartContext) as CartContextType;
+  const cartItems = cartItemsProp !== undefined ? cartItemsProp : cartCount;
 
   return (
     <header className="sticky top-0 z-50 bg-deepBlue relative">
@@ -62,14 +62,14 @@ export function Header({ cartItems }: HeaderProps) {
                 <SearchIcon className="w-6 h-6" />
               </Link>
             )}
-            <button className="relative p-2 text-white hover:text-gray-100">
+            <Link href="/cart" className="relative p-2 text-white hover:text-gray-100" aria-label="Cart">
               <ShoppingCart className="w-6 h-6" />
               {cartItems > 0 && (
-                <span className="absolute top-0 right-0 inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-blue-600 rounded-full">
+                <span className="absolute top-0 right-0 inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-600 rounded-full">
                   {cartItems}
                 </span>
               )}
-            </button>
+            </Link>
             <button className="p-2 text-white hover:text-gray-100">
               <img src="/images/ed-avatar.png" alt="User Avatar" className="h-10 object-contain rounded-full" />
             </button>

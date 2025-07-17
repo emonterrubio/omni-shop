@@ -11,7 +11,7 @@ export interface MonitorSpec {
   pixel_density: string;
   refresh_rate: string;
   image: string;
-  price: string;
+  price: number;
   recommended: boolean;
 }
 
@@ -28,7 +28,7 @@ export const monitorData: MonitorSpec[] = [
     pixel_density: "1440p",
     refresh_rate: "120Hz",
     image: "/images/dell_s3225qs_monitor.png",
-    price: "329",
+    price: 329,
     recommended: false,
   },
   {
@@ -43,7 +43,7 @@ export const monitorData: MonitorSpec[] = [
     pixel_density: "2160p",
     refresh_rate: "60Hz",
     image: "/images/samsung_viewfinity_s8_monitor.png",
-    price: "369",
+    price: 369,
     recommended: false,
   },
   {
@@ -58,7 +58,7 @@ export const monitorData: MonitorSpec[] = [
     pixel_density: "2160p",
     refresh_rate: "60Hz",
     image: "/images/lg_ultrafine_27_monitor.png",
-    price: "363",
+    price: 363,
     recommended: false,
   },
   {
@@ -73,7 +73,7 @@ export const monitorData: MonitorSpec[] = [
     pixel_density: "1440p",
     refresh_rate: "240Hz",
     image: "/images/alienware_aw34dw_monitor.png",
-    price: "799",
+    price: 799,
     recommended: true,
   },
   {
@@ -88,7 +88,7 @@ export const monitorData: MonitorSpec[] = [
     pixel_density: "1440p",
     refresh_rate: "60Hz",
     image: "/images/dell_u3419w_monitor.png",
-    price: "829",
+    price: 829,
     recommended: true,
   },
   {
@@ -103,7 +103,7 @@ export const monitorData: MonitorSpec[] = [
     pixel_density: "1440p",
     refresh_rate: "100Hz",
     image: "/images/samsung_viewfinity_s65ua_monitor.png",
-    price: "427",
+    price: 427,
     recommended: false,
   },
   {
@@ -118,7 +118,7 @@ export const monitorData: MonitorSpec[] = [
     pixel_density: "1080p",
     refresh_rate: "10Hz",
     image: "/images/lg_ultrawide_29_monitor.png",
-    price: "199",
+    price: 199,
     recommended: true,
   },
   {
@@ -133,7 +133,7 @@ export const monitorData: MonitorSpec[] = [
     pixel_density: "1440p",
     refresh_rate: "180Hz",
     image: "/images/acer_nitro_27_monitor.png",
-    price: "199",
+    price: 199,
     recommended: false,
   },
   {
@@ -148,7 +148,7 @@ export const monitorData: MonitorSpec[] = [
     pixel_density: "1440p",
     refresh_rate: "175Hz",
     image: "/images/alienware_awqd34dw_monitor.png",
-    price: "779",
+    price: 779,
     recommended: true,
   },
   {
@@ -163,7 +163,7 @@ export const monitorData: MonitorSpec[] = [
     pixel_density: "1440p",
     refresh_rate: "180Hz",
     image: "/images/dell_g2725d_monitor.png",
-    price: "200",
+      price: 200,
     recommended: false,
   },
   {
@@ -178,7 +178,7 @@ export const monitorData: MonitorSpec[] = [
     pixel_density: "1440p",
     refresh_rate: "180Hz",
     image: "/images/samsung_odyssey_g50d_monitor.png",
-    price: "429",
+    price: 429,
     recommended: true,
   },
   {
@@ -193,7 +193,7 @@ export const monitorData: MonitorSpec[] = [
     pixel_density: "1200p",
     refresh_rate: "",
     image: "/images/dell_u2723qe_monitor.png",
-    price: "639",
+    price: 639,
     recommended: false,
   }
 ]
