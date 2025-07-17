@@ -1,6 +1,7 @@
 "use client";
 
-import React, { createContext, useState, useContext, useEffect } from "react";
+import React, { createContext, useState, useContext, useEffect, useRef } from "react";
+import { useToast } from "./ToastContext";
 
 // Define a type for cart items
 export interface CartItem {
@@ -30,8 +31,18 @@ export const CartContext = createContext<CartContextType>({
   clearCart: () => {},
 });
 
+// Custom hook to safely access toast context
+const useSafeToast = () => {
+  try {
+    return useToast();
+  } catch (error) {
+    return { addToast: () => {} };
+  }
+};
+
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const { addToast } = useSafeToast();
 
   // Load cart from localStorage on mount
   useEffect(() => {
@@ -52,24 +63,38 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, [cartItems]);
 
   const addToCart = (item: CartItem) => {
+    // Check if item already exists before updating state
+    const existing = cartItems.find(ci => ci.model === item.model);
+    const isNewItem = !existing;
+    
     setCartItems(prev => {
-      const existing = prev.find(ci => ci.model === item.model);
       if (existing) {
+        // Item already exists, update quantity
         return prev.map(ci =>
           ci.model === item.model ? { ...ci, quantity: ci.quantity + (item.quantity || 1) } : ci
         );
       }
+      // New item added
       return [...prev, { ...item, quantity: item.quantity || 1 }];
     });
+
+    // Show toast after state update
+    if (isNewItem) {
+      addToast(`${item.model} added to cart`, "success");
+    } else {
+      addToast(`${item.model} quantity updated in cart`, "success");
+    }
   };
 
   const removeFromCart = (model: string) => {
     setCartItems(prev => prev.filter(ci => ci.model !== model));
+    addToast(`${model} removed from cart`, "info");
   };
 
   const clearCart = () => {
     setCartItems([]);
     localStorage.removeItem('cart');
+    addToast("Cart cleared", "info");
   };
 
   const cartCount = cartItems.reduce((sum, item) => sum + (item.quantity || 1), 0);

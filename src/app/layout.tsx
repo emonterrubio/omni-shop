@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import "./styles/globals.css";
 import { CartProvider } from "../components/CartContext";
+import { ToastProvider } from "../components/ToastContext";
+import { ToastContainer } from "../components/ui/ToastContainer";
 
 export const metadata: Metadata = {
   title: "Omni Shopping - IT Equipment Store",
@@ -15,7 +17,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <CartProvider>{children}</CartProvider>
+        <ToastProvider>
+          <CartProvider>
+            {children}
+            <ToastContainer />
+          </CartProvider>
+        </ToastProvider>
       </body>
     </html>
   );

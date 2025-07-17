@@ -218,7 +218,7 @@ export default function ProductDetailPage() {
             <img
               src={product.image || "https://placehold.co/400x300?text=No+Image"}
               alt={product.model}
-              className="w-full max-w-md object-contain mb-6"
+              className="w-full max-w-md object-contain mb-6 mr-8"
             />
             <Link 
               href={`/product/${product.model}/gallery`}

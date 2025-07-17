@@ -1,5 +1,6 @@
 import { CheckCircle, AlertCircle } from "lucide-react";
-import React from "react";
+import React, { useContext } from "react";
+import { CartContext, CartItem } from "@/components/CartContext";
 
 interface ComparisonProductCardProps {
   image: string;
@@ -25,6 +26,20 @@ export function ComparisonProductCard({
   // Split features string into array by comma
   const featureList = features.split(',').map(f => f.trim());
   const isEligible = true;
+  const { addToCart } = useContext(CartContext);
+
+  const handleAddToCart = () => {
+    const cartItem: CartItem = {
+      model,
+      brand,
+      image,
+      price: parseFloat(price) || 0,
+      quantity: 1,
+      recommended: isEligible,
+      description,
+    };
+    addToCart(cartItem);
+  };
 
   return (
     <div className="bg-white rounded-2xl shadow-md w-full flex flex-col h-full">
@@ -71,8 +86,11 @@ export function ComparisonProductCard({
         </div>
         <div className="text-gray-600 text-sm">Recommended based on your role</div>
         <div className="text-2xl font-semibold">${price}.00</div>
-        <button className="w-full bg-blue-600 text-white rounded-md py-2 font-semibold hover:bg-blue-700 transition">
-          Select
+        <button 
+          className="w-full bg-blue-600 text-white rounded-md py-2 font-semibold hover:bg-blue-700 transition"
+          onClick={handleAddToCart}
+        >
+          Add to Cart
         </button>
       </div>
     </div>
