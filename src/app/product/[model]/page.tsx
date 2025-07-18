@@ -8,6 +8,7 @@ import { monitorData } from "@/data/monitorData";
 import { headphoneData } from "@/data/headphoneData";
 import { mouseData } from "@/data/mouseData";
 import { keyboardData } from "@/data/keyboardData";
+import { webcamData } from "@/data/webcamData";
 // import { keyboardData } from "@/data/keyboardData";
 import { Header } from "@/components/layout/Header";
 import { MainNavigation } from "@/components/layout/MainNavigation";
@@ -91,6 +92,24 @@ function findProductByModel(model: string) {
     };
   }
 
+  const webcam = webcamData.find(p => p.model === model);
+  if (webcam) {
+    return {
+      ...webcam,
+      category: "Webcams",
+      processor: "",
+      memory: "",
+      storage: "",
+      display: webcam.display_resolution,
+      graphics: "",
+      operating_system: "",
+      ports: "",
+      battery: "",
+      other: `Video Resolution: ${webcam.video_resolution}, Image Aspect Ratio: ${webcam.image_aspect_ratio}, Image Capture Rate: ${webcam.image_capture_rate}`,
+      features: `${webcam.video_resolution}, ${webcam.display_resolution}, ${webcam.image_capture_rate}`,
+    };
+  }
+
   // Add similar logic for other categories...
   return null;
 }
@@ -152,6 +171,18 @@ function getProductSpecs(product: any) {
         { label: "Number of Keys", value: product.number_keys },
         { label: "Battery", value: product.battery },
         { label: "Features", value: product.features },
+      ];
+    case "Webcams":
+      return [
+        { label: "Brand", value: product.brand },
+        { label: "Model", value: product.model },
+        { label: "Video Resolution", value: product.video_resolution },
+        { label: "Display Resolution", value: product.display_resolution },
+        { label: "Image Aspect Ratio", value: product.image_aspect_ratio },
+        { label: "Image Capture Rate", value: product.image_capture_rate },
+        { label: "Supported Image Format", value: product.supported_image_format },
+        { label: "Supported Audio Format", value: product.supported_audio_format },
+        { label: "Supported Video Format", value: product.supported_video_format },
       ];
     // Add cases for other categories...
     default:

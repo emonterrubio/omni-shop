@@ -19,6 +19,7 @@ function inferCategory(model: string, category: string): string {
   if (name.includes("monitor") || name.includes("display")) return "Monitors";
   if (name.includes("headphone") || name.includes("earbud")) return "Audio";
   if (name.includes("mouse") || name.includes("keyboard")) return "Accessories";
+  if (name.includes("webcam") || name.includes("camera")) return "Webcams";
   return "Other";
 }
 

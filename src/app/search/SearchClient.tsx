@@ -2,11 +2,58 @@
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { hardwareData } from "@/data/hardwareData";
+import { headphoneData } from "@/data/headphoneData";
+import { monitorData } from "@/data/monitorData";
+import { mouseData } from "@/data/mouseData";
+import { keyboardData } from "@/data/keyboardData";
+import { webcamData } from "@/data/webcamData";
 import { ProductCard } from "@/components/ui/ProductCard";
 import { Header } from "@/components/layout/Header";
 import { MainNavigation } from "@/components/layout/MainNavigation";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+
+// Combine all product data for fallback search
+function getAllProductsForFallback() {
+  const hardwareProducts = hardwareData.map((item) => ({
+    ...item,
+    category: item.category || "Hardware",
+  }));
+
+  const headphoneProducts = headphoneData.map((item) => ({
+    ...item,
+    category: "Headphones",
+  }));
+
+  const monitorProducts = monitorData.map((item) => ({
+    ...item,
+    category: "Monitors",
+  }));
+
+  const mouseProducts = mouseData.map((item) => ({
+    ...item,
+    category: "Mice",
+  }));
+
+  const keyboardProducts = keyboardData.map((item) => ({
+    ...item,
+    category: "Keyboards",
+  }));
+
+  const webcamProducts = webcamData.map((item) => ({
+    ...item,
+    category: "Webcams",
+  }));
+
+  return [
+    ...hardwareProducts,
+    ...headphoneProducts,
+    ...monitorProducts,
+    ...mouseProducts,
+    ...keyboardProducts,
+    ...webcamProducts
+  ];
+}
 
 export default function SearchClient() {
   const searchParams = useSearchParams();
@@ -16,25 +63,43 @@ export default function SearchClient() {
   const feature = searchParams.get("feature");
   const q = searchParams.get("q") || "";
 
-  const [results, setResults] = useState(hardwareData);
+  const [results, setResults] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [totalFound, setTotalFound] = useState(0);
 
   useEffect(() => {
     const fetchResults = async () => {
       setLoading(true);
       if (q) {
-        const response = await fetch("/api/ai-product-search", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ query: q }),
-        });
-        const data = await response.json();
-        console.log("AI Product Search API response:", data);
-        if (data.results && data.results.length > 0) {
-          setResults(data.results);
-        } else {
-          // Fallback: local search if AI returns nothing
-          const fallback = hardwareData.filter((p) =>
+        try {
+          const response = await fetch("/api/ai-product-search", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ query: q }),
+          });
+          const data = await response.json();
+          console.log("AI Product Search API response:", data);
+          if (data.results && data.results.length > 0) {
+            setResults(data.results);
+            setTotalFound(data.totalFound || data.results.length);
+          } else {
+            // Fallback: local search if AI returns nothing
+            const allProducts = getAllProductsForFallback();
+            const fallback = allProducts.filter((p) =>
+              Object.values(p).some(
+                (val) =>
+                  typeof val === "string" &&
+                  val.toLowerCase().includes(q.toLowerCase())
+              )
+            );
+            setResults(fallback);
+            setTotalFound(fallback.length);
+          }
+        } catch (error) {
+          console.error("Search API error:", error);
+          // Fallback to local search on error
+          const allProducts = getAllProductsForFallback();
+          const fallback = allProducts.filter((p) =>
             Object.values(p).some(
               (val) =>
                 typeof val === "string" &&
@@ -42,10 +107,12 @@ export default function SearchClient() {
             )
           );
           setResults(fallback);
+          setTotalFound(fallback.length);
         }
       } else {
         // Fallback to basic filtering if no query
-        let filteredResults = hardwareData;
+        const allProducts = getAllProductsForFallback();
+        let filteredResults = allProducts;
         if (brand) {
           filteredResults = filteredResults.filter((p) => p.brand.toLowerCase() === brand.toLowerCase());
         }
@@ -60,6 +127,7 @@ export default function SearchClient() {
           );
         }
         setResults(filteredResults);
+        setTotalFound(filteredResults.length);
       }
       setLoading(false);
     };
@@ -86,7 +154,7 @@ export default function SearchClient() {
           <h2 className="text-2xl font-medium">
             Search results for: <span className="font-medium text-blue-600">{q || brand || category || feature || "All"}</span>
           </h2>
-          <span className="text-gray-600 text-base font-regular">{results.length} item{results.length === 1 ? "" : "s"} found</span>
+          <span className="text-gray-600 text-base font-regular">{totalFound} item{totalFound === 1 ? "" : "s"} found</span>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {loading ? (

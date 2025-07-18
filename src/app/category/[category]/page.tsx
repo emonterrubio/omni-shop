@@ -5,6 +5,7 @@ import { monitorData } from "@/data/monitorData";
 import { headphoneData } from "@/data/headphoneData";
 import { mouseData } from "@/data/mouseData";
 import { keyboardData } from "@/data/keyboardData";
+import { webcamData } from "@/data/webcamData";
 import { ProductCard } from "@/components/ui/ProductCard";
 import { ProductCardProps } from "@/types/ProductCardProps";
 import { Header } from "@/components/layout/Header";
@@ -67,6 +68,17 @@ function getProductsForCategory(category: string): ProductCardProps[] {
         category: "Keyboards",
         description: item.description,
         features: `${item.connectivity}, ${item.compatibility}, ${item.number_keys} keys`,
+        image: item.image,
+        price: String(item.price),
+        recommended: item.recommended,
+      }));
+    case "webcams":
+      return webcamData.map(item => ({
+        brand: item.brand,
+        model: item.model,
+        category: "Webcams",
+        description: item.description,
+        features: `${item.video_resolution}, ${item.display_resolution}, ${item.image_capture_rate}`,
         image: item.image,
         price: String(item.price),
         recommended: item.recommended,

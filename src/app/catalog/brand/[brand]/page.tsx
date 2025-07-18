@@ -5,6 +5,7 @@ import { monitorData } from "@/data/monitorData";
 import { headphoneData } from "@/data/headphoneData";
 import { keyboardData } from "@/data/keyboardData";
 import { mouseData } from "@/data/mouseData";
+import { webcamData } from "@/data/webcamData";
 import { ProductCard } from "@/components/ui/ProductCard";
 import { Header } from "@/components/layout/Header";
 import { MainNavigation } from "@/components/layout/MainNavigation";
@@ -63,12 +64,25 @@ export default function BrandCatalogPage({ params }: any) {
     recommended: item.recommended,
   }));
 
+  // Map webcamData to ProductCardProps
+  const webcamProducts = webcamData.map((item) => ({
+    brand: item.brand,
+    model: item.model,
+    category: "Webcams",
+    description: item.description,
+    features: `${item.video_resolution}, ${item.display_resolution}, ${item.image_capture_rate}`,
+    image: item.image,
+    price: item.price,
+    recommended: item.recommended,
+  }));
+
   const allProducts = [
     ...hardwareData,
     ...monitorProducts,
     ...headphoneProducts,
     ...mouseProducts,
-    ...keyboardProducts
+    ...keyboardProducts,
+    ...webcamProducts
   ];
 
   const brandProducts = allProducts.filter((p) => p.brand === brand);
@@ -161,6 +175,7 @@ export default function BrandCatalogPage({ params }: any) {
                 <option value="headphones">Headphones</option>
                 <option value="mice">Mice</option>
                 <option value="keyboards">Keyboards</option>
+                <option value="webcams">Webcams</option>
               </select>
             </div>
             <div>
@@ -207,6 +222,7 @@ export default function BrandCatalogPage({ params }: any) {
                   { value: "headphones", label: "Headphones" },
                   { value: "mice", label: "Mice" },
                   { value: "keyboards", label: "Keyboards" },
+                  { value: "webcams", label: "Webcams" },
                 ].map(opt => (
                   <button
                     key={opt.value}
