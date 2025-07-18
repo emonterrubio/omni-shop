@@ -5,6 +5,8 @@ import { monitorData } from "@/data/monitorData";
 import { mouseData } from "@/data/mouseData";
 import { keyboardData } from "@/data/keyboardData";
 import { webcamData } from "@/data/webcamData";
+import { dockStationData } from "@/data/dockStationData";
+import { backpackData } from "@/data/backpackData";
 
 // Combine all product data into a unified format
 function getAllProducts() {
@@ -75,13 +77,35 @@ function getAllProducts() {
     recommended: item.recommended,
   }));
 
+  // Map dockStationData to unified format
+  const dockStationProducts = dockStationData.map((item) => ({
+    ...item,
+    category: "Docking Stations",
+    searchableText: `${item.brand} ${item.model} ${item.ports || ""} ${item.power || ""} ${item.description || ""}`.toLowerCase(),
+    // Add spec-based scoring properties
+    priceTier: getPriceTier(item.price),
+    recommended: item.recommended,
+  }));
+
+  // Map backpackData to unified format
+  const backpackProducts = backpackData.map((item) => ({
+    ...item,
+    category: "Backpacks",
+    searchableText: `${item.brand} ${item.model} ${item.features || ""} ${item.size || ""} ${item.capacity || ""} ${item.description || ""}`.toLowerCase(),
+    // Add spec-based scoring properties
+    priceTier: getPriceTier(item.price),
+    recommended: item.recommended,
+  }));
+
   return [
     ...hardwareProducts,
     ...headphoneProducts,
     ...monitorProducts,
     ...mouseProducts,
     ...keyboardProducts,
-    ...webcamProducts
+    ...webcamProducts,
+    ...dockStationProducts,
+    ...backpackProducts
   ];
 }
 
@@ -152,7 +176,7 @@ function smartSearch(query: string, allProducts: any[]) {
   
   // Extract potential brand and category from query
   const brands = ['apple', 'dell', 'hp', 'lenovo', 'microsoft', 'razer', 'bose', 'sony', 'jbl', 'skullcandy', 'logitech', 'cherry', 'arteck', 'keychron', 'nulea', 'acer', 'alienware', 'lg', 'samsung'];
-  const categories = ['laptop', 'laptops', 'desktop', 'desktops', 'monitor', 'monitors', 'headphone', 'headphones', 'mouse', 'mice', 'keyboard', 'keyboards', 'webcam', 'webcams', 'product', 'products', 'pc'];
+  const categories = ['laptop', 'laptops', 'desktop', 'desktops', 'monitor', 'monitors', 'headphone', 'headphones', 'mouse', 'mice', 'keyboard', 'keyboards', 'webcam', 'webcams', 'dock', 'docking', 'station', 'stations', 'backpack', 'backpacks', 'bag', 'bags', 'product', 'products', 'pc'];
   
   const queryBrand = queryWords.find(word => brands.includes(word));
   const queryCategory = queryWords.find(word => categories.includes(word));
@@ -211,6 +235,12 @@ function smartSearch(query: string, allProducts: any[]) {
         score += (product.priceTier || 1) * 15;
         score += (product.resolutionTier || 1) * 20;
         if (product.recommended) score += 20;
+      } else if (product.category === "Docking Stations") {
+        score += (product.priceTier || 1) * 15;
+        if (product.recommended) score += 20;
+      } else if (product.category === "Backpacks") {
+        score += (product.priceTier || 1) * 10;
+        if (product.recommended) score += 15;
       }
       
       return { ...product, score };

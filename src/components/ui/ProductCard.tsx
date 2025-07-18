@@ -20,6 +20,8 @@ function inferCategory(model: string, category: string): string {
   if (name.includes("headphone") || name.includes("earbud")) return "Audio";
   if (name.includes("mouse") || name.includes("keyboard")) return "Accessories";
   if (name.includes("webcam") || name.includes("camera")) return "Webcams";
+  if (name.includes("dock") || name.includes("station")) return "Docking Stations";
+  if (name.includes("backpack") || name.includes("bag")) return "Backpacks";
   return "Other";
 }
 

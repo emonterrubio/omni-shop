@@ -8,6 +8,8 @@ import { headphoneData } from "@/data/headphoneData";
 import { mouseData } from "@/data/mouseData";
 import { keyboardData } from "@/data/keyboardData";
 import { webcamData } from "@/data/webcamData";
+import { dockStationData } from "@/data/dockStationData";
+import { backpackData } from "@/data/backpackData";
 
 interface Category {
   name: string;
@@ -47,6 +49,10 @@ export function Categories() {
             count = keyboardData.length;
           } else if (category.name.toLowerCase() === "webcams") {
             count = webcamData.length;
+          } else if (category.name.toLowerCase() === "docking stations") {
+            count = dockStationData.length;
+          } else if (category.name.toLowerCase() === "backpacks") {
+            count = backpackData.length;
           } else {
             count = hardwareData.filter(item => 
               item.category.toLowerCase() === category.name.toLowerCase()

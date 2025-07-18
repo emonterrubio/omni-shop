@@ -2,14 +2,15 @@
 
 import React, { useContext } from "react";
 import Link from "next/link";
-import { useParams, useSearchParams } from "next/navigation";
+import { useParams, useSearchParams, useRouter } from "next/navigation";
 import { hardwareData } from "@/data/hardwareData";
 import { monitorData } from "@/data/monitorData";
 import { headphoneData } from "@/data/headphoneData";
 import { mouseData } from "@/data/mouseData";
 import { keyboardData } from "@/data/keyboardData";
 import { webcamData } from "@/data/webcamData";
-// import { keyboardData } from "@/data/keyboardData";
+import { dockStationData } from "@/data/dockStationData";
+import { backpackData } from "@/data/backpackData";
 import { Header } from "@/components/layout/Header";
 import { MainNavigation } from "@/components/layout/MainNavigation";
 import { CheckCircle, AlertCircle, ArrowLeft, Box, Undo2 } from "lucide-react";
@@ -110,6 +111,42 @@ function findProductByModel(model: string) {
     };
   }
 
+  const dockStation = dockStationData.find(p => p.model === model);
+  if (dockStation) {
+    return {
+      ...dockStation,
+      category: "Docking Stations",
+      processor: "",
+      memory: "",
+      storage: "",
+      display: "",
+      graphics: "",
+      operating_system: "",
+      ports: dockStation.ports,
+      battery: "",
+      other: `Dimensions: ${dockStation.dimensions}, Weight: ${dockStation.weight}`,
+      features: `${dockStation.ports}, ${dockStation.power}`,
+    };
+  }
+
+  const backpack = backpackData.find(p => p.model === model);
+  if (backpack) {
+    return {
+      ...backpack,
+      category: "Backpacks",
+      processor: "",
+      memory: "",
+      storage: "",
+      display: "",
+      graphics: "",
+      operating_system: "",
+      ports: "",
+      battery: "",
+      other: `Size: ${backpack.size}, Capacity: ${backpack.capacity}`,
+      features: backpack.features,
+    };
+  }
+
   // Add similar logic for other categories...
   return null;
 }
@@ -184,6 +221,23 @@ function getProductSpecs(product: any) {
         { label: "Supported Audio Format", value: product.supported_audio_format },
         { label: "Supported Video Format", value: product.supported_video_format },
       ];
+    case "Docking Stations":
+      return [
+        { label: "Brand", value: product.brand },
+        { label: "Model", value: product.model },
+        { label: "Ports", value: product.ports },
+        { label: "Power", value: product.power },
+        { label: "Dimensions", value: product.dimensions },
+        { label: "Weight", value: product.weight },
+      ];
+    case "Backpacks":
+      return [
+        { label: "Brand", value: product.brand },
+        { label: "Model", value: product.model },
+        { label: "Size", value: product.size },
+        { label: "Capacity", value: product.capacity },
+        { label: "Features", value: product.features },
+      ];
     // Add cases for other categories...
     default:
       return [];
@@ -193,6 +247,7 @@ function getProductSpecs(product: any) {
 export default function ProductDetailPage() {
   const params = useParams();
   const searchParams = useSearchParams();
+  const router = useRouter();
   const from = searchParams.get("from");
 
   const modelParam = params.model;
@@ -203,12 +258,14 @@ export default function ProductDetailPage() {
   const product = findProductByModel(model);
   const specs = product ? getProductSpecs(product) : [];
 
-  // Set back link based on context
-  const backHref = from === "catalog"
-    ? "/catalog"
-    : product && product.category === "Monitors"
-      ? "/category/monitors"
-      : "/";
+  const handleBackClick = () => {
+    // Use browser back navigation if there's history, otherwise fallback to home
+    if (typeof window !== 'undefined' && window.history.length > 1) {
+      router.back();
+    } else {
+      router.push('/');
+    }
+  };
 
   const { addToCart } = useContext(CartContext);
 
@@ -235,14 +292,14 @@ export default function ProductDetailPage() {
       <Header />
       <MainNavigation />
       <main className="max-w-7xl mx-auto flex-1 overflow-y-auto px-6 sm:px-12 md:px-16 py-8 mb-16">
-        <Link
-          href={backHref}
+        <button
+          onClick={handleBackClick}
           className="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium transition-colors mb-4"
           aria-label="Go back"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back
-        </Link>
+        </button>
         <div className="flex flex-col md:flex-row space-x-0">
           {/* Left: Image */}
           <div className="flex flex-col items-center md:w-1/2 mt-6 mb-6 md:mb-0">

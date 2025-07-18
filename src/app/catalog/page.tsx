@@ -6,6 +6,8 @@ import { headphoneData } from "@/data/headphoneData";
 import { mouseData } from "@/data/mouseData";
 import { keyboardData } from "@/data/keyboardData";
 import { webcamData } from "@/data/webcamData";
+import { dockStationData } from "@/data/dockStationData";
+import { backpackData } from "@/data/backpackData";
 import { ProductCard } from "@/components/ui/ProductCard";
 import { Header } from "@/components/layout/Header";
 import { MainNavigation } from "@/components/layout/MainNavigation";
@@ -74,6 +76,30 @@ export default function CatalogPage() {
     recommended: item.recommended,
   }));
 
+  // Map dockStationData to ProductCardProps
+  const dockStationProducts = dockStationData.map((item) => ({
+    brand: item.brand,
+    model: item.model,
+    category: "Docking Stations",
+    description: item.description,
+    features: `${item.ports}, ${item.power}`,
+    image: item.image,
+    price: item.price,
+    recommended: item.recommended,
+  }));
+
+  // Map backpackData to ProductCardProps
+  const backpackProducts = backpackData.map((item) => ({
+    brand: item.brand,
+    model: item.model,
+    category: "Backpacks",
+    description: item.description,
+    features: `${item.size}, ${item.capacity}`,
+    image: item.image,
+    price: item.price,
+    recommended: item.recommended,
+  }));
+
   // Combine all products (add more as you expand)
   const allProducts = [
     ...hardwareData,
@@ -81,7 +107,9 @@ export default function CatalogPage() {
     ...headphoneProducts,
     ...mouseProducts,
     ...keyboardProducts,
-    ...webcamProducts
+    ...webcamProducts,
+    ...dockStationProducts,
+    ...backpackProducts
   ];
 
   // Group products by brand
@@ -177,6 +205,8 @@ export default function CatalogPage() {
                 <option value="mice">Mice</option>
                 <option value="keyboards">Keyboards</option>
                 <option value="webcams">Webcams</option>
+                <option value="docking stations">Docking Stations</option>
+                <option value="backpacks">Backpacks</option>
               </select>
             </div>
             <div>
@@ -223,6 +253,8 @@ export default function CatalogPage() {
                   { value: "mice", label: "Mice" },
                   { value: "keyboards", label: "Keyboards" },
                   { value: "webcams", label: "Webcams" },
+                  { value: "docking stations", label: "Docking Stations" },
+                  { value: "backpacks", label: "Backpacks" },
                 ].map(opt => (
                   <button
                     key={opt.value}

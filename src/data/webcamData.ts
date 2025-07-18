@@ -90,4 +90,19 @@ export const webcamData: WebcamSpec[] = [
     image: "/images/insta360_link_2c_webcam.png",
     recommended: false
   },
+  {
+    brand: "Anker",
+    model: "PowerConf C200 2K Wireless Webcam",
+    description: "Witj a 2K Ultra-Clear Resolution, enjoy sharp, detailed video with this 2K resolution webcam for professional-grade conferences, enhancing your PC setup.",
+    video_resolution: "1080p 2k",
+    display_resolution: "1920 x 1080",
+    image_aspect_ratio: "16:9",
+    image_capture_rate: "60fps",
+    supported_image_format: "JPEG",
+    supported_audio_format: "MP3",
+    supported_video_format: "MP4",
+    price: 55,
+    image: "/images/anker_powerconf_c200_webcam.png",
+    recommended: true
+  },
 ]

@@ -6,15 +6,18 @@ import { headphoneData } from "@/data/headphoneData";
 import { keyboardData } from "@/data/keyboardData";
 import { mouseData } from "@/data/mouseData";
 import { webcamData } from "@/data/webcamData";
+import { dockStationData } from "@/data/dockStationData";
+import { backpackData } from "@/data/backpackData";
 import { ProductCard } from "@/components/ui/ProductCard";
 import { Header } from "@/components/layout/Header";
 import { MainNavigation } from "@/components/layout/MainNavigation";
 import Link from "next/link";
 import { ArrowLeft, Filter, SortAsc } from "lucide-react";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, use } from "react";
 
-export default function BrandCatalogPage({ params }: any) {
-  const brand = decodeURIComponent(params.brand);
+export default function BrandCatalogPage({ params }: { params: Promise<{ brand: string }> }) {
+  const resolvedParams = use(params);
+  const brand = decodeURIComponent(resolvedParams.brand);
 
   // Map monitorData to ProductCardProps
   const monitorProducts = monitorData.map((item) => ({
@@ -76,13 +79,39 @@ export default function BrandCatalogPage({ params }: any) {
     recommended: item.recommended,
   }));
 
+  // Map dockStationData to ProductCardProps
+  const dockStationProducts = dockStationData.map((item) => ({
+    brand: item.brand,
+    model: item.model,
+    category: "Docking Stations",
+    description: item.description,
+    features: `${item.ports}, ${item.power}`,
+    image: item.image,
+    price: item.price,
+    recommended: item.recommended,
+  }));
+
+  // Map backpackData to ProductCardProps
+  const backpackProducts = backpackData.map((item) => ({
+    brand: item.brand,
+    model: item.model,
+    category: "Backpacks",
+    description: item.description,
+    features: `${item.size}, ${item.capacity}`,
+    image: item.image,
+    price: item.price,
+    recommended: item.recommended,
+  }));
+
   const allProducts = [
     ...hardwareData,
     ...monitorProducts,
     ...headphoneProducts,
     ...mouseProducts,
     ...keyboardProducts,
-    ...webcamProducts
+    ...webcamProducts,
+    ...dockStationProducts,
+    ...backpackProducts
   ];
 
   const brandProducts = allProducts.filter((p) => p.brand === brand);
@@ -176,6 +205,8 @@ export default function BrandCatalogPage({ params }: any) {
                 <option value="mice">Mice</option>
                 <option value="keyboards">Keyboards</option>
                 <option value="webcams">Webcams</option>
+                <option value="docking stations">Docking Stations</option>
+                <option value="backpacks">Backpacks</option>
               </select>
             </div>
             <div>
@@ -223,6 +254,8 @@ export default function BrandCatalogPage({ params }: any) {
                   { value: "mice", label: "Mice" },
                   { value: "keyboards", label: "Keyboards" },
                   { value: "webcams", label: "Webcams" },
+                  { value: "docking stations", label: "Docking Stations" },
+                  { value: "backpacks", label: "Backpacks" },
                 ].map(opt => (
                   <button
                     key={opt.value}

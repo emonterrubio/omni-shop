@@ -7,6 +7,8 @@ import { monitorData } from "@/data/monitorData";
 import { mouseData } from "@/data/mouseData";
 import { keyboardData } from "@/data/keyboardData";
 import { webcamData } from "@/data/webcamData";
+import { dockStationData } from "@/data/dockStationData";
+import { backpackData } from "@/data/backpackData";
 import { ProductCard } from "@/components/ui/ProductCard";
 import { Header } from "@/components/layout/Header";
 import { MainNavigation } from "@/components/layout/MainNavigation";
@@ -45,13 +47,25 @@ function getAllProductsForFallback() {
     category: "Webcams",
   }));
 
+  const dockStationProducts = dockStationData.map((item) => ({
+    ...item,
+    category: "Docking Stations",
+  }));
+
+  const backpackProducts = backpackData.map((item) => ({
+    ...item,
+    category: "Backpacks",
+  }));
+
   return [
     ...hardwareProducts,
     ...headphoneProducts,
     ...monitorProducts,
     ...mouseProducts,
     ...keyboardProducts,
-    ...webcamProducts
+    ...webcamProducts,
+    ...dockStationProducts,
+    ...backpackProducts
   ];
 }
 
