@@ -1,6 +1,7 @@
 import { CheckCircle, AlertCircle } from "lucide-react";
 import React, { useContext } from "react";
 import { CartContext, CartItem } from "@/components/CartContext";
+import Link from "next/link";
 
 interface ComparisonProductCardProps {
   image: string;
@@ -9,8 +10,9 @@ interface ComparisonProductCardProps {
   description: string;
   features: string;
   subFeatures: string[];
-  price: string;
+  price: number;
   chip: string;
+  specs: { label: string; value: any }[];
 }
 
 export function ComparisonProductCard({
@@ -22,6 +24,7 @@ export function ComparisonProductCard({
   subFeatures,
   price,
   chip,
+  specs,
 }: ComparisonProductCardProps) {
   // Split features string into array by comma
   const featureList = features.split(',').map(f => f.trim());
@@ -29,11 +32,12 @@ export function ComparisonProductCard({
   const { addToCart } = useContext(CartContext);
 
   const handleAddToCart = () => {
+    console.log("[Comparison Debug] Adding to cart:", model, "Price:", price, "Type:", typeof price);
     const cartItem: CartItem = {
       model,
       brand,
       image,
-      price: parseFloat(price) || 0,
+      price: price,
       quantity: 1,
       recommended: isEligible,
       description,
@@ -44,12 +48,12 @@ export function ComparisonProductCard({
   return (
     <div className="bg-white rounded-2xl shadow-md w-full flex flex-col h-full">
       <div className="w-full text-center bg-gray-100 relative mb-3 p-4">
-        {/* Brand */}
-        <div className="text-sm font-medium text-blue-600 mb-2">{brand}</div>
-
+        {/* Brand (clickable link) */}
+        <Link href={`/catalog/brand/${encodeURIComponent(brand)}`} className="text-sm font-medium text-blue-600 mb-2 hover:underline block">
+          {brand}
+        </Link>
         {/* Product Title */}
         <h2 className="text-2xl font-medium pb-4">{model}</h2>
-
         {/* Product Image */}
         <img src={image} alt={model} className="w-48 h-32 object-contain mx-auto mb-4" />
       </div>
@@ -59,23 +63,19 @@ export function ComparisonProductCard({
         <div className="flex items-center mb-2">
           <span className="bg-gray-200 text-gray-900 text-xs px-2 py-1 rounded-md font-medium">{chip}</span>
         </div>
-
         {/* Description */}
         <div className="text-sm leading-snug font-medium text-gray-900 text-center mt-2">{description}</div>
-
         {/* Divider */}
         <div className="w-full h-px bg-gray-200 my-6"></div>
-
+        {/* Full Specs */}
         <div className="flex flex-col items-start w-full">
-          {/* Features */}
-            {/* <div className="text-sm text-gray-800 mb-2 text-left">{features}</div> */}
-
-            {/* Sub-features */}
-            <ul className="text-left mb-2 list-none">
-              {subFeatures.map((sf, i) => (
-                <li key={i} className="text-sm text-gray-800 mb-1 text-left ml-4 list-disc list-outside">{sf}</li>
-              ))}
-            </ul>
+          <ul className="text-left mb-2 list-none">
+            {specs.filter(s => s.value).map((spec, i) => (
+              <li key={i} className="text-sm text-gray-800 mb-1 text-left ml-4 list-disc list-outside">
+                <span className="font-semibold">{spec.label}:</span> {spec.value}
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
       {/* Footer anchored to bottom */}
@@ -85,7 +85,7 @@ export function ComparisonProductCard({
           {isEligible ? "Recommended" : ""}
         </div>
         <div className="text-gray-600 text-sm">Recommended based on your role</div>
-        <div className="text-2xl font-semibold">${price}.00</div>
+        <div className="text-2xl font-semibold">${price.toLocaleString()}.00</div>
         <button 
           className="w-full bg-blue-600 text-white rounded-md py-2 font-semibold hover:bg-blue-700 transition"
           onClick={handleAddToCart}

@@ -16,6 +16,7 @@ import { MainNavigation } from "@/components/layout/MainNavigation";
 import { CheckCircle, AlertCircle, ArrowLeft, Box, Undo2 } from "lucide-react";
 import { SearchBar } from "@/components/search/SearchBar";
 import { CartContext } from "@/components/CartContext";
+import { ComparisonProductCard } from "@/components/ui/ComparisonProductCard";
 
 function findProductByModel(model: string) {
   let product = hardwareData.find(p => p.model === model);
@@ -258,6 +259,35 @@ export default function ProductDetailPage() {
   const product = findProductByModel(model);
   const specs = product ? getProductSpecs(product) : [];
 
+  // --- Comparison logic ---
+  // Aggregate all products
+  const allProducts = [
+    ...hardwareData,
+    ...monitorData.map(p => ({ ...p, category: "Monitors" })),
+    ...headphoneData.map(p => ({ ...p, category: "Headphones" })),
+    ...mouseData.map(p => ({ ...p, category: "Mice" })),
+    ...keyboardData.map(p => ({ ...p, category: "Keyboards" })),
+    ...webcamData.map(p => ({ ...p, category: "Webcams" })),
+    ...dockStationData.map(p => ({ ...p, category: "Docking Stations" })),
+    ...backpackData.map(p => ({ ...p, category: "Backpacks" })),
+  ];
+  // Filter for same category, exclude current product
+  let similar = allProducts.filter(
+    p => p.category === product?.category && p.model !== product?.model
+  );
+  // Prefer different brands
+  const otherBrands = similar.filter(p => p.brand !== product?.brand);
+  // Shuffle helper
+  function shuffle<T>(arr: T[]): T[] {
+    return arr.map((v): [number, T] => [Math.random(), v]).sort((a, b) => a[0] - b[0]).map(a => a[1]);
+  }
+  let comparisonProducts = shuffle(otherBrands).slice(0, 3);
+  if (comparisonProducts.length < 3) {
+    // Fill with same-brand if not enough
+    const sameBrand = similar.filter(p => p.brand === product?.brand && !comparisonProducts.includes(p));
+    comparisonProducts = [...comparisonProducts, ...shuffle(sameBrand).slice(0, 3 - comparisonProducts.length)];
+  }
+
   const handleBackClick = () => {
     // Use browser back navigation if there's history, otherwise fallback to home
     if (typeof window !== 'undefined' && window.history.length > 1) {
@@ -365,6 +395,28 @@ export default function ProductDetailPage() {
             </button>
           </div>
         </div>
+        {/* --- Comparison Cards --- */}
+        {comparisonProducts.length > 0 && (
+          <div className="mt-12">
+            <h3 className="text-2xl font-semibold mb-6 text-gray-900">Compare with similar products</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+              {comparisonProducts.map((p: any, idx: number) => (
+                <ComparisonProductCard
+                  key={`${p.model}-${idx}`}
+                  image={p.image}
+                  brand={p.brand}
+                  model={p.model}
+                  description={p.description}
+                  features={p.features || ""}
+                  subFeatures={p.features ? p.features.split(",") : []}
+                  price={p.price}
+                  chip={p.processor || p.category || ""}
+                  specs={getProductSpecs(p)}
+                />
+              ))}
+            </div>
+          </div>
+        )}
       </main>
     </div>
   );

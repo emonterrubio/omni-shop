@@ -35,6 +35,7 @@ export function ProductCard({ product, fromCatalog = false }: { product: Product
   console.log("SERVER/CLIENT", typeof window === "undefined" ? "server" : "client", product.model);
 
   const handleAddToCart = () => {
+    console.log("[Cart Debug] Adding to cart:", product.model, "Price:", product.price);
     const cartItem: CartItem = {
       model: product.model,
       brand: product.brand,
@@ -76,10 +77,13 @@ export function ProductCard({ product, fromCatalog = false }: { product: Product
             {product.model}
           </h3>
         </Link>
-        <div className="space-y-1 pb-4 flex-1">
+        <div className="space-y-2 pb-4 flex-1">
           {product.description && <div className="text-gray-700 text-sm leading-tight">{product.description}</div>}
+          <div className="text-xl font-semibold text-gray-900 mt-2">
+            ${product.price.toLocaleString()}
+          </div>
         </div>
-        <div className="flex items-center justify-between mt-4 mb-4">
+        <div className="flex items-center justify-between mb-4">
           <div className={`flex items-center font-medium text-sm ${isEligible ? "text-green-600" : "text-gray-600"}`}>
             {isEligible ? (
               <CheckCircle className="w-5 h-5 mr-1" />
@@ -87,7 +91,7 @@ export function ProductCard({ product, fromCatalog = false }: { product: Product
               // <AlertCircle className="w-5 h-5 mr-1" />
               ""
             )}
-            {isEligible ? "Recommended" : ""}
+            {isEligible ? "Available" : ""}
           </div>
         </div>
         {/* Single Add to Cart button */}

@@ -79,10 +79,6 @@ export function SetupSummary({ selectedItems, onEdit, onCheckout, onRemove }: Se
               <h2 className="text-2xl font-semibold">Your Order</h2>
               <p className="text-gray-600">There are {cart.length} products in your cart</p>
             </div>
-            <button onClick={onEdit} className="text-blue-600 hover:text-blue-700 font-medium text-base flex items-center gap-1">
-              <SquarePen className="w-4 h-4 mr-1" />
-              Edit
-            </button>
           </div>
           {/* Products */}
           <div className="flex flex-col gap-2">

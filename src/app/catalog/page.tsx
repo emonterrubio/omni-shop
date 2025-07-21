@@ -290,7 +290,7 @@ export default function CatalogPage() {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {sortedProducts.map((product, idx) => (
-            <ProductCard key={`${product.model}-${idx}`} product={{...product, price: String(product.price)}} fromCatalog={true} />
+            <ProductCard key={`${product.model}-${idx}`} product={product} fromCatalog={true} />
           ))}
         </div>
       </main>
