@@ -2,6 +2,7 @@
 export interface MonitorSpec {
   brand: string;
   model: string;
+  sku: string;
   description: string;
   display_resolution: string;
   aspect_ratio: string;
@@ -19,6 +20,7 @@ export const monitorData: MonitorSpec[] = [
   {
     brand: "Dell",
     model: "S3225QS 32″",
+    sku: "DEL-S3225QS32-5520-001",
     description: "Whether you're making or playing games, enjoy an immersive viewing experience with improved eye comfort on a 4-star certified monitor.",
     display_resolution: "3840 x 2160",
     aspect_ratio: "16:9",
@@ -34,6 +36,7 @@ export const monitorData: MonitorSpec[] = [
   {
     brand: "Samsung",
     model: "32″ ViewFinity S8",
+    sku: "SAM-VIEWS8-5520-002",
     description: "Discover deeper details and enchanced realism through more color and contrast. Connect it all to elevate your workspace.",
     display_resolution: "3440 x 1440",
     aspect_ratio: "16:9",
@@ -49,6 +52,7 @@ export const monitorData: MonitorSpec[] = [
   {
     brand: "LG",
     model: "UltraFine 27″",
+    sku: "LG-ULTRAFINE27-5520-003",
     description: "Get a pro-level experience with the closest thing to real-time gaming. Elevates your gameplay today.",
     display_resolution: "3840 x 2160",
     aspect_ratio: "16:9",
@@ -64,6 +68,7 @@ export const monitorData: MonitorSpec[] = [
   {
     brand: "Alienware",
     model: "QD-OLED Curved Gaming 34″",
+    sku: "ALI-QDOLED34-5520-004",
     description: "This monitor delivers seamless speed, and super smooth motion with intuitive function and connectivity",
     display_resolution: "3440 x 1440",
     aspect_ratio: "16:9",
@@ -79,6 +84,7 @@ export const monitorData: MonitorSpec[] = [
   {
     brand: "Dell",
     model: "U3419w Ultrasharp 34″",
+    sku: "DEL-U3419W34-5520-005",
     description: "Experience unmatched immersion with a curved screen that creates a panoramic cinematic experience.",
     display_resolution: "3440x1440",
     aspect_ratio: "2.35:1",
@@ -94,6 +100,7 @@ export const monitorData: MonitorSpec[] = [
   {
     brand: "Samsung",
     model: "ViewFinity S65UA 34″",
+    sku: "SAM-VIEWS65UA34-5520-006",
     description: "Immerse yourself in gaming, movies or design projects while surrounding yourself with the 34 inch ultrawide curved display.",
     display_resolution: "3440 x 1440",
     aspect_ratio: "21:9",
@@ -109,6 +116,7 @@ export const monitorData: MonitorSpec[] = [
   {
     brand: "LG",
     model: "UltraWide 29″",
+    sku: "LG-ULTRAWIDE29-5520-007",
     description: "Experience easier multitasking, quickly switch between applications and enjoy a full, unencumbered view.A content experience with a rich sound and smooth picture",
     display_resolution: "2560 x 1080",
     aspect_ratio: "16:9",
@@ -124,6 +132,7 @@ export const monitorData: MonitorSpec[] = [
   {
     brand: "Acer",
     model: "Nitro Gaming 27″",
+    sku: "ACE-NITRO27-5520-008",
     description: "The Nitro 27″ Gaming Monitor is a 27″ gaming monitor that features a 1920 x 1080 resolution and a 144Hz refresh rate.",
     display_resolution: "2560 x 1440",
     aspect_ratio: "16:9",
@@ -139,6 +148,7 @@ export const monitorData: MonitorSpec[] = [
   {
     brand: "Alienware",
     model: "WQHD Curved Gaming 34″",
+    sku: "ALI-WQHD34-5520-009",
     description: "This monitor is infintely immersive with seamless speed, and super smooth motion with intuitive function and connectivity",
     display_resolution: "3440 x 1440",
     aspect_ratio: "21:9",
@@ -154,6 +164,7 @@ export const monitorData: MonitorSpec[] = [
   {
     brand: "Dell",
     model: "G2725D Gaming 27″",
+    sku: "DEL-G2725D27-5520-010",
     description: "Elevate your gaming experience with superior image quality and detail in QHD. Designed for gamers who demand the best in performance and visuals.",
     display_resolution: "2560 x 1440",
     aspect_ratio: "16:9",
@@ -169,6 +180,7 @@ export const monitorData: MonitorSpec[] = [
   {
     brand: "Samsung",
     model: "Odyssey G50D 32″",
+    sku: "SAM-ODYSSEYG50D32-5520-011",
     description: "Boost your reality for a gaming world more lifelike than you could imagine. With more pixels and greate depth, games feel closer to reality than ever before.",
     display_resolution: "3840 x 2160",
     aspect_ratio: "16:9",
@@ -184,6 +196,7 @@ export const monitorData: MonitorSpec[] = [
   {
     brand: "Dell",
     model: "UltraSharp U2723QE 27″",
+    sku: "DEL-U2723QE27-5520-012",
     description: "Perfect for watching movies, playing video games and getting on with office work. Enjoy crisp content and energetic hues.",
     display_resolution: "3840 x 2160",
     aspect_ratio: "16:9",

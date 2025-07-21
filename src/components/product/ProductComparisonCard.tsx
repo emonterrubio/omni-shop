@@ -46,14 +46,19 @@ export function ComparisonProductCard({
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-md w-full flex flex-col h-full">
-      <div className="w-full text-center bg-gray-100 relative mb-3 p-4">
+    <div className="bg-white rounded-2xl shadow-md w-full flex flex-col">
+      <div className="w-full text-center bg-gray-100 relative mb-3 p-4 pt-6">
         {/* Brand (clickable link) */}
         <Link href={`/catalog/brand/${encodeURIComponent(brand)}`} className="text-sm font-medium text-blue-600 mb-2 hover:underline block">
           {brand}
         </Link>
-        {/* Product Title */}
-        <h2 className="text-2xl font-medium pb-4">{model}</h2>
+        {/* Product Title (clickable link) */}
+        <Link
+          href={`/product/${encodeURIComponent(model)}`}
+          className="block"
+        >
+          <h2 className="text-2xl font-medium pb-4 hover:text-blue-600 transition-colors cursor-pointer">{model}</h2>
+        </Link>
         {/* Product Image */}
         <img src={image} alt={model} className="w-48 h-32 object-contain mx-auto mb-4" />
       </div>
@@ -79,10 +84,10 @@ export function ComparisonProductCard({
         </div>
       </div>
       {/* Footer anchored to bottom */}
-      <div className="flex flex-col w-full items-center mt-auto space-y-2 pb-4 px-6">
+      <div className="flex flex-col w-full items-center mt-auto space-y-2 pb-6 px-6">
         <div className={`flex items-center font-medium text-sm ${isEligible ? "text-green-600" : "text-red-600"}`}>
           {isEligible ? <CheckCircle className="w-5 h-5 mr-1" /> : <AlertCircle className="w-5 h-5 mr-1" />}
-          {isEligible ? "Recommended" : ""}
+          {isEligible ? "Available" : ""}
         </div>
         <div className="text-gray-600 text-sm">Recommended based on your role</div>
         <div className="text-2xl font-semibold">${price.toLocaleString()}.00</div>

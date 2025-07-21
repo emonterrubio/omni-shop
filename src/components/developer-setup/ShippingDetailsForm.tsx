@@ -9,9 +9,75 @@ interface ShippingDetailsFormProps {
 }
 
 export function ShippingDetailsForm({ value, onChange, shippingType, setShippingType }: ShippingDetailsFormProps) {
+  const [touched, setTouched] = useState<any>({});
+  const [errors, setErrors] = useState<any>({});
+
+  const requiredFieldsResidential = [
+    'firstName',
+    'lastName',
+    'address1',
+    'country',
+    'city',
+    'zip',
+    'phone',
+  ];
+  const requiredFieldsOffice = [
+    'officeFirstName',
+    'officeLastName',
+    'officeLocation',
+    'buildingNumber',
+    'workspaceLocation',
+  ];
+
+  const validate = (field: string, val: any) => {
+    if (
+      (shippingType === 'residential' && requiredFieldsResidential.includes(field)) ||
+      (shippingType === 'office' && requiredFieldsOffice.includes(field))
+    ) {
+      if (!val || val.trim() === '') {
+        return 'This field is required.';
+      }
+      if (field === 'zip') {
+        if (!/^\d{5}$/.test(val)) {
+          return 'ZIP code must be exactly 5 digits.';
+        }
+      }
+      if (field === 'phone') {
+        // Accepts (123)4567890, (123) 456-7890, (123)456-7890, (123) 4567890
+        const phonePattern = /^\(\d{3}\)[ ]?\d{3}-?\d{4}$/;
+        if (!phonePattern.test(val)) {
+          return 'Phone must be 10 digits with area code in parentheses, e.g., (123) 456-7890.';
+        }
+      }
+    }
+    return '';
+  };
+
+  const formatPhone = (input: string) => {
+    // Remove all non-digit characters
+    const digits = input.replace(/\D/g, '');
+    if (digits.length === 0) return '';
+    if (digits.length <= 3) return `(${digits}`;
+    if (digits.length <= 6) return `(${digits.slice(0, 3)}) ${digits.slice(3)}`;
+    return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6, 10)}`;
+  };
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value: val } = e.target;
-    onChange((prev: any) => ({ ...prev, [name]: val }));
+    let newValue = val;
+    if (name === 'phone') {
+      newValue = formatPhone(val);
+    }
+    onChange((prev: any) => ({ ...prev, [name]: newValue }));
+    if (touched[name]) {
+      setErrors((prev: any) => ({ ...prev, [name]: validate(name, newValue) }));
+    }
+  };
+
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value: val } = e.target;
+    setTouched((prev: any) => ({ ...prev, [name]: true }));
+    setErrors((prev: any) => ({ ...prev, [name]: validate(name, val) }));
   };
 
   return (
@@ -30,29 +96,33 @@ export function ShippingDetailsForm({ value, onChange, shippingType, setShipping
       {shippingType === 'residential' ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-1">First Name</label>
-            <input type="text" id="firstName" name="firstName" placeholder="Janet" className="block w-full rounded-sm bg-white px-3 py-1.5 text-base text-gray-900 border border-gray-300 placeholder:text-gray-400 focus:border-blue-600 sm:text-sm/6" value={value.firstName} onChange={handleChange} />
+            <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-1">First Name<span className="text-red-500">*</span></label>
+            <input type="text" id="firstName" name="firstName" placeholder="Janet" className="block w-full rounded-sm bg-white px-3 py-1.5 text-base text-gray-900 border border-gray-300 placeholder:text-gray-400 focus:border-blue-600 sm:text-sm/6" value={value.firstName} onChange={handleChange} onBlur={handleBlur} />
+            {touched.firstName && errors.firstName && <p className="text-red-500 text-xs mt-1">{errors.firstName}</p>}
           </div>
           <div>
-            <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
-            <input type="text" id="lastName" name="lastName" placeholder="Smith" className="block w-full rounded-sm bg-white px-3 py-1.5 text-base text-gray-900 border border-gray-300 placeholder:text-gray-400 focus:border-blue-600 sm:text-sm/6" value={value.lastName} onChange={handleChange} />
+            <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 mb-1">Last Name<span className="text-red-500">*</span></label>
+            <input type="text" id="lastName" name="lastName" placeholder="Smith" className="block w-full rounded-sm bg-white px-3 py-1.5 text-base text-gray-900 border border-gray-300 placeholder:text-gray-400 focus:border-blue-600 sm:text-sm/6" value={value.lastName} onChange={handleChange} onBlur={handleBlur} />
+            {touched.lastName && errors.lastName && <p className="text-red-500 text-xs mt-1">{errors.lastName}</p>}
           </div>
           <div className="sm:col-span-2">
-            <label htmlFor="address1" className="block text-sm font-medium text-gray-700 mb-1">Address*</label>
-            <input type="text" id="address1" name="address1" className="block w-full rounded-sm bg-white px-3 py-1.5 text-base text-gray-900 border border-gray-300 placeholder:text-gray-400 focus:border-blue-600 sm:text-sm/6" value={value.address1} onChange={handleChange} />
+            <label htmlFor="address1" className="block text-sm font-medium text-gray-700 mb-1">Address<span className="text-red-500">*</span></label>
+            <input type="text" id="address1" name="address1" className="block w-full rounded-sm bg-white px-3 py-1.5 text-base text-gray-900 border border-gray-300 placeholder:text-gray-400 focus:border-blue-600 sm:text-sm/6" value={value.address1} onChange={handleChange} onBlur={handleBlur} />
+            {touched.address1 && errors.address1 && <p className="text-red-500 text-xs mt-1">{errors.address1}</p>}
           </div>
           <div className="sm:col-span-2">
             <label htmlFor="address2" className="block text-sm font-medium text-gray-700 mb-1">Address line 2</label>
             <input type="text" id="address2" name="address2" className="block w-full rounded-sm bg-white px-3 py-1.5 text-base text-gray-900 border border-gray-300 placeholder:text-gray-400 focus:border-blue-600 sm:text-sm/6" value={value.address2} onChange={handleChange} />
           </div>
           <div>
-            <label htmlFor="country" className="block text-sm font-medium text-gray-700 mb-1">Country*</label>
+            <label htmlFor="country" className="block text-sm font-medium text-gray-700 mb-1">Country<span className="text-red-500">*</span></label>
             <div className="mt-2 grid grid-cols-1">
               <select
                 id="country"
                 name="country"
                 value={value.country}
                 onChange={handleChange}
+                onBlur={handleBlur}
                 className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 border border-gray-300 focus:outline-indigo-600 sm:text-sm/6"
               >
                 <option value="">Select</option>
@@ -65,18 +135,22 @@ export function ShippingDetailsForm({ value, onChange, shippingType, setShipping
                 className="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4"
               />
             </div>
+            {touched.country && errors.country && <p className="text-red-500 text-xs mt-1">{errors.country}</p>}
           </div>
           <div>
-            <label htmlFor="city" className="block text-sm font-medium text-gray-700 mb-1">City/Town*</label>
-            <input type="text" id="city" name="city" className="block w-full rounded-sm bg-white px-3 py-1.5 text-base text-gray-900 border border-gray-300 placeholder:text-gray-400 focus:border-blue-600 sm:text-sm/6" value={value.city} onChange={handleChange} />
+            <label htmlFor="city" className="block text-sm font-medium text-gray-700 mb-1">City/Town<span className="text-red-500">*</span></label>
+            <input type="text" id="city" name="city" className="block w-full rounded-sm bg-white px-3 py-1.5 text-base text-gray-900 border border-gray-300 placeholder:text-gray-400 focus:border-blue-600 sm:text-sm/6" value={value.city} onChange={handleChange} onBlur={handleBlur} />
+            {touched.city && errors.city && <p className="text-red-500 text-xs mt-1">{errors.city}</p>}
           </div>
           <div>
-            <label htmlFor="zip" className="block text-sm font-medium text-gray-700 mb-1">Postcode / ZIP*</label>
-            <input type="text" id="zip" name="zip" className="block w-full rounded-sm bg-white px-3 py-1.5 text-base text-gray-900 border border-gray-300 placeholder:text-gray-400 focus:border-blue-600 sm:text-sm/6" value={value.zip} onChange={handleChange} />
+            <label htmlFor="zip" className="block text-sm font-medium text-gray-700 mb-1">Postcode / ZIP<span className="text-red-500">*</span></label>
+            <input type="text" id="zip" name="zip" className="block w-full rounded-sm bg-white px-3 py-1.5 text-base text-gray-900 border border-gray-300 placeholder:text-gray-400 focus:border-blue-600 sm:text-sm/6" value={value.zip} onChange={handleChange} onBlur={handleBlur} />
+            {touched.zip && errors.zip && <p className="text-red-500 text-xs mt-1">{errors.zip}</p>}
           </div>
           <div>
-            <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">Phone*</label>
-            <input type="tel" id="phone" name="phone" className="block w-full rounded-sm bg-white px-3 py-1.5 text-base text-gray-900 border border-gray-300 placeholder:text-gray-400 focus:border-blue-600 sm:text-sm/6" value={value.phone} onChange={handleChange} />
+            <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">Phone<span className="text-red-500">*</span></label>
+            <input type="tel" id="phone" name="phone" className="block w-full rounded-sm bg-white px-3 py-1.5 text-base text-gray-900 border border-gray-300 placeholder:text-gray-400 focus:border-blue-600 sm:text-sm/6" value={value.phone} onChange={handleChange} onBlur={handleBlur} />
+            {touched.phone && errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone}</p>}
           </div>
           <div className="sm:col-span-2">
             <label htmlFor="shippingInfo" className="block text-sm font-medium text-gray-700 mb-1">Additional Information</label>
@@ -86,17 +160,19 @@ export function ShippingDetailsForm({ value, onChange, shippingType, setShipping
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label htmlFor="officeFirstName" className="block text-sm font-medium text-gray-700 mb-1">First Name</label>
-            <input type="text" id="officeFirstName" name="officeFirstName" placeholder="Janet" className="block w-full rounded-sm bg-white px-3 py-1.5 text-base text-gray-900 border border-gray-300 placeholder:text-gray-400 focus:border-blue-600 sm:text-sm/6" value={value.officeFirstName} onChange={handleChange} />
+            <label htmlFor="officeFirstName" className="block text-sm font-medium text-gray-700 mb-1">First Name<span className="text-red-500">*</span></label>
+            <input type="text" id="officeFirstName" name="officeFirstName" placeholder="Janet" className="block w-full rounded-sm bg-white px-3 py-1.5 text-base text-gray-900 border border-gray-300 placeholder:text-gray-400 focus:border-blue-600 sm:text-sm/6" value={value.officeFirstName} onChange={handleChange} onBlur={handleBlur} />
+            {touched.officeFirstName && errors.officeFirstName && <p className="text-red-500 text-xs mt-1">{errors.officeFirstName}</p>}
           </div>
           <div>
-            <label htmlFor="officeLastName" className="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
-            <input type="text" id="officeLastName" name="officeLastName" placeholder="Smith" className="block w-full rounded-sm bg-white px-3 py-1.5 text-base text-gray-900 border border-gray-300 placeholder:text-gray-400 focus:border-blue-600 sm:text-sm/6" value={value.officeLastName} onChange={handleChange} />
+            <label htmlFor="officeLastName" className="block text-sm font-medium text-gray-700 mb-1">Last Name<span className="text-red-500">*</span></label>
+            <input type="text" id="officeLastName" name="officeLastName" placeholder="Smith" className="block w-full rounded-sm bg-white px-3 py-1.5 text-base text-gray-900 border border-gray-300 placeholder:text-gray-400 focus:border-blue-600 sm:text-sm/6" value={value.officeLastName} onChange={handleChange} onBlur={handleBlur} />
+            {touched.officeLastName && errors.officeLastName && <p className="text-red-500 text-xs mt-1">{errors.officeLastName}</p>}
           </div>
           <div className="sm:col-span-2">
-            <label htmlFor="officeLocation" className="block text-sm font-medium text-gray-700 mb-1">Office Location</label>
+            <label htmlFor="officeLocation" className="block text-sm font-medium text-gray-700 mb-1">Office Location<span className="text-red-500">*</span></label>
             <div className="mt-2 grid grid-cols-1">
-              <select id="officeLocation" name="officeLocation" className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 border border-gray-300 focus:outline-indigo-600 sm:text-sm/6" value={value.officeLocation} onChange={handleChange}>
+              <select id="officeLocation" name="officeLocation" className="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 border border-gray-300 focus:outline-indigo-600 sm:text-sm/6" value={value.officeLocation} onChange={handleChange} onBlur={handleBlur}>
                 <option value="">Select</option>
                 <option>Austin</option>
                 <option>Kirkland</option>
@@ -110,14 +186,17 @@ export function ShippingDetailsForm({ value, onChange, shippingType, setShipping
                   className="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4"
                 />
               </div>
-            </div>
-          <div>
-            <label htmlFor="buildingNumber" className="block text-sm font-medium text-gray-700 mb-1">Building Number</label>
-            <input type="text" id="buildingNumber" name="buildingNumber" className="block w-full rounded-sm bg-white px-3 py-1.5 text-base text-gray-900 border border-gray-300 placeholder:text-gray-400 focus:border-blue-600 sm:text-sm/6" value={value.buildingNumber} onChange={handleChange} />
+            {touched.officeLocation && errors.officeLocation && <p className="text-red-500 text-xs mt-1">{errors.officeLocation}</p>}
           </div>
           <div>
-            <label htmlFor="workspaceLocation" className="block text-sm font-medium text-gray-700 mb-1">Workspace Location</label>
-            <input type="text" id="workspaceLocation" name="workspaceLocation" className="block w-full rounded-sm bg-white px-3 py-1.5 text-base text-gray-900 border border-gray-300 placeholder:text-gray-400 focus:border-blue-600 sm:text-sm/6" value={value.workspaceLocation} onChange={handleChange} />
+            <label htmlFor="buildingNumber" className="block text-sm font-medium text-gray-700 mb-1">Building Number<span className="text-red-500">*</span></label>
+            <input type="text" id="buildingNumber" name="buildingNumber" className="block w-full rounded-sm bg-white px-3 py-1.5 text-base text-gray-900 border border-gray-300 placeholder:text-gray-400 focus:border-blue-600 sm:text-sm/6" value={value.buildingNumber} onChange={handleChange} onBlur={handleBlur} />
+            {touched.buildingNumber && errors.buildingNumber && <p className="text-red-500 text-xs mt-1">{errors.buildingNumber}</p>}
+          </div>
+          <div>
+            <label htmlFor="workspaceLocation" className="block text-sm font-medium text-gray-700 mb-1">Workspace Location<span className="text-red-500">*</span></label>
+            <input type="text" id="workspaceLocation" name="workspaceLocation" className="block w-full rounded-sm bg-white px-3 py-1.5 text-base text-gray-900 border border-gray-300 placeholder:text-gray-400 focus:border-blue-600 sm:text-sm/6" value={value.workspaceLocation} onChange={handleChange} onBlur={handleBlur} />
+            {touched.workspaceLocation && errors.workspaceLocation && <p className="text-red-500 text-xs mt-1">{errors.workspaceLocation}</p>}
           </div>
           <div className="sm:col-span-2">
             <label htmlFor="officeShippingInfo" className="block text-sm font-medium text-gray-700 mb-1">Additional Information</label>

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useContext } from "react";
+import React, { useContext, useState, useRef } from "react";
 import Link from "next/link";
 import { useParams, useSearchParams, useRouter } from "next/navigation";
 import { hardwareData } from "@/data/hardwareData";
@@ -16,9 +16,15 @@ import { MainNavigation } from "@/components/layout/MainNavigation";
 import { CheckCircle, AlertCircle, ArrowLeft, Box, Undo2 } from "lucide-react";
 import { SearchBar } from "@/components/search/SearchBar";
 import { CartContext } from "@/components/CartContext";
-import { ComparisonProductCard } from "@/components/ui/ComparisonProductCard";
+import { ComparisonProductCard } from "@/components/product/ProductComparisonCard";
+import { ProductImageGallery } from '@/components/product/ProductImageGallery';
+import { ProductInfoPanel } from '@/components/product/ProductInfoPanel';
+import { ProductSpecsTable } from '@/components/product/ProductSpecsTable';
+import { RequestHardwareBanner } from '@/components/product/RequestHardwareBanner';
+import { ProductComparisonList } from '@/components/product/ProductComparisonList';
+import { SupportBanner } from '@/components/product/SupportBanner';
 
-function findProductByModel(model: string) {
+function findProductByModel(model: string): any {
   let product = hardwareData.find(p => p.model === model);
   if (product) return { ...product, category: product.category };
 
@@ -271,22 +277,23 @@ export default function ProductDetailPage() {
     ...dockStationData.map(p => ({ ...p, category: "Docking Stations" })),
     ...backpackData.map(p => ({ ...p, category: "Backpacks" })),
   ];
-  // Filter for same category, exclude current product
-  let similar = allProducts.filter(
-    p => p.category === product?.category && p.model !== product?.model
-  );
-  // Prefer different brands
-  const otherBrands = similar.filter(p => p.brand !== product?.brand);
-  // Shuffle helper
-  function shuffle<T>(arr: T[]): T[] {
-    return arr.map((v): [number, T] => [Math.random(), v]).sort((a, b) => a[0] - b[0]).map(a => a[1]);
+  // Exclude current product
+  const others = allProducts.filter(p => p.model !== product?.model);
+  // Helper: price closeness (within 20% of current product price)
+  function isClosePrice(a: number = 0, b: number = 0) {
+    if (!a || !b) return false;
+    const diff = Math.abs(a - b);
+    const avg = (a + b) / 2;
+    return diff / avg <= 0.2;
   }
-  let comparisonProducts = shuffle(otherBrands).slice(0, 3);
-  if (comparisonProducts.length < 3) {
-    // Fill with same-brand if not enough
-    const sameBrand = similar.filter(p => p.brand === product?.brand && !comparisonProducts.includes(p));
-    comparisonProducts = [...comparisonProducts, ...shuffle(sameBrand).slice(0, 3 - comparisonProducts.length)];
-  }
+
+  
+  // 1. Find all same-brand, same-category products (excluding current)
+  let sameBrand = others.filter(p => p.category === product?.category && p.brand === product?.brand);
+  // 2. Find all same-category, other-brand products
+  let otherBrand = others.filter(p => p.category === product?.category && p.brand !== product?.brand);
+  // Compose final comparisonProducts
+  let comparisonProducts = [...sameBrand, ...otherBrand].slice(0, 3);
 
   const handleBackClick = () => {
     // Use browser back navigation if there's history, otherwise fallback to home
@@ -298,6 +305,8 @@ export default function ProductDetailPage() {
   };
 
   const { addToCart } = useContext(CartContext);
+  const [quantity, setQuantity] = useState(1);
+  const compareSectionRef = useRef<HTMLDivElement>(null);
 
   if (!product) {
     return (
@@ -330,93 +339,46 @@ export default function ProductDetailPage() {
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back
         </button>
-        <div className="flex flex-col md:flex-row space-x-0">
-          {/* Left: Image */}
-          <div className="flex flex-col items-center md:w-1/2 mt-6 mb-6 md:mb-0">
-            <img
-              src={product.image || "https://placehold.co/400x300?text=No+Image"}
-              alt={product.model}
-              className="w-full max-w-md object-contain mb-6 mr-8"
-            />
-            <Link 
-              href={`/product/${product.model}/gallery`}
-              className="text-center text-blue-600 hover:text-blue-800 font-medium transition-colors"
-            >
-              View Gallery
-            </Link>
+        <div className="flex flex-col md:flex-row space-x-0 gap-8">
+          <div className="flex-1">
+            <ProductImageGallery mainImage={product.image} thumbnails={[]} />
           </div>
-          {/* Right: Details */}
-          <div className="mt-4 md:w-1/2">
-            <span className="text-blue-600 text-lg font-medium mb-2">{product.brand}</span>
-            <h1 className="text-4xl font-medium mb-2">{product.model}</h1>
-            <div className="text-base font-regular text-gray-600 leading-snug mb-6">{product.description}</div>
-            <h4 className="text-2xl font-medium">Product Specifications</h4>
-            <div>
-              {specs.map((spec, idx) =>
-                spec.value ? (
-                  <div
-                    key={idx}
-                    className="py-3 border-b last:border-b-0 border-gray-200"
-                  >
-                    <div className="text-base font-semibold text-gray-800">{spec.label}</div>
-                    <div className="text-sm font-regular text-gray-600">{spec.value}</div>
-                  </div>
-                ) : null
-              )}
-            </div>
-            <div className={`flex items-center font-medium text-sm my-4 ${isEligible ? "text-green-600" : "text-red-600"}`}>
-              {isEligible ? (
-                <CheckCircle className="w-5 h-5 mr-1" />
-              ) : (
-                <AlertCircle className="w-5 h-5 mr-1" />
-              )}
-              {isEligible ? "Eligible" : "Not Eligible"}
-            </div>
-            <div className="text-gray-400 text-sm mb-2">
-              {isEligible ? "Recommended based on your role" : "Not recommended"}
-            </div>
-            <div className="text-2xl font-bold text-gray-900 mb-4">${product.price}</div>
-            <button
-              className="w-full bg-blue-600 text-white rounded-lg py-3 font-semibold hover:bg-blue-700 transition-colors mt-2 mb-8"
-              onClick={() => {
+          <div className="flex-1">
+            <ProductInfoPanel
+              title={product.model}
+              sku={"sku" in product ? product.sku : product.model}
+              price={product.price}
+              available={isEligible}
+              deliveryTime={"2 Days"}
+              description={product.description}
+              quantity={quantity}
+              onQuantityChange={setQuantity}
+              onAddToCart={() => {
                 addToCart({
                   model: product.model,
                   brand: product.brand,
                   image: product.image,
                   price: product.price,
-                  quantity: 1,
+                  quantity,
                   recommended: product.recommended,
+                  description: product.description,
                 });
-                // Optional: show a confirmation
-                // alert('Added to cart!');
               }}
-            >
-              Add to cart
-            </button>
+              onCompare={() => {
+                if (compareSectionRef.current) {
+                  compareSectionRef.current.scrollIntoView({ behavior: "smooth" });
+                }
+              }}
+            />
           </div>
         </div>
+        <ProductSpecsTable specs={specs} />
+        <RequestHardwareBanner />
         {/* --- Comparison Cards --- */}
-        {comparisonProducts.length > 0 && (
-          <div className="mt-12">
-            <h3 className="text-2xl font-semibold mb-6 text-gray-900">Compare with similar products</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-              {comparisonProducts.map((p: any, idx: number) => (
-                <ComparisonProductCard
-                  key={`${p.model}-${idx}`}
-                  image={p.image}
-                  brand={p.brand}
-                  model={p.model}
-                  description={p.description}
-                  features={p.features || ""}
-                  subFeatures={p.features ? p.features.split(",") : []}
-                  price={p.price}
-                  chip={p.processor || p.category || ""}
-                  specs={getProductSpecs(p)}
-                />
-              ))}
-            </div>
-          </div>
-        )}
+        <div ref={compareSectionRef}>
+          <ProductComparisonList products={comparisonProducts} getProductSpecs={getProductSpecs} />
+        </div>
+        <SupportBanner />
       </main>
     </div>
   );

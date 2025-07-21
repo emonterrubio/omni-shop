@@ -16,16 +16,18 @@ export interface HardwareSpec {
   image: string;
   price: number;
   recommended: boolean;
+  sku: string;
 }
 
 export const hardwareData: HardwareSpec[] = [
   {
       brand: "Apple",
       model: "MacBook Pro 14-inch",
+      sku: "APP-BOOKPRO-5520-001",
       category: "Laptops",
       description: "The perfect companion for creative professionals who demand performance and portability.",
       features: "M4 chip, Liquid Retina XDR display with ProMotion, up to 18 hours of battery life",
-      processor: "M4 chip, 10-core CPU, 10-core GPU",
+      processor: "Apple M4 chip",
       memory: "18 GB unified memory",
       storage: "512GB SSD Storage",
       display: "14-inch Liquid Retina XDR display",
@@ -41,6 +43,7 @@ export const hardwareData: HardwareSpec[] = [
     {
       brand: "Microsoft",
       model: "Surface Laptop 5",
+      sku: "MIC-SURLAP5-5520-002",
       category: "Laptops",
       description: "A premium Windows experience that combines elegant design with all-day productivity.",
       features: "Sleek, light-weight touchscreen laptop with PixelSense display and Dolby Vision IQ & Atmos",  
@@ -60,10 +63,11 @@ export const hardwareData: HardwareSpec[] = [
     {
       brand: "Apple",
       model: "MacBook Air 13-inch",
+      sku: "APP-AIR13-5520-003",
       category: "Laptops",
       description: "The ultimate everyday laptop that goes anywhere with you, delivering impressive performance in an impossibly thin design.",
       features: "M4 chip, 13.6-inch Liquid Retina display, up to 18 hours Apple TV movie playback",
-      processor: "Apple M4 chip: 10-core CPU, 10-core GPU",
+      processor: "Apple M4 chip",
       memory: "16 GB unified memory",
       storage: "256 GB SSD",
       display: "13.6-inch Liquid Retina display with True Tone",
@@ -79,6 +83,7 @@ export const hardwareData: HardwareSpec[] = [
     {
       brand: "Microsoft",
       model: "Surface Laptop Studio 2",
+      sku: "MIC-STUDIO2-5520-004",
       category: "Laptops",
       description: "Transform your creative workflow with a versatile design that adapts to your imagination.",
       features: "Three-mode hinge convertible with a 14.4″ PixelSense Flow touch, precision Haptic touchpad, and a Slim Pen 2",
@@ -98,6 +103,7 @@ export const hardwareData: HardwareSpec[] = [
     {
       brand: "Microsoft",
       model: "Surface Pro 10",
+      sku: "MIC-SURPRO10-5520-005",
       category: "Laptops",
       description: "The most versatile Windows tablet that adapts to your work style, whether you're creating, presenting, or collaborating.",
       features: "AI-accelerated Copilot+ PC with Intel Core Ultra, 13″ PixelSense Flow display (adaptive color, anti-reflective), 165° Kickstand, dynamic refresh rate, and Ultrawide Studio Camera",
@@ -117,10 +123,11 @@ export const hardwareData: HardwareSpec[] = [
     {
       brand: "Apple",
       model: "MacBook Air 15-inch",
+      sku: "APP-AIR15-5520-006",
       category: "Laptops",
       description: "Experience the perfect balance of screen space and portability in our most versatile MacBook Air.",
       features: "M4 chip, 15.3-inch Liquid Retina display, up to 18 hours Apple TV movie playback",
-      processor: "Apple M4 chip: 8-core CPU, 10-core GPU",
+      processor: "Apple M4 chip",
       memory: "16 GB unified memory",
       storage: "512 GB SSD Storage",
       display: "15.3-inch Liquid Retina display with True Tone",
@@ -136,6 +143,7 @@ export const hardwareData: HardwareSpec[] = [
     {
       brand: "Microsoft",
       model: "Surface Pro 11",
+      sku: "MIC-SURPRO11-5520-007",
       category: "Laptops",
       description: "Experience the future of computing with a device that adapts to your needs and keeps you productive all day.",
       features: "The Copilot+ PC 2-in-1 features an integrated NPU, a 13-inch PixelSense OLED, an ultrawide front camera, a redesigned keyboard, and Windows Studio Effects",
@@ -155,10 +163,11 @@ export const hardwareData: HardwareSpec[] = [
     {
       brand: "Lenovo",
       model: "Legion Pro 7",
+      sku: "LEN-LEGION7-5520-008",
       category: "Laptops",
       description: "High-performance gaming and multitasking in a sleek, modern design.",
       features: "AI-powered high-performance gaming chassis with advanced cooling",
-      processor: "Intel Core Ultra 9 275HX",
+      processor: "Intel Core Ultra 9",
       memory: "64 GB Unified Memory",
       storage: "2 TB Storage",
       display: "16″ 240 Hz OLED",
@@ -174,6 +183,7 @@ export const hardwareData: HardwareSpec[] = [
     {
       brand: "Microsoft",
       model: "Surface Laptop 6",
+      sku: "MIC-SURLAP6-5520-009",
       category: "Laptops",
       description: "Step into the future of computing with AI-powered features that make your device smarter and more intuitive.",
       features: "AI-enabled Copilot+ PC with anti-reflective PixelSense touchscreen, Studio Camera & Mics, Dolby Atmos, fast-charge, serviceable design",
@@ -193,6 +203,7 @@ export const hardwareData: HardwareSpec[] = [
     {
       brand: "Lenovo",
       model: "ThinkPad X1 Carbon 12",
+      sku: "LEN-TPX1C12-5520-010",
       category: "Laptops",
       description: "Ultra-light, ultra-tough—your perfect travel companion for work and play.",
       features: "Ultra-light business laptop with MIL-STD 810H durability and AI-enhanced noise-canceling",
@@ -212,10 +223,11 @@ export const hardwareData: HardwareSpec[] = [
     {
       brand: "Apple",
       model: "MacBook Pro 16-inch",
+      sku: "APP-BOOKPRO16-5520-011",
       category: "Laptops",
       description: "Unleash your creativity with the most powerful MacBook Pro, featuring an immersive experience.",
       features: "M4 Pro chip, Liquid Retina XDR display with ProMotion, up to 22 hours Apple TV movie playback",
-      processor: "M4 Pro chip, 14-core CPU, 20-core GPU",
+      processor: "M4 Pro chip",
       memory: "48 GB unified memory",
       storage: "512 GB SSD Storage",
       display: "16.2-inch Liquid Retina" ,
@@ -231,6 +243,7 @@ export const hardwareData: HardwareSpec[] = [
     {
       brand: "Lenovo",
       model: "Yoga Slim 7",
+      sku: "LEN-YOGASLIM7-5520-012",
       category: "Laptops",
       description: "Super slim, stylish, and ready for work or entertainment anywhere.",
       features: "Ultra‐slim aluminum chassis, Dolby Vision® HDR display, AI‐enhanced noise-cancelling",
@@ -250,6 +263,7 @@ export const hardwareData: HardwareSpec[] = [
     {
       brand: "Lenovo",
       model: "ThinkPad P1 Gen 6",
+      sku: "LEN-TPP1G6-5520-013",
       category: "Laptops",
       description: "Big screen power for creators and professionals on the go.",
       features: "ISV-certified 16″ mobile workstation with carbon-fiber chassis, Dolby Atmos®, SD Express 7.0 card reader",
@@ -269,6 +283,7 @@ export const hardwareData: HardwareSpec[] = [
     {
       brand: "Dell",
       model: "Latitude 7440",
+      sku: "DEL-LAT7440-5520-014",
       category: "Laptops",
       description: "A stunning display and premium design for work or entertainment.",
       features: "Business-class 14″ convertible with backlit keyboard and privacy shutter",
@@ -288,6 +303,7 @@ export const hardwareData: HardwareSpec[] = [
     {
       brand: "Microsoft",
       model: "Surface Laptop 7",
+      sku: "MIC-SURLAP7-5520-015",
       category: "Laptops",
       description: "Redefine what's possible with a stunning display and ultra-thin design that keeps up with your most ambitious ideas.",
       features: "Copilot+ PC with Intel Core Ultra, PixelSense Flow HDR touchscreen (120 Hz), ultra-thin chassis, haptic touchpad, long battery",
@@ -307,6 +323,7 @@ export const hardwareData: HardwareSpec[] = [
     {
       brand: "Dell",
       model: "XPS 13 Plus 9320",
+      sku: "DEL-XPS13P9320-5520-016",
       category: "Laptops",
       description: "Sleek, modern, and ready for anything—your go-to laptop for life on the move.",
       features: "Ultra-thin bezel touch display with immersive audio and edge-to-edge keyboard",
@@ -326,6 +343,7 @@ export const hardwareData: HardwareSpec[] = [
     {
       brand: "Dell",
       model: "Precision 7875 Tower",
+      sku: "DEL-PREC7875-5520-017",
       category: "Desktops",
       description: "ISV-certified workstation chassis with lockable design, intrusion detection, and flexible storage expansion options",
       features: "Enterprise-grade workstation with advanced security features, expandable storage, and professional-grade graphics for demanding workloads",
@@ -345,6 +363,7 @@ export const hardwareData: HardwareSpec[] = [
     {
       brand: "Dell",
       model: "Precision 3680 Tower",
+      sku: "DEL-PREC3680-5520-018",
       category: "Desktops",
       description: "Compact workstation tower with 14th Gen Intel performance and scalable storage options",
       features: "Space-efficient workstation that delivers professional performance in a compact design, perfect for smaller workspaces without compromising on power",
@@ -364,6 +383,7 @@ export const hardwareData: HardwareSpec[] = [
     {
       brand: "Dell",
       model: "Inspiron 16 Plus",
+      sku: "DEL-INSP16P-5520-019",
       category: "Laptops",
       description: "Effortless productivity in a portable, business-ready package.",
       features: "Premium 16 3K WVA display with ComfortView Plus, AI Boost NPU, sleek aluminum chassis",
@@ -383,6 +403,7 @@ export const hardwareData: HardwareSpec[] = [
     {
       brand: "Razer",
       model: "Blade 14-inch",
+      sku: "RAZ-BLADE14-5520-020",
       category: "Laptops",
       description: "Game, create, and work anywhere with this ultra-slim powerhouse.",
       features: "Ultra-thin 14″ gaming laptop with per-key Razer Chroma RGB, redesigned thermal hood for improved cooling, now 11% thinner and lighter",
@@ -402,6 +423,7 @@ export const hardwareData: HardwareSpec[] = [
     {
       brand: "Razer",
       model: "Blade 16-inch",
+      sku: "RAZ-BLADE16-5520-021",
       category: "Laptops",
       description: "Portable, stylish, and fast—your everyday laptop with a gaming edge.",
       features: "Ultra-thin 16″ CNC-milled aluminum unibody (0.59″ thick, 4.6 lbs), matte anodized finish, per-key Razer Chroma RGB",
@@ -421,6 +443,7 @@ export const hardwareData: HardwareSpec[] = [
     {
       brand: "Razer",
       model: "Blade 18-inch",
+      sku: "RAZ-BLADE18-5520-022",
       category: "Laptops",
       description: "Portable, stylish, and fast—your everyday laptop with a gaming edge.",
       features: "Ultra-thin 16″ CNC-milled aluminum unibody (0.59″ thick, 4.6 lbs), matte anodized finish, per-key Razer Chroma RGB",

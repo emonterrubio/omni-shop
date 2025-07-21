@@ -1,6 +1,7 @@
 export interface HeadphoneSpec {
   brand: string;
   model: string;
+  sku: string;
   description: string;
   connectivity: string;
   controls: string;
@@ -17,6 +18,7 @@ export const headphoneData: HeadphoneSpec[] = [
     {
       brand: "Bose",
       model: " QuietComfort 45",
+      sku: "BOS-QC45-5520-001",
       description: "The perfect balance of quiet, comfort, and sound. Bose uses tiny mics to measure, compare, and react to outside noise, cancelling it with opposite signals.",
       connectivity: "Bluetooth 5.1, wireless",
       controls: "buttons for volume/playback, ANC toggle, voice assistant",
@@ -31,6 +33,7 @@ export const headphoneData: HeadphoneSpec[] = [
     {
       brand: "Bose",
       model: "QuietComfort",
+      sku: "BOS-QC-5520-002",
       description: "The Bose Quietcomfort effortlessly combines noise cancellation technology with passive features so you can shut off the outside world, quiet distractions, and take music beyond the beat.",
       connectivity: "Bluetooth 5.0, wireless",
       controls: "touch controls, voice assistant",
@@ -45,6 +48,7 @@ export const headphoneData: HeadphoneSpec[] = [
     {
       brand: "Bose",
       model: "QuietComfort Ultra",
+      sku: "BOS-QCULTRA-5520-003",
       description: "Bose QuietComfort Ultra Headphones with spatial audio give you an immersive experience that makes music feel more real; CustomTune technology offers personalized sound, shaped to you.",
       connectivity: "Bluetooth 5.3, wireless",
       controls: "touch controls, voice assistant",
@@ -59,6 +63,7 @@ export const headphoneData: HeadphoneSpec[] = [
     {
       brand: "Apple",
       model: "AirPods Max",
+      sku: "APP-AIRPODSMAX-5520-004",
       description: "The Apple AirPods Max are designed for comfort and performance. With up to 20 hours of battery life and a sleek design, these headphones are perfect for travel and work.",
       connectivity: "Bluetooth 5.0, wireless",
       controls: "digital crown for volume/playback, button for noise controls",
@@ -73,6 +78,7 @@ export const headphoneData: HeadphoneSpec[] = [
     {
       brand: "Apple",
       model: "Beats Studio Pro",
+      sku: "APP-BEATSPRO-5520-005",
       description: "The Beats Studio Pro custom acoustic platform delivers rich, immersive sound whether you're listening to music or taking calls",
       connectivity: "Bluetooth 5.0, wireless",
       controls: "force sensor, volume up/down, voice assistant",
@@ -87,6 +93,7 @@ export const headphoneData: HeadphoneSpec[] = [
     {
       brand: "Sony",
       model: "WH-1000XM5",
+      sku: "SON-WH1000XM5-5520-006",
       description: "Experience the magic of noise cancelling headphones bluetooth technology, ensuring an uninterrupted listening experience free from external disturbances.",
       connectivity: "Bluetooth 5.2, wireless",
       controls: "touch controls, voice assistant",
@@ -101,6 +108,7 @@ export const headphoneData: HeadphoneSpec[] = [
     {
       brand: "Sony",
       model: "WH-CH720N",
+      sku: "SON-WHCH720N-5520-007",
       description: "The lightest wireless noise canceling headband ever. Super comfortable and lightweight design so you can fully immerse yourself in your work.",
       connectivity: "Bluetooth 5.0, wireless",
       controls: "buttons for volume/playback, ANC toggle",
@@ -115,6 +123,7 @@ export const headphoneData: HeadphoneSpec[] = [
     {
       brand: "JBL",
       model: "Tune 770NC",
+      sku: "JBL-TUNE770NC-5520-008",
       description: "Adaptive Noise Cancelling with Smart Ambient means zero distractions whether you're working, studying or getting lost in the music.",
       connectivity: "Bluetooth 5.0, wireless",
       controls: "buttons for volume/playback, ANC toggle",
@@ -129,6 +138,7 @@ export const headphoneData: HeadphoneSpec[] = [
     {
       brand: "JBL",
       model: "Live 770NC",
+      sku: "JBL-LIVE770NC-5520-009",
       description: "Check out the JBL Signature Sound and powerful JBL Signature Sound, the 40mm drivers offer immersive JBL Spatial Sound that turns any stereo content from any device into virtual surround sound.",
       connectivity: "Bluetooth 5.2, wireless",
       controls: "touch controls, voice assistant",
@@ -143,6 +153,7 @@ export const headphoneData: HeadphoneSpec[] = [
     {
       brand: "Beats",
       model: "Studio3 Wireless",
+      sku: "BEA-STUDIO3-5520-010",
       description: "The Beats Studio3 Wireless are designed for comfort and performance. With up to 22 hours of battery life and a sleek design, these headphones are perfect for travel and work.",
       connectivity: "Bluetooth Class 1, wireless",
       controls: "on-ear controls, voice assistant",
@@ -157,6 +168,7 @@ export const headphoneData: HeadphoneSpec[] = [
     {
       brand: "Skullcandy",
       model: "Crusher Evo",
+      sku: "SKU-CRUSHEREVO-5520-011",
       description: "Skullcandy Crusher is the original, immersive, adjustable sensory bass. Your music and movies will come alive with a sound experience you can actually feel.",
       connectivity: "Bluetooth 5.0, wireless",
       controls: "on-ear controls, volume dial",
@@ -171,6 +183,7 @@ export const headphoneData: HeadphoneSpec[] = [
     {
       brand: "Skullcandy",
       model: "Hesh ANC",
+      sku: "SKU-HESHANC-5520-012",
       description: "Powered by our 40mm drivers, the Hesh ANC ensures extremly high quality audio with gnarly bass, a dynamic range as well as exceptional acoustics.",
       connectivity: "Bluetooth 5.0, wireless",
       controls: "touch controls, voice assistant",

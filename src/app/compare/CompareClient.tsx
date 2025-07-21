@@ -2,7 +2,7 @@
 import React, { useMemo } from "react";
 import { useSearchParams } from "next/navigation";
 import { hardwareData, HardwareSpec } from "@/data/hardwareData";
-import { ComparisonProductCard } from "@/components/ui/ComparisonProductCard";
+import { ComparisonProductCard } from "@/components/product/ProductComparisonCard";
 import { Header } from "@/components/layout/Header";
 import { MainNavigation } from "@/components/layout/MainNavigation";
 import { ArrowLeft } from "lucide-react";

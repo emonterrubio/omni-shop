@@ -26,9 +26,9 @@ export function CheckoutPage({ items, shippingCost, costCenter, onBack }: Checko
   // Billing form state
   const [billing, setBilling] = useState({
     name: '',
+    lastName: '',
     costCenter: '',
     building: '',
-    room: '',
     info: '',
   });
   // Shipping form state
@@ -54,7 +54,7 @@ export function CheckoutPage({ items, shippingCost, costCenter, onBack }: Checko
   });
 
   // Validation
-  const isBillingValid = billing.name && billing.costCenter && billing.building && billing.room;
+  const isBillingValid = Boolean(billing.name && billing.lastName);
   let isShippingValid = false;
   if (shippingType === 'residential') {
     isShippingValid = !!(
