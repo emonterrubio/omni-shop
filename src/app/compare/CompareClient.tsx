@@ -65,7 +65,7 @@ export default function CompareClient() {
                   product.battery,
                   product.other,
                 ]}
-                price={product.price.toLocaleString()}
+                price={product.price}
                 chip={
                   product.processor
                     .split(" ")
@@ -73,6 +73,17 @@ export default function CompareClient() {
                     .join(" ")
                     .replace(/[\,\s:]+$/, "") || "Unavailable"
                 }
+                specs={[
+                  { label: "Processor", value: product.processor },
+                  { label: "Memory", value: product.memory },
+                  { label: "Storage", value: product.storage },
+                  { label: "Display", value: product.display },
+                  { label: "Graphics", value: product.graphics },
+                  { label: "Operating System", value: product.operating_system },
+                  { label: "Ports", value: product.ports },
+                  { label: "Battery", value: product.battery },
+                  { label: "Other", value: product.other },
+                ]}
               />
             </div>
           ))}

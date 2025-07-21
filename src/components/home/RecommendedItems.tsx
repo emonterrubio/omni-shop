@@ -26,7 +26,7 @@ export function RecommendedItems({ displayedProducts, showCompareButton }: Recom
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {displayedProducts.map((product, idx) => (
-          <ProductCard key={`${product.model}-${idx}`} product={{...product, price: String(product.price)}} />
+          <ProductCard key={`${product.model}-${idx}`} product={{...product, price: product.price}} />
         ))}
       </div>
     </section>
