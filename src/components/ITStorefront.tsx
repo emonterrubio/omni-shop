@@ -1,5 +1,6 @@
 import React from "react";
 import { Header } from "./layout/Header";
+import { Footer } from "./layout/Footer";
 import { Categories } from "./home/Categories";
 import { RecommendedItems } from "./home/RecommendedItems";
 import { RecentOrders } from "./home/RecentOrders";
@@ -42,22 +43,25 @@ export function ITStorefront({
   const randomName = names[Math.floor(Math.random() * names.length)];
 
   return (
-    <div className="flex flex-col h-screen bg-gray-50">
+    <div className="flex flex-col min-h-screen bg-gray-50">
       <div className="sticky top-0 z-50">
         <Header />
         <MainNavigationClient />
       </div>  
-      <main className="max-w-7xl mx-auto flex-1 overflow-y-auto px-6 sm:px-12 md:px-16">
+      <main className="max-w-7xl mx-auto flex-1 overflow-y-auto px-6 sm:px-12 md:px-16 py-8">
           <h2 className="text-3xl font-medium mt-12 mb-2">Hello
             <span className="text-heritageBlue"> {randomName}</span>, welcome to</h2>
           <h3 className="text-5xl sm:text-6xl md:text-7xl font-medium mb-8">Omni Shopping</h3>
-          <SearchBarClient />
-          <Categories />
-          <QuickActionsClient actions={quickActions} />
-          <RecommendedItems displayedProducts={displayedProducts} showCompareButton={showCompareButton} />
+          {/* Recent Orders */}
           <RecentOrders orders={recentOrders} />
-          <EligibilityInfo data={eligibilityData} />
+          {/* <SearchBarClient /> */}
+          <Categories />
+          {/* <QuickActionsClient actions={quickActions} /> */}
+          <RecommendedItems displayedProducts={displayedProducts} showCompareButton={showCompareButton} />
+
+          {/* <EligibilityInfo data={eligibilityData} /> */}
       </main>
+      <Footer />
     </div>
   );
 } 

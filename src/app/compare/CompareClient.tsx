@@ -5,6 +5,8 @@ import { hardwareData, HardwareSpec } from "@/data/hardwareData";
 import { ComparisonProductCard } from "@/components/product/ProductComparisonCard";
 import { Header } from "@/components/layout/Header";
 import { MainNavigation } from "@/components/layout/MainNavigation";
+import { Footer } from "@/components/layout/Footer";
+import { SupportBanner } from "@/components/product/SupportBanner";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
@@ -43,16 +45,20 @@ export default function CompareClient() {
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back
         </Link>
-        <h2 className="font-medium text-5xl text-center text-gray-900 mt-6 mb-4">Choose your equipment</h2>
-        <h4 className="max-w-2xl mx-auto font-base text-center text-gray-600 mb-8">Compare processor speed, battery life, and portability to find your ideal laptop—whether you need powerful multitasking or lightweight mobility, our range helps you choose.</h4>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="text-left">
+          <h1 className="text-5xl font-medium text-gray-900 mt-6 mb-4">Compare with similar items</h1>
+          <h4 className="font-base text-gray-600 mb-8">Compare processor speed, battery life, and portability to find your ideal laptop.</h4>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
           {selectedProducts.filter(Boolean).map((product) => (
-            <div key={product.model} className="flex flex-col items-center">
+            <div key={product.model} className="flex flex-col items-center h-full">
               <ComparisonProductCard
                 image={product.image}
                 brand={product.brand}
                 model={product.model}
                 description={product.description}
+                card_description={product.card_description}
                 features={product.features}
                 subFeatures={[
                   product.processor,
@@ -88,7 +94,9 @@ export default function CompareClient() {
             </div>
           ))}
         </div>
+        <SupportBanner />
       </main>
+      <Footer />
     </div>
   );
 } 

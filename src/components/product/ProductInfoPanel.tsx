@@ -1,6 +1,8 @@
 import React from 'react';
+import Link from 'next/link';
 
 interface ProductInfoPanelProps {
+  brand: string;
   title: string;
   sku: string;
   price: number;
@@ -14,6 +16,7 @@ interface ProductInfoPanelProps {
 }
 
 export function ProductInfoPanel({
+  brand,
   title,
   sku,
   price,
@@ -28,6 +31,9 @@ export function ProductInfoPanel({
   return (
     <div className="flex flex-col gap-4">
       <div>
+        <Link href={`/catalog/brand/${encodeURIComponent(brand)}`} className="text-base font-medium text-blue-600 mb-2 hover:underline block">
+          {brand}
+        </Link>
         <h1 className="text-4xl font-medium tracking-normal">{title}</h1>
         <div className="text-gray-500 text-base font-medium mt-2">SKU: {sku}</div>
         <div className="text-3xl font-semibold mt-2">${price.toLocaleString()}</div>
@@ -36,7 +42,7 @@ export function ProductInfoPanel({
         </div>
         <div className="text-gray-600 text-base">Delivery time: <span className="font-semibold">{deliveryTime}</span></div>
       </div>
-      <div className="text-gray-700">{description}</div>
+      <div className="text-base text-gray-700 leading-snug">{description}</div>
       <div className="flex items-center gap-2">
         <span>Quantity:</span>
         <select

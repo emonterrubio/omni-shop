@@ -12,6 +12,7 @@ export interface CartItem {
   quantity: number;
   recommended?: boolean;
   description?: string;
+  card_description?: string;
   // Add other fields as needed
 }
 
@@ -19,6 +20,7 @@ interface CartContextType {
   cartItems: CartItem[];
   addToCart: (item: CartItem) => void;
   removeFromCart: (model: string) => void;
+  updateQuantity: (model: string, quantity: number) => void;
   cartCount: number;
   clearCart: () => void;
 }
@@ -27,6 +29,7 @@ export const CartContext = createContext<CartContextType>({
   cartItems: [],
   addToCart: () => {},
   removeFromCart: () => {},
+  updateQuantity: () => {},
   cartCount: 0,
   clearCart: () => {},
 });
@@ -91,6 +94,13 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     addToast(`${model} removed from cart`, "info");
   };
 
+  const updateQuantity = (model: string, quantity: number) => {
+    setCartItems(prev => prev.map(ci =>
+      ci.model === model ? { ...ci, quantity } : ci
+    ));
+    addToast(`${model} quantity updated`, "success");
+  };
+
   const clearCart = () => {
     setCartItems([]);
     localStorage.removeItem('cart');
@@ -100,7 +110,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const cartCount = cartItems.reduce((sum, item) => sum + (item.quantity || 1), 0);
 
   return (
-    <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, cartCount, clearCart }}>
+    <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, updateQuantity, cartCount, clearCart }}>
       {children}
     </CartContext.Provider>
   );

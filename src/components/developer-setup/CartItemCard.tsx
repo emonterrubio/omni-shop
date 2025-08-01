@@ -1,0 +1,120 @@
+import React from 'react';
+import Image from 'next/image';
+
+interface CartItemCardProps {
+  item: {
+    model: string;
+    brand: string;
+    description?: string;
+    card_description?: string;
+    image: string;
+    price: number | string;
+    recommended?: boolean;
+    quantity: number;
+    sku?: string;
+  };
+  onQuantityChange: (model: string, quantity: number) => void;
+  onRemove: (model: string) => void;
+  onCompare: (model: string) => void;
+}
+
+export function CartItemCard({ item, onQuantityChange, onRemove, onCompare }: CartItemCardProps) {
+  const handleQuantityChange = (newQuantity: number) => {
+    if (newQuantity >= 1 && newQuantity <= 10) {
+      onQuantityChange(item.model, newQuantity);
+    }
+  };
+
+  const formatPrice = (price: number | string) => {
+    if (typeof price === 'string') {
+      return `$${Number(price.replace(/,/g, '')).toLocaleString()}`;
+    }
+    return `$${price.toLocaleString()}`;
+  };
+
+  return (
+    <div className="flex items-start gap-4 py-6 px-8 border-b border-gray-200 last:border-b-0">
+      {/* Product Image */}
+      <div className="w-24 h-24 flex-shrink-0 relative">
+        <Image 
+          src={item.image} 
+          alt={item.model} 
+          fill 
+          className="object-contain rounded-lg"
+        />
+      </div>
+
+      {/* Product Details */}
+      <div className="flex-1 min-w-0">
+        <div className="flex items-start justify-between">
+          <div className="flex-1 min-w-0">
+            <h3 className="text-xl font-medium text-gray-900">
+              {item.brand} {item.model}
+            </h3>
+            {item.sku && (
+              <p className="text-sm text-gray-500 mb-2">SKU: {item.sku}</p>
+            )}
+            {(item.card_description || item.description) && (
+              <p className="text-sm text-gray-600 mb-3">{item.card_description || item.description}</p>
+            )}
+            {item.recommended && (
+              <div className="mb-3">
+                <span className="bg-yellow-100 text-yellow-800 text-xs font-semibold px-2 py-1 rounded">
+                  Manager Approval Required
+                </span>
+              </div>
+            )}
+            
+            {/* Quantity Controls and Action Links */}
+            <div className="flex flex-col gap-2">
+              {/* Quantity Controls */}
+              <div className="flex items-center border border-gray-300 rounded-lg w-fit">
+                <button
+                  onClick={() => handleQuantityChange(item.quantity - 1)}
+                  disabled={item.quantity <= 1}
+                  className="px-3 py-1 text-gray-600 hover:text-gray-800 disabled:text-gray-300 disabled:cursor-not-allowed"
+                >
+                  -
+                </button>
+                <span className="px-2 py-1 text-gray-900 font-medium min-w-[2rem] text-sm text-center">
+                  {item.quantity}
+                </span>
+                <button
+                  onClick={() => handleQuantityChange(item.quantity + 1)}
+                  disabled={item.quantity >= 10}
+                  className="px-3 py-1 text-gray-600 hover:text-gray-800 disabled:text-gray-300 disabled:cursor-not-allowed"
+                >
+                  +
+                </button>
+              </div>
+              
+              {/* Action Links */}
+              <div className="flex items-center text-sm">
+                <button
+                  onClick={() => onRemove(item.model)}
+                  className="text-blue-600 hover:text-blue-800 font-medium"
+                >
+                  Remove
+                </button>
+                <span className="mx-2 text-gray-400">|</span>
+                <button
+                  onClick={() => onCompare(item.model)}
+                  className="text-blue-600 hover:text-blue-800 font-medium"
+                >
+                  Compare with similar items
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Price */}
+          <div className="text-right ml-4">
+            <p className="text-xl font-medium text-gray-900">
+              {formatPrice(item.price)}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+} 

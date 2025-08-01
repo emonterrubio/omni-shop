@@ -8,6 +8,7 @@ interface ComparisonProductCardProps {
   brand: string;
   model: string;
   description: string;
+  card_description?: string;
   features: string;
   subFeatures: string[];
   price: number;
@@ -20,6 +21,7 @@ export function ComparisonProductCard({
   brand,
   model,
   description,
+  card_description,
   features,
   subFeatures,
   price,
@@ -41,6 +43,7 @@ export function ComparisonProductCard({
       quantity: 1,
       recommended: isEligible,
       description,
+      card_description,
     };
     addToCart(cartItem);
   };
@@ -69,7 +72,7 @@ export function ComparisonProductCard({
           <span className="bg-gray-200 text-gray-900 text-xs px-2 py-1 rounded-md font-medium">{chip}</span>
         </div>
         {/* Description */}
-        <div className="text-sm leading-snug font-medium text-gray-900 text-center mt-2">{description}</div>
+        <div className="text-sm leading-snug font-medium text-gray-900 text-center mt-2">{card_description || description}</div>
         {/* Divider */}
         <div className="w-full h-px bg-gray-200 my-6"></div>
         {/* Full Specs */}

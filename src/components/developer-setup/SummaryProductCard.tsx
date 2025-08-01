@@ -5,10 +5,10 @@ interface SummaryProductCardProps {
   item: {
     model: string;
     brand: string;
-    description: string;
+    description?: string;
     image: string;
     price: number | string;
-    recommended: boolean;
+    recommended?: boolean;
     quantity: number;
   };
   onQuantityChange: (model: string, quantity: number) => void;
@@ -30,7 +30,7 @@ export function SummaryProductCard({ item, onQuantityChange, onRemove }: Summary
             <span className="bg-teal-500 text-white text-xs font-semibold px-3 py-1 rounded-md">Recommended</span>
           </div>
         )}
-        <p className="text-sm text-gray-600 mt-2">{item.description}</p>
+        {item.description && <p className="text-sm text-gray-600 mt-2">{item.description}</p>}
         <div className="flex items-center gap-4 mt-4">
           <label className="text-sm text-gray-700">Quantity</label>
           <select

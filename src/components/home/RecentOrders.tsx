@@ -9,7 +9,7 @@ interface RecentOrdersProps {
 export function RecentOrders({ orders }: RecentOrdersProps) {
   return (
     <section className="mb-8">
-      <h2 className="text-xl font-semibold text-gray-900 mb-4">Recent Orders</h2>
+      <h2 className="text-xl font-semibold text-gray-900 mb-4">Your Recent Orders</h2>
       <div className="bg-white rounded-lg border border-gray-200 divide-y divide-gray-200">
         {orders.map((order) => (
           <div key={order.id} className="p-4">

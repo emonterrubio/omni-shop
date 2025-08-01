@@ -102,18 +102,13 @@ export function CheckoutPage({ items, shippingCost, costCenter, onBack }: Checko
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-      <button
-        onClick={onBack}
-        className="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium transition-colors mb-4"
-        aria-label="Go back"
-      >
-        <ArrowLeft className="w-4 h-4 mr-2" />
-        Back
-      </button>
-      <div className="text-center">
-        <h1 className="font-medium text-5xl text-center text-gray-900 mt-6 mb-4">Checkout</h1>
-        <h4 className="max-w-2xl mx-auto font-base text-center text-gray-600 mb-8">Fill out your billing and shipping details below and place your order.</h4>
+      {/* Header */}
+      <div className="px-6">
+        <div className="text-left">
+        <h1 className="text-5xl font-medium text-gray-900 mt-6 mb-4">Checkout</h1>
+        <h4 className="font-base text-gray-600 mb-8">Fill out your billing and shipping details below and place your order</h4>
       </div>
+      </div>  
       <div className="mt-6 grid grid-cols-1 lg:grid-cols-12 gap-4">
         {/* Left column: Forms */}
         <div className="lg:col-span-7">

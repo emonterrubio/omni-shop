@@ -25,6 +25,7 @@ export default function BrandCatalogPage({ params }: { params: Promise<{ brand: 
     model: item.model,
     category: "Monitors",
     description: item.description,
+    card_description: item.card_description,
     features: `${item.display_resolution}, ${item.aspect_ratio}, ${item.display_type}`,
     image: item.image,
     price: item.price,
@@ -36,7 +37,8 @@ export default function BrandCatalogPage({ params }: { params: Promise<{ brand: 
     brand: item.brand,
     model: item.model,
     category: "Headphones",
-    description: item.features, // or item.description if available
+    description: item.description,
+    card_description: item.card_description,
     features: item.features,
     image: item.image,
     price: item.price,
@@ -49,6 +51,7 @@ export default function BrandCatalogPage({ params }: { params: Promise<{ brand: 
     model: item.model,
     category: "Keyboards",
     description: item.description,
+    card_description: item.card_description,
     features: `${item.connectivity}, ${item.compatibility}, ${item.number_keys} keys`,
     image: item.image,
     price: item.price,
@@ -61,6 +64,7 @@ export default function BrandCatalogPage({ params }: { params: Promise<{ brand: 
     model: item.model,
     category: "Mice",
     description: item.description,
+    card_description: item.description, // Use description as card_description for now
     features: item.description,
     image: item.image,
     price: item.price,
@@ -73,6 +77,7 @@ export default function BrandCatalogPage({ params }: { params: Promise<{ brand: 
     model: item.model,
     category: "Webcams",
     description: item.description,
+    card_description: item.card_description,
     features: `${item.video_resolution}, ${item.display_resolution}, ${item.image_capture_rate}`,
     image: item.image,
     price: item.price,
@@ -85,6 +90,7 @@ export default function BrandCatalogPage({ params }: { params: Promise<{ brand: 
     model: item.model,
     category: "Docking Stations",
     description: item.description,
+    card_description: item.card_description,
     features: `${item.ports}, ${item.power}`,
     image: item.image,
     price: item.price,
@@ -97,6 +103,7 @@ export default function BrandCatalogPage({ params }: { params: Promise<{ brand: 
     model: item.model,
     category: "Backpacks",
     description: item.description,
+    card_description: item.card_description,
     features: `${item.size}, ${item.capacity}`,
     image: item.image,
     price: item.price,
@@ -157,16 +164,22 @@ export default function BrandCatalogPage({ params }: { params: Promise<{ brand: 
 
   // Sorting logic
   let sortedProducts = filteredProducts;
-  if (sortOption === "eligibility") {
-    sortedProducts = [...filteredProducts].sort((a, b) => Number(b.recommended) - Number(a.recommended));
+  if (sortOption === "price-low") {
+    sortedProducts = [...filteredProducts].sort((a, b) => {
+      const priceA = typeof a.price === 'string' ? parseFloat(String(a.price).replace(/,/g, '')) : Number(a.price);
+      const priceB = typeof b.price === 'string' ? parseFloat(String(b.price).replace(/,/g, '')) : Number(b.price);
+      return priceA - priceB;
+    });
+  } else if (sortOption === "price-high") {
+    sortedProducts = [...filteredProducts].sort((a, b) => {
+      const priceA = typeof a.price === 'string' ? parseFloat(String(a.price).replace(/,/g, '')) : Number(a.price);
+      const priceB = typeof b.price === 'string' ? parseFloat(String(b.price).replace(/,/g, '')) : Number(b.price);
+      return priceB - priceA;
+    });
   } else if (sortOption === "az") {
     sortedProducts = [...filteredProducts].sort((a, b) => a.model.localeCompare(b.model));
   } else if (sortOption === "za") {
     sortedProducts = [...filteredProducts].sort((a, b) => b.model.localeCompare(a.model));
-  } else if (sortOption === "price-low") {
-    sortedProducts = [...filteredProducts].sort((a, b) => Number(a.price) - Number(b.price));
-  } else if (sortOption === "price-high") {
-    sortedProducts = [...filteredProducts].sort((a, b) => Number(b.price) - Number(a.price));
   } // 'all' just shows the original order
 
   return (
@@ -182,8 +195,10 @@ export default function BrandCatalogPage({ params }: { params: Promise<{ brand: 
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back
         </Link>
-        <h2 className="font-medium text-5xl text-center text-gray-900 mt-6 mb-4">{brand} Products</h2>
-        <h4 className="max-w-2xl mx-auto font-base text-center text-gray-600 mb-8">Browse all {brand} products and find the perfect item for your needs.</h4>
+        <div className="text-left">
+          <h1 className="text-5xl font-medium text-gray-900 mt-6 mb-4">{brand} Products</h1>
+          <h4 className="font-base text-gray-600 mb-8">Browse all {brand} products and find the perfect item for your needs.</h4>
+        </div>
         
         <div className="flex items-center justify-between mb-6 gap-4 flex-wrap w-full">
           <div className="text-sm font-regular text-gray-900 min-w-max">{sortedProducts.length} item{sortedProducts.length === 1 ? "" : "s"} found</div>
@@ -218,11 +233,10 @@ export default function BrandCatalogPage({ params }: { params: Promise<{ brand: 
                 className="border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="all">All</option>
-                <option value="eligibility">By eligibility</option>
-                <option value="az">A-Z</option>
-                <option value="za">Z-A</option>
                 <option value="price-low">Price: Low to High</option>
                 <option value="price-high">Price: High to Low</option>
+                <option value="az">A-Z</option>
+                <option value="za">Z-A</option>
               </select>
             </div>
           </div>
@@ -272,11 +286,10 @@ export default function BrandCatalogPage({ params }: { params: Promise<{ brand: 
               <div ref={sortMenuRef} className="absolute right-0 top-10 z-50 bg-white border border-gray-200 rounded shadow-md w-40">
                 {[
                   { value: "all", label: "All" },
-                  { value: "eligibility", label: "By eligibility" },
-                  { value: "az", label: "A-Z" },
-                  { value: "za", label: "Z-A" },
                   { value: "price-low", label: "Price: Low to High" },
                   { value: "price-high", label: "Price: High to Low" },
+                  { value: "az", label: "A-Z" },
+                  { value: "za", label: "Z-A" },
                 ].map(opt => (
                   <button
                     key={opt.value}

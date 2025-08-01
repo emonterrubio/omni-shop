@@ -60,13 +60,13 @@ export function ITStorefrontClient({
 
   return (
     <>
-      <SearchBar
+      {/* <SearchBar
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
         onSearchSubmit={handleSearchSubmit}
-      />
+      /> */}
       <Categories />
-      <QuickActions actions={quickActions} onActionClick={handleAIQuery} />
+      {/* <QuickActions actions={quickActions} onActionClick={handleAIQuery} />
       {showAIPanel && (
         <AIResponsePanel
           response={aiResponse}
@@ -74,7 +74,7 @@ export function ITStorefrontClient({
           onAccept={() => setShowAIPanel(false)}
           onDecline={() => setShowAIPanel(false)}
         />
-      )}
+      )} */}
       <RecommendedItems displayedProducts={displayedProducts} showCompareButton={showCompareButton} />
       <RecentOrders orders={recentOrders} />
       <EligibilityInfo data={eligibilityData} />

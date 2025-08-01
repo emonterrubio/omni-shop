@@ -24,7 +24,6 @@ export function SearchBar({ searchQuery, onSearchChange, onSearchSubmit }: Searc
           type="submit"
           className="absolute right-2 top-1/2 transform -translate-y-1/2 p-1 text-blue-600 hover:text-blue-700"
         >
-          <Sparkles className="w-5 h-5" />
         </button>
       </form>
     </div>

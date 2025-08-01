@@ -13,7 +13,7 @@ export function ProductSpecsTable({ specs = [] }: ProductSpecsTableProps) {
   return (
     <div className="bg-white rounded-lg shadow p-6 mt-8">
       <h2 className="text-xl font-semibold mb-4">Technical Specifications</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
         {specs.length > 0 ? (
           specs.filter(s => s.value).map((spec, idx) => (
             <div className="border-b border-gray-200 pb-3" key={idx}>

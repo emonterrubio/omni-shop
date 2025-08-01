@@ -44,6 +44,7 @@ export function ProductCard({ product, fromCatalog = false }: { product: Product
       quantity: 1,
       recommended: product.recommended,
       description: product.description,
+      card_description: product.card_description,
     };
     addToCart(cartItem);
   };
@@ -55,7 +56,7 @@ export function ProductCard({ product, fromCatalog = false }: { product: Product
         <img
           src={product.image || PLACEHOLDER_IMAGE}
           alt={product.model}
-          className="w-full h-40 object-contain mt-6 -mb-3"
+          className="w-full h-36 object-contain mt-8 -mb-3"
         />
       </div>
       <div className="p-5 flex flex-col flex-1 w-full h-full">
@@ -78,7 +79,7 @@ export function ProductCard({ product, fromCatalog = false }: { product: Product
           </h3>
         </Link>
         <div className="space-y-2 pb-4 flex-1">
-          {product.description && <div className="text-gray-700 text-sm leading-tight">{product.description}</div>}
+          {(product.card_description || product.description) && <div className="text-gray-700 text-sm leading-tight">{product.card_description || product.description}</div>}
           <div className="text-xl font-semibold text-gray-900 mt-2">
             ${product.price.toLocaleString()}
           </div>

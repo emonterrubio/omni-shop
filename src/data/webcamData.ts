@@ -2,6 +2,7 @@ export interface WebcamSpec {
   brand: string;
   model: string;
   sku: string;
+  card_description: string;
   description: string;
   video_resolution: string;
   display_resolution: string;
@@ -20,6 +21,7 @@ export const webcamData: WebcamSpec[] = [
     brand: "Logitech",
     model: "Brio 4K Webcam",
     sku: "LOG-BRIO4K-5520-001",
+    card_description: "WIth Ultra 4K resolution and noise-canceling technology, this camere helps you stay connected.",
     description: "Ultra 4K HD resolution with Noise-canceling technology, 3 field of view presets, and 1080p at 90fps. Supports work from anywhere with Sync device management software to help employees stay connected.",
     video_resolution: "1080p",
     display_resolution: "4096 x 2160",
@@ -36,6 +38,7 @@ export const webcamData: WebcamSpec[] = [
     brand: "Logitech",
     model: "C920x HD Pro Webcam",
     sku: "LOG-C920XHD-5520-002",
+    card_description: "This makes it a great webcam for streaming and an ideal web camera for laptop use.",
     description: "Automatically fine-tunes the lighting, producing bright, razor-sharp images even in low-light settings. This makes it a great webcam for streaming and an ideal web camera for laptop use.",
     video_resolution: "1080p 4k",
     display_resolution: "4096 x 2160",
@@ -52,6 +55,7 @@ export const webcamData: WebcamSpec[] = [
     brand: "Lenovo",
     model: "HD 1080p Webcam",
     sku: "LEN-HD1080P-5520-003",
+    card_description: "Experience crystal-clear video quality that delivers sharp and detailed visuals.",
     description: "Experience crystal-clear video quality equipped with a high-resolution 2.1-megapixel CMOS camera that delivers stunning full HD 1080p resolution at 30fps for sharp and detailed visuals.",
     video_resolution: "1072p",
     display_resolution: "1920 x 1080",
@@ -68,6 +72,7 @@ export const webcamData: WebcamSpec[] = [
     brand: "Emeet",
     model: "NOVA 4K Webcam",
     sku: "EME-NOVA4K-5520-004",
+    card_description: "This camera delivers the ultimate high-definition visual experience.",
     description: "This camera delivers the ultimate high-definition visual experience. Ideal for crucial business meetings, online education, or personal streaming. The 4K resolution enhances visual appeal and engagement.",
     video_resolution: "1080p 4k",
     display_resolution: "1920 x 1080",
@@ -84,6 +89,7 @@ export const webcamData: WebcamSpec[] = [
     brand: "Insta360",
     model: "Link 2C Webcam",
     sku: "INS-LINK2C-5520-005",
+    card_description: "Capture every detail and experience best-in-class audio with advanced AI noise-canceling.",
     description: "Capture every detail, experience best-in-class audio with advanced AI noise-canceling algorithms, keep your audience engaged with faster, more accurate Phase Detection Auto Focus (PDAF) and adapt to every scenario with versatile modes.",
     video_resolution: "1080p 4k",
     display_resolution: "1920 x 1080",
@@ -100,7 +106,8 @@ export const webcamData: WebcamSpec[] = [
     brand: "Anker",
     model: "PowerConf C200 2K Wireless Webcam",
     sku: "ANK-POWERC200-5520-006",
-    description: "Witj a 2K Ultra-Clear Resolution, enjoy sharp, detailed video with this 2K resolution webcam for professional-grade conferences, enhancing your PC setup.",
+    card_description: "This 2K resolution webcam for professional-grade conferences, enhancing your PC setup.",
+    description: "With a 2K Ultra-Clear Resolution, enjoy sharp, detailed video with this 2K resolution webcam for professional-grade conferences, enhancing your PC setup.",
     video_resolution: "1080p 2k",
     display_resolution: "1920 x 1080",
     image_aspect_ratio: "16:9",

@@ -15,7 +15,7 @@ import React from 'react';
 import Image from 'next/image';
 import { Stepper } from '../../components/ui/Stepper';
 import { SelectionStep } from '../../components/developer-setup/SelectionStep';
-import { SetupSummary } from '../../components/developer-setup/SetupSummary';
+import { ShoppingCart } from '../../components/developer-setup/ShoppingCart';
 import { CheckoutPage } from '../../components/developer-setup/CheckoutPage';
 import { CartContext } from '../../components/CartContext';
 
@@ -211,7 +211,7 @@ export function DeveloperSetupClient() {
           />
         )}
         {showSummary && (
-          <SetupSummary selectedItems={selectedItems} onEdit={handleEdit} onCheckout={handleCheckout} />
+          <ShoppingCart selectedItems={selectedItems} onEdit={handleEdit} onCheckout={handleCheckout} />
         )}
         {!showSummary && (
           <div className="flex justify-between mt-6">

@@ -1,8 +1,7 @@
 "use client";
 
-import React, { useContext, useState, useRef } from "react";
-import Link from "next/link";
-import { useParams, useSearchParams, useRouter } from "next/navigation";
+import React, { useMemo } from "react";
+import { useParams, useRouter } from "next/navigation";
 import { hardwareData } from "@/data/hardwareData";
 import { monitorData } from "@/data/monitorData";
 import { headphoneData } from "@/data/headphoneData";
@@ -11,22 +10,16 @@ import { keyboardData } from "@/data/keyboardData";
 import { webcamData } from "@/data/webcamData";
 import { dockStationData } from "@/data/dockStationData";
 import { backpackData } from "@/data/backpackData";
+import { ComparisonProductCard } from "@/components/product/ProductComparisonCard";
 import { Header } from "@/components/layout/Header";
 import { MainNavigation } from "@/components/layout/MainNavigation";
-import { CheckCircle, AlertCircle, ArrowLeft, Box, Undo2 } from "lucide-react";
-import { SearchBar } from "@/components/search/SearchBar";
-import { CartContext } from "@/components/CartContext";
-import { ComparisonProductCard } from "@/components/product/ProductComparisonCard";
-import { ProductImageGallery } from '@/components/product/ProductImageGallery';
-import { ProductInfoPanel } from '@/components/product/ProductInfoPanel';
-import { ProductSpecsTable } from '@/components/product/ProductSpecsTable';
-import { RequestHardwareBanner } from '@/components/product/RequestHardwareBanner';
-import { ProductComparisonList } from '@/components/product/ProductComparisonList';
-import { SupportBanner } from '@/components/product/SupportBanner';
+import { SupportBanner } from "@/components/product/SupportBanner";
+import { ArrowLeft } from "lucide-react";
+import Link from "next/link";
 
 function findProductByModel(model: string): any {
   let product = hardwareData.find(p => p.model === model);
-  if (product) return { ...product, category: product.category };
+  if (product) return { ...product, category: "Hardware" };
 
   const monitor = monitorData.find(p => p.model === model);
   if (monitor) {
@@ -71,7 +64,7 @@ function findProductByModel(model: string): any {
     return {
       ...mouse,
       category: "Mice",
-      card_description: mouse.description, // Use description as card_description for now
+      card_description: mouse.description,
       processor: "",
       memory: "",
       storage: "",
@@ -161,14 +154,12 @@ function findProductByModel(model: string): any {
     };
   }
 
-  // Add similar logic for other categories...
   return null;
 }
 
 function getProductSpecs(product: any) {
   switch (product.category) {
-    case "Laptops":
-    case "Desktops":
+    case "Hardware":
       return [
         { label: "Processor", value: product.processor },
         { label: "Memory", value: product.memory },
@@ -252,89 +243,91 @@ function getProductSpecs(product: any) {
         { label: "Capacity", value: product.capacity },
         { label: "Features", value: product.features },
       ];
-    // Add cases for other categories...
     default:
       return [];
   }
 }
 
-export default function ProductDetailPage() {
+export default function CartItemComparePage() {
   const params = useParams();
-  const searchParams = useSearchParams();
   const router = useRouter();
-  const from = searchParams.get("from");
-
+  
   const modelParam = params.model;
   const model = Array.isArray(modelParam)
     ? decodeURIComponent(modelParam[0])
     : decodeURIComponent(modelParam || "");
 
-  const product = findProductByModel(model);
-  const specs = product ? getProductSpecs(product) : [];
-
-  // --- Comparison logic ---
-  // Aggregate all products
-  const allProducts = [
-    ...hardwareData,
-    ...monitorData.map(p => ({ ...p, category: "Monitors" })),
-    ...headphoneData.map(p => ({ ...p, category: "Headphones" })),
-    ...mouseData.map(p => ({ ...p, category: "Mice" })),
-    ...keyboardData.map(p => ({ ...p, category: "Keyboards" })),
-    ...webcamData.map(p => ({ ...p, category: "Webcams" })),
-    ...dockStationData.map(p => ({ ...p, category: "Docking Stations" })),
-    ...backpackData.map(p => ({ ...p, category: "Backpacks" })),
-  ];
-  // Exclude current product
-  const others = allProducts.filter(p => p.model !== product?.model);
-  // Helper: price closeness (within 20% of current product price)
-  function isClosePrice(a: number = 0, b: number = 0) {
-    if (!a || !b) return false;
-    const diff = Math.abs(a - b);
-    const avg = (a + b) / 2;
-    return diff / avg <= 0.2;
-  }
-
+  const selectedProduct = findProductByModel(model);
   
-  // 1. Find all same-brand, same-category products (excluding current)
-  let sameBrand = others.filter(p => p.category === product?.category && p.brand === product?.brand);
-  // 2. Find all same-category, other-brand products
-  let otherBrand = others.filter(p => p.category === product?.category && p.brand !== product?.brand);
-  // Compose final comparisonProducts
-  let comparisonProducts = [...sameBrand, ...otherBrand].slice(0, 3);
+  const comparisonProducts = useMemo(() => {
+    if (!selectedProduct) return [];
+
+    // Get comparison product models first
+    let comparisonModels: string[] = [];
+    
+    // Find similar products (same category, different brand)
+    const allModels = [
+      ...hardwareData.map(p => p.model),
+      ...monitorData.map(p => p.model),
+      ...headphoneData.map(p => p.model),
+      ...mouseData.map(p => p.model),
+      ...keyboardData.map(p => p.model),
+      ...webcamData.map(p => p.model),
+      ...dockStationData.map(p => p.model),
+      ...backpackData.map(p => p.model),
+    ];
+    
+    // Exclude current product
+    const otherModels = allModels.filter(m => m !== selectedProduct.model);
+    
+    // Find products from same category first
+    const sameCategoryModels = otherModels.filter(model => {
+      const product = findProductByModel(model);
+      return product && product.category === selectedProduct.category;
+    });
+    
+    // Find products from different categories
+    const otherCategoryModels = otherModels.filter(model => {
+      const product = findProductByModel(model);
+      return product && product.category !== selectedProduct.category;
+    });
+    
+    // Compose final comparison models (2 similar + 1 different)
+    comparisonModels = [...sameCategoryModels, ...otherCategoryModels].slice(0, 2);
+    
+    // Convert models to full product objects using findProductByModel
+    const comparisonProducts = comparisonModels
+      .map(model => findProductByModel(model))
+      .filter(product => product !== null);
+    
+    return comparisonProducts;
+  }, [selectedProduct]);
 
   const handleBackClick = () => {
-    // Use browser back navigation if there's history, otherwise fallback to home
     if (typeof window !== 'undefined' && window.history.length > 1) {
       router.back();
     } else {
-      router.push('/');
+      router.push('/cart');
     }
   };
 
-  const { addToCart } = useContext(CartContext);
-  const [quantity, setQuantity] = useState(1);
-  const compareSectionRef = useRef<HTMLDivElement>(null);
-
-  if (!product) {
+  if (!selectedProduct) {
     return (
       <div className="flex flex-col h-screen bg-gray-50">
         <Header />
         <MainNavigation />
         <main className="max-w-7xl mx-auto flex-1 overflow-y-auto px-6 sm:px-12 md:px-16 py-8 mb-16">
           <div className="text-2xl font-semibold text-gray-700 mb-4">Product Not Found</div>
-          <Link href="/" className="text-blue-600 hover:text-blue-800 font-medium">Back to Home</Link>
+          <Link href="/cart" className="text-blue-600 hover:text-blue-800 font-medium">Back to Cart</Link>
         </main>
       </div>
     );
   }
 
-  // Unified eligibility logic: eligible if price exists (or battery for laptops/desktops)
-  const isEligible = product.category === "Laptops" || product.category === "Desktops"
-    ? Boolean(product.battery)
-    : Boolean(product.price);
+  const allProducts = [selectedProduct, ...comparisonProducts];
 
   return (
-    <div className="flex flex-col h-screen bg-gray-50">
+    <div className="flex flex-col min-h-screen bg-gray-50">
       <Header />
       <MainNavigation />
       <main className="max-w-7xl mx-auto flex-1 overflow-y-auto px-6 sm:px-12 md:px-16 py-8 mb-16">
@@ -346,46 +339,29 @@ export default function ProductDetailPage() {
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back
         </button>
-        <div className="flex flex-col md:flex-row space-x-0 gap-8">
-          <div className="flex-1">
-            <ProductImageGallery mainImage={product.image} thumbnails={[]} />
-          </div>
-          <div className="flex-1">
-            <ProductInfoPanel
-              brand={product.brand}
-              title={product.model}
-              sku={"sku" in product ? product.sku : product.model}
-              price={product.price}
-              available={isEligible}
-              deliveryTime={"2 Days"}
-              description={product.description}
-              quantity={quantity}
-              onQuantityChange={setQuantity}
-              onAddToCart={() => {
-                addToCart({
-                  model: product.model,
-                  brand: product.brand,
-                  image: product.image,
-                  price: product.price,
-                  quantity,
-                  recommended: product.recommended,
-                  description: product.description,
-                  card_description: product.card_description,
-                });
-              }}
-              onCompare={() => {
-                if (compareSectionRef.current) {
-                  compareSectionRef.current.scrollIntoView({ behavior: "smooth" });
-                }
-              }}
-            />
-          </div>
+        
+        <div className="text-left">
+          <h1 className="text-5xl font-medium text-gray-900 mt-6 mb-4">Compare with similar items</h1>
+          <h4 className="font-base text-gray-600 mb-8">Compare {selectedProduct.brand} {selectedProduct.model} with similar products to make the best choice.</h4>
         </div>
-        <ProductSpecsTable specs={specs} />
-        <RequestHardwareBanner />
-        {/* --- Comparison Cards --- */}
-        <div ref={compareSectionRef}>
-          <ProductComparisonList products={comparisonProducts} getProductSpecs={getProductSpecs} />
+        
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {allProducts.map((product) => (
+            <div key={product.model} className="flex flex-col items-center">
+              <ComparisonProductCard
+                image={product.image}
+                brand={product.brand}
+                model={product.model}
+                description={product.description || product.card_description || ""}
+                card_description={product.card_description}
+                features={product.features || ""}
+                subFeatures={product.features ? product.features.split(',').map((f: string) => f.trim()) : []}
+                price={product.price}
+                chip={product.processor || product.category || ""}
+                specs={getProductSpecs(product)}
+              />
+            </div>
+          ))}
         </div>
         <SupportBanner />
       </main>

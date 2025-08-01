@@ -11,6 +11,8 @@ import { backpackData } from "@/data/backpackData";
 import { ProductCard } from "@/components/ui/ProductCard";
 import { Header } from "@/components/layout/Header";
 import { MainNavigation } from "@/components/layout/MainNavigation";
+import { Footer } from "@/components/layout/Footer";
+import { Pagination } from "@/components/ui/Pagination";
 import Link from "next/link";
 import { ArrowLeft, Filter, SortAsc } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
@@ -22,6 +24,7 @@ export default function CatalogPage() {
     model: item.model,
     category: "Monitors",
     description: item.description,
+    card_description: item.card_description,
     features: `${item.display_resolution}, ${item.aspect_ratio}, ${item.display_type}`,
     image: item.image,
     price: item.price,
@@ -33,7 +36,8 @@ export default function CatalogPage() {
     brand: item.brand,
     model: item.model,
     category: "Headphones",
-    description: item.description, // or item.description if available
+    description: item.description,
+    card_description: item.card_description,
     features: item.features,
     image: item.image,
     price: item.price,
@@ -46,6 +50,7 @@ export default function CatalogPage() {
     model: item.model,
     category: "Mice",
     description: item.description,
+    card_description: item.description, // Use description as card_description for now
     features: item.description, // Using description as features
     image: item.image,
     price: item.price,
@@ -58,6 +63,7 @@ export default function CatalogPage() {
     model: item.model,
     category: "Keyboards",
     description: item.description,
+    card_description: item.card_description,
     features: `${item.connectivity}, ${item.compatibility}, ${item.number_keys} keys`,
     image: item.image,
     price: item.price,
@@ -70,6 +76,7 @@ export default function CatalogPage() {
     model: item.model,
     category: "Webcams",
     description: item.description,
+    card_description: item.card_description,
     features: `${item.video_resolution}, ${item.display_resolution}, ${item.image_capture_rate}`,
     image: item.image,
     price: item.price,
@@ -82,6 +89,7 @@ export default function CatalogPage() {
     model: item.model,
     category: "Docking Stations",
     description: item.description,
+    card_description: item.card_description,
     features: `${item.ports}, ${item.power}`,
     image: item.image,
     price: item.price,
@@ -94,6 +102,7 @@ export default function CatalogPage() {
     model: item.model,
     category: "Backpacks",
     description: item.description,
+    card_description: item.card_description,
     features: `${item.size}, ${item.capacity}`,
     image: item.image,
     price: item.price,
@@ -125,6 +134,7 @@ export default function CatalogPage() {
   const [filterOption, setFilterOption] = useState("all");
   const [showFilterMenu, setShowFilterMenu] = useState(false);
   const [showSortMenu, setShowSortMenu] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const filterMenuRef = useRef<HTMLDivElement>(null);
   const sortMenuRef = useRef<HTMLDivElement>(null);
@@ -161,32 +171,62 @@ export default function CatalogPage() {
   // Filter logic
   let filteredProducts = flatProducts;
   if (filterOption !== "all") {
-    filteredProducts = flatProducts.filter((product) =>
-      product.category && product.category.toLowerCase() === filterOption
-    );
+    if (filterOption === "docking stations") {
+      filteredProducts = flatProducts.filter((product) =>
+        product.category && product.category.toLowerCase() === "docking stations"
+      );
+    } else {
+      filteredProducts = flatProducts.filter((product) =>
+        product.category && product.category.toLowerCase() === filterOption
+      );
+    }
   }
 
   // Sorting logic
   let sortedProducts = filteredProducts;
-  if (sortOption === "eligibility") {
-    sortedProducts = [...filteredProducts].sort((a, b) => Number(b.recommended) - Number(a.recommended));
+  if (sortOption === "price-low") {
+    sortedProducts = [...filteredProducts].sort((a, b) => {
+      const priceA = typeof a.price === 'string' ? parseFloat(String(a.price).replace(/,/g, '')) : Number(a.price);
+      const priceB = typeof b.price === 'string' ? parseFloat(String(b.price).replace(/,/g, '')) : Number(b.price);
+      return priceA - priceB;
+    });
+  } else if (sortOption === "price-high") {
+    sortedProducts = [...filteredProducts].sort((a, b) => {
+      const priceA = typeof a.price === 'string' ? parseFloat(String(a.price).replace(/,/g, '')) : Number(a.price);
+      const priceB = typeof b.price === 'string' ? parseFloat(String(b.price).replace(/,/g, '')) : Number(b.price);
+      return priceB - priceA;
+    });
   } else if (sortOption === "az") {
     sortedProducts = [...filteredProducts].sort((a, b) => a.model.localeCompare(b.model));
   } else if (sortOption === "za") {
     sortedProducts = [...filteredProducts].sort((a, b) => b.model.localeCompare(a.model));
-  } else if (sortOption === "brand") {
-    sortedProducts = [...filteredProducts].sort((a, b) => a.brand.localeCompare(b.brand));
   } // 'all' just shows the original order
+
+  // Pagination logic
+  const itemsPerPage = 10;
+  const totalPages = Math.ceil(sortedProducts.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedProducts = sortedProducts.slice(startIndex, endIndex);
+
+  // Reset to first page when filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [filterOption, sortOption]);
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
       <Header />
       <MainNavigation />
       <main className="max-w-7xl mx-auto flex-1 overflow-y-auto px-6 sm:px-12 md:px-16 py-8 mb-16">
-        <h2 className="font-medium text-5xl text-center text-gray-900 mt-6 mb-4">All Products</h2>
-        <h4 className="max-w-2xl mx-auto font-base text-center text-gray-600 text-gray-600 mb-8">Browse our catalog of products and find the perfect item for your needs.</h4>
+        <div className="text-left">
+          <h1 className="text-5xl font-medium text-gray-900 mt-6 mb-4">All Products</h1>
+          <h4 className="font-base text-gray-600 mb-8">Browse our catalog of products and find the perfect item for your needs.</h4>
+        </div>
         <div className="flex items-center justify-between mb-6 gap-4 flex-wrap w-full">
-          <div className="text-sm font-regular text-gray-900 min-w-max">{sortedProducts.length} item{sortedProducts.length === 1 ? "" : "s"} found</div>
+          <div className="text-sm font-regular text-gray-900 min-w-max">
+            Showing {startIndex + 1}-{Math.min(endIndex, sortedProducts.length)} of {sortedProducts.length} item{sortedProducts.length === 1 ? "" : "s"}
+          </div>
           {/* Desktop filter/sort dropdowns */}
           <div className="hidden md:flex items-center gap-4 ml-auto">
             <div>
@@ -202,11 +242,9 @@ export default function CatalogPage() {
                 <option value="desktops">Desktops</option>
                 <option value="monitors">Monitors</option>
                 <option value="headphones">Headphones</option>
-                <option value="mice">Mice</option>
                 <option value="keyboards">Keyboards</option>
-                <option value="webcams">Webcams</option>
+                <option value="mice">Mice</option>
                 <option value="docking stations">Docking Stations</option>
-                <option value="backpacks">Backpacks</option>
               </select>
             </div>
             <div>
@@ -218,8 +256,8 @@ export default function CatalogPage() {
                 className="border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="all">All</option>
-                <option value="brand">By brand</option>
-                <option value="eligibility">By eligibility</option>
+                <option value="price-low">Price: Low to High</option>
+                <option value="price-high">Price: High to Low</option>
                 <option value="az">A-Z</option>
                 <option value="za">Z-A</option>
               </select>
@@ -250,11 +288,9 @@ export default function CatalogPage() {
                   { value: "desktops", label: "Desktops" },
                   { value: "monitors", label: "Monitors" },
                   { value: "headphones", label: "Headphones" },
-                  { value: "mice", label: "Mice" },
                   { value: "keyboards", label: "Keyboards" },
-                  { value: "webcams", label: "Webcams" },
+                  { value: "mice", label: "Mice" },
                   { value: "docking stations", label: "Docking Stations" },
-                  { value: "backpacks", label: "Backpacks" },
                 ].map(opt => (
                   <button
                     key={opt.value}
@@ -271,8 +307,8 @@ export default function CatalogPage() {
               <div ref={sortMenuRef} className="absolute right-0 top-10 z-50 bg-white border border-gray-200 rounded shadow-md w-40">
                 {[
                   { value: "all", label: "All" },
-                  { value: "brand", label: "By brand" },
-                  { value: "eligibility", label: "By eligibility" },
+                  { value: "price-low", label: "Price: Low to High" },
+                  { value: "price-high", label: "Price: High to Low" },
                   { value: "az", label: "A-Z" },
                   { value: "za", label: "Z-A" },
                 ].map(opt => (
@@ -289,11 +325,18 @@ export default function CatalogPage() {
           </div>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {sortedProducts.map((product, idx) => (
+          {paginatedProducts.map((product, idx) => (
             <ProductCard key={`${product.model}-${idx}`} product={product} fromCatalog={true} />
           ))}
         </div>
+        
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={setCurrentPage}
+        />
       </main>
+      <Footer />
     </div>
   );
 } 

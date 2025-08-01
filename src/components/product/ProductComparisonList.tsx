@@ -6,6 +6,7 @@ interface Product {
   brand: string;
   model: string;
   description?: string;
+  card_description?: string;
   features?: string;
   price: number;
   processor?: string;
@@ -23,7 +24,7 @@ export function ProductComparisonList({ products, getProductSpecs }: ProductComp
   return (
     <div className="mt-12">
       <h2 className="text-2xl font-medium mb-4">Compare with similar items</h2>
-      <div className="flex gap-4 items-stretch">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 items-stretch">
         {products.map((p: Product, idx: number) => (
           <ComparisonProductCard
             key={p.model + idx}
@@ -31,6 +32,7 @@ export function ProductComparisonList({ products, getProductSpecs }: ProductComp
             brand={p.brand}
             model={p.model}
             description={p.description || ''}
+            card_description={p.card_description}
             features={p.features || ''}
             subFeatures={p.features ? p.features.split(',').map((f: string) => f.trim()) : []}
             price={p.price}

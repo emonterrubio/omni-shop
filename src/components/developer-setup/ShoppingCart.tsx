@@ -1,39 +1,40 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { SummaryProductCard } from './SummaryProductCard';
+import { CartItemCard } from './CartItemCard';
 import { SquarePen } from "lucide-react";
+import { CartContext } from '../CartContext';
+import { useRouter } from 'next/navigation';
 
 // This should be a shared type, but for now, we define it here.
 interface Item {
   model: string;
   brand: string;
-  description: string;
+  description?: string;
   image: string;
   price: number | string;
   recommended: boolean;
   quantity?: number;
 }
 
-interface SetupSummaryProps {
+interface ShoppingCartProps {
   selectedItems: Item[];
   onEdit: () => void;
   onCheckout: (costCenter?: string, shippingMethod?: 'free' | 'express') => void;
   onRemove?: (model: string) => void;
 }
 
-export function SetupSummary({ selectedItems, onEdit, onCheckout, onRemove }: SetupSummaryProps) {
-  const [cart, setCart] = useState(selectedItems.map(item => ({ ...item, quantity: 1 })));
+export function ShoppingCart({ selectedItems, onEdit, onCheckout, onRemove }: ShoppingCartProps) {
+  const { cartItems, updateQuantity, removeFromCart } = useContext(CartContext);
+  const router = useRouter();
   const [costCenterInput, setCostCenterInput] = useState('');
   const [costCenter, setCostCenter] = useState('');
   const [shippingMethod, setShippingMethod] = useState<'free' | 'express'>('express');
 
-  useEffect(() => {
-    setCart(selectedItems.map(item => ({ ...item, quantity: 1 })));
-  }, [selectedItems]);
+  // Use cartItems from context instead of local state
+  const cart = cartItems.length > 0 ? cartItems : selectedItems.map(item => ({ ...item, quantity: item.quantity || 1 }));
 
   const handleQuantityChange = (model: string, quantity: number) => {
-    setCart(prev => prev.map(item =>
-      item.model === model ? { ...item, quantity } : item
-    ));
+    updateQuantity(model, quantity);
   };
 
   const handleRemove = (model: string) => {
@@ -41,9 +42,13 @@ export function SetupSummary({ selectedItems, onEdit, onCheckout, onRemove }: Se
       // Use the external remove function (e.g., from CartContext)
       onRemove(model);
     } else {
-      // Use internal state management
-      setCart(prev => prev.filter(item => item.model !== model));
+      // Use CartContext remove function
+      removeFromCart(model);
     }
+  };
+
+  const handleCompare = (model: string) => {
+    router.push(`/compare/cart-item/${encodeURIComponent(model)}`);
   };
 
   const handleApplyCostCenter = () => {
@@ -66,35 +71,33 @@ export function SetupSummary({ selectedItems, onEdit, onCheckout, onRemove }: Se
   return (
     <div>
       {/* Header */}
-      <div className="text-center">
-        <h1 className="text-5xl font-medium text-gray-900 mt-6 mb-4">Summary</h1>
-        <h4 className="max-w-2xl mx-auto font-base text-center text-gray-600 mb-8">Review and confirm your order details.</h4>
+      <div className="text-left">
+        <h1 className="text-5xl font-medium text-gray-900 mt-6 mb-4">Shopping Cart</h1>
+        <h4 className="font-base text-gray-600 mb-8">Review your items and proceed to checkout.</h4>
       </div>
       {/* Summary */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-4">
         {/* Left Column: Products and Shipping */}
         <div className="lg:col-span-2 flex flex-col gap-4">
-          <div className="flex items-end justify-between">
-            <div>
-              <h2 className="text-2xl font-semibold">Your Order</h2>
-              <p className="text-gray-600">There are {cart.length} products in your cart</p>
-            </div>
+          <div>
+            <h2 className="text-lg font-semibold">Items in cart ({cart.length})</h2>
           </div>
           {/* Products */}
-          <div className="flex flex-col gap-2">
+          <div className="bg-white rounded-lg border border-gray-200 px-4">
             {cart.map(item => (
-              <SummaryProductCard
+              <CartItemCard
                 key={item.model}
                 item={item}
                 onQuantityChange={handleQuantityChange}
                 onRemove={handleRemove}
+                onCompare={handleCompare}
               />
             ))}
           </div>
 
           {/* Shipping Method */}
           <div className="mt-4">
-            <h3 className="text-2xl font-semibold tracking-tight mb-4">Shipping Method</h3>
+            <h3 className="text-2xl font-medium tracking-normal mb-4">Shipping Method</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <label className={`flex items-center p-4 border rounded-lg cursor-pointer transition-all ${shippingMethod === 'free' ? 'border-blue-600 bg-blue-50 ring-2 ring-blue-500' : 'border-gray-300'}`}>
                 <input type="radio" name="shipping" value="free" checked={shippingMethod === 'free'} onChange={() => setShippingMethod('free')} className="h-5 w-5 text-blue-600 focus:ring-blue-500 border-gray-300" />
@@ -120,7 +123,7 @@ export function SetupSummary({ selectedItems, onEdit, onCheckout, onRemove }: Se
         <div className="flex flex-col gap-2">
           {/* Cost Center */}
           <div className="bg-white rounded-md border border-gray-200 p-6 h-fit">
-            <label className="block font-medium text-gray-700 mb-2">Cost Center</label>
+          <h3 className="text-2xl font-medium tracking-normal mb-4">Cost Center</h3>
             <p className="text-gray-500 mb-2">Expedite your check out</p>
             <div className="flex gap-2">
               <input
@@ -135,6 +138,7 @@ export function SetupSummary({ selectedItems, onEdit, onCheckout, onRemove }: Se
           {/* Order Checkout */}
           <div className="bg-white rounded-md border border-gray-200 p-6 h-fit">
             <div>
+            <h3 className="text-2xl font-medium tracking-normal mb-4">Order Summary</h3>
               <h3 className="font-semibold text-lg mb-2">Total</h3>
               <div className="flex justify-between text-gray-600 mb-2">
                 <span>Subtotal</span>

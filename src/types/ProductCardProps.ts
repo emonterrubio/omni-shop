@@ -3,6 +3,7 @@ export interface ProductCardProps {
   model: string;
   category: string;
   description: string;
+  card_description?: string;
   features: string;
   image: string;
   price: number;

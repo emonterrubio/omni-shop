@@ -1,5 +1,5 @@
 "use client";
-import React, { use, useState } from "react";
+import React, { use, useState, useEffect } from "react";
 import Link from "next/link";
 import { hardwareData } from "@/data/hardwareData";
 import { monitorData } from "@/data/monitorData";
@@ -14,6 +14,7 @@ import { ProductCardProps } from "@/types/ProductCardProps";
 import { Header } from "@/components/layout/Header";
 import { MainNavigation } from "@/components/layout/MainNavigation";
 import { ArrowLeft } from "lucide-react";
+import { Pagination } from "@/components/ui/Pagination";
 
 function getProductsForCategory(category: string): ProductCardProps[] {
   switch (category.toLowerCase()) {
@@ -26,6 +27,7 @@ function getProductsForCategory(category: string): ProductCardProps[] {
           model: item.model,
           category: item.category,
           description: item.description,
+          card_description: item.card_description,
           features: item.features,
           image: item.image,
           price: item.price,
@@ -36,7 +38,8 @@ function getProductsForCategory(category: string): ProductCardProps[] {
         brand: item.brand,
         model: item.model,
         category: "Monitors",
-        description: item.description || `${item.refresh_rate} ${item.display_resolution} Monitor`,
+        description: item.description,
+        card_description: item.card_description,
         features: `${item.display_resolution}, ${item.aspect_ratio}, ${item.display_type}`,
         image: item.image,
         price: item.price,
@@ -47,7 +50,8 @@ function getProductsForCategory(category: string): ProductCardProps[] {
         brand: item.brand,
         model: item.model,
         category: "Headphones",
-        description: item.features,
+        description: item.description,
+        card_description: item.card_description,
         features: item.features,
         image: item.image,
         price: item.price,
@@ -59,6 +63,7 @@ function getProductsForCategory(category: string): ProductCardProps[] {
         model: item.model,
         category: "Mice",
         description: item.description,
+        card_description: item.description,
         features: item.description,
         image: item.image,
         price: item.price,
@@ -70,6 +75,7 @@ function getProductsForCategory(category: string): ProductCardProps[] {
         model: item.model,
         category: "Keyboards",
         description: item.description,
+        card_description: item.card_description,
         features: `${item.connectivity}, ${item.compatibility}, ${item.number_keys} keys`,
         image: item.image,
         price: item.price,
@@ -81,6 +87,7 @@ function getProductsForCategory(category: string): ProductCardProps[] {
         model: item.model,
         category: "Webcams",
         description: item.description,
+        card_description: item.card_description,
         features: `${item.video_resolution}, ${item.display_resolution}, ${item.image_capture_rate}`,
         image: item.image,
         price: item.price,
@@ -92,6 +99,7 @@ function getProductsForCategory(category: string): ProductCardProps[] {
         model: item.model,
         category: "Docking Stations",
         description: item.description,
+        card_description: item.card_description,
         features: `${item.ports}, ${item.power}`,
         image: item.image,
         price: item.price,
@@ -103,6 +111,7 @@ function getProductsForCategory(category: string): ProductCardProps[] {
         model: item.model,
         category: "Backpacks",
         description: item.description,
+        card_description: item.card_description,
         features: `${item.size}, ${item.capacity}`,
         image: item.image,
         price: item.price,
@@ -123,6 +132,7 @@ export default function CategoryPage({ params }: { params: Promise<{ category: s
   // --- Brand Filter & Sort State ---
   const [brandFilter, setBrandFilter] = useState<string>("all");
   const [sortOption, setSortOption] = useState<string>("all");
+  const [currentPage, setCurrentPage] = useState(1);
 
   // Unique brands for filter dropdown
   const brands = Array.from(new Set(products.map(p => p.brand)));
@@ -132,11 +142,35 @@ export default function CategoryPage({ params }: { params: Promise<{ category: s
 
   // --- Sorting ---
   let sortedProducts = [...filteredProducts];
-  if (sortOption === "price-asc") {
-    sortedProducts.sort((a, b) => a.price - b.price);
-  } else if (sortOption === "price-desc") {
-    sortedProducts.sort((a, b) => b.price - a.price);
+  if (sortOption === "price-low") {
+    sortedProducts.sort((a, b) => {
+      const priceA = typeof a.price === 'string' ? parseFloat(String(a.price).replace(/,/g, '')) : Number(a.price);
+      const priceB = typeof b.price === 'string' ? parseFloat(String(b.price).replace(/,/g, '')) : Number(b.price);
+      return priceA - priceB;
+    });
+  } else if (sortOption === "price-high") {
+    sortedProducts.sort((a, b) => {
+      const priceA = typeof a.price === 'string' ? parseFloat(String(a.price).replace(/,/g, '')) : Number(a.price);
+      const priceB = typeof b.price === 'string' ? parseFloat(String(b.price).replace(/,/g, '')) : Number(b.price);
+      return priceB - priceA;
+    });
+  } else if (sortOption === "az") {
+    sortedProducts.sort((a, b) => a.model.localeCompare(b.model));
+  } else if (sortOption === "za") {
+    sortedProducts.sort((a, b) => b.model.localeCompare(a.model));
   }
+
+  // Pagination logic
+  const itemsPerPage = 10;
+  const totalPages = Math.ceil(sortedProducts.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedProducts = sortedProducts.slice(startIndex, endIndex);
+
+  // Reset to first page when filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [brandFilter, sortOption]);
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
@@ -151,10 +185,15 @@ export default function CategoryPage({ params }: { params: Promise<{ category: s
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back
         </Link>
-        <h2 className="font-medium text-5xl text-center text-gray-900 mt-6 mb-4 capitalize">{category} <span className="normal-case">available</span></h2>
-        <h4 className="max-w-2xl mx-auto font-base text-center text-gray-600 mb-8">Boost your productivity with high-performance equipment. Request hardware that keeps you focused on work—so you can be smarter, faster, and more efficient.</h4>
+        <div className="text-left">
+          <h1 className="text-5xl font-medium text-gray-900 mt-6 mb-4 capitalize">{category} <span className="normal-case">available</span></h1>
+          <h4 className="font-base text-gray-600 mb-8">Boost your productivity with high-performance equipment.</h4>
+        </div>
         {/* --- Filter & Sort Controls (match catalog page) --- */}
         <div className="flex items-center justify-between mb-6 gap-4 flex-wrap w-full">
+        <div className="text-sm font-regular text-gray-900 min-w-max">
+          Showing {startIndex + 1}-{Math.min(endIndex, sortedProducts.length)} of {sortedProducts.length} item{sortedProducts.length === 1 ? "" : "s"}
+        </div>
           <div className="flex items-center gap-4 ml-auto">
             <div>
               <label htmlFor="brand-filter" className="mr-2 text-sm font-regular text-gray-700">Filter by:</label>
@@ -179,21 +218,29 @@ export default function CategoryPage({ params }: { params: Promise<{ category: s
                 className="border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="all">All</option>
-                <option value="price-asc">Price: Low to High</option>
-                <option value="price-desc">Price: High to Low</option>
+                <option value="price-low">Price: Low to High</option>
+                <option value="price-high">Price: High to Low</option>
+                <option value="az">A-Z</option>
+                <option value="za">Z-A</option>
               </select>
             </div>
           </div>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {sortedProducts.length === 0 ? (
+          {paginatedProducts.length === 0 ? (
             <div className="col-span-full font-medium text-lg text-center text-gray-500 mt-12">No products found in this category.</div>
           ) : (
-            sortedProducts.map((product, idx) => (
+            paginatedProducts.map((product, idx) => (
               <ProductCard key={`${product.model}-${idx}`} product={product} />
             ))
           )}
         </div>
+        
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={setCurrentPage}
+        />
       </main>
     </div>
   );
