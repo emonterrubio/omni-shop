@@ -320,7 +320,7 @@ export const hardwareData: HardwareSpec[] = [
       model: "Surface Laptop 7",
       sku: "MIC-SURLAP7-5520-015",
       category: "Laptops",
-      card_description: "Redefine what's possible with a stunning display and ultra-thin design that keeps up with your most ambitious ideas.",
+      card_description: "Redefine what's possible with an ultra-thin design that keeps up with your most ambitious ideas.",
       description: "Redefine what's possible with a stunning display and ultra-thin design that keeps up with your most ambitious ideas. Features the latest Intel Core Ultra 5 or Ultra 7 processor, 16GB or 32GB of RAM, and a fast 256GB, 512GB, or 1TB SSD. Perfect for work or entertainment. Includes enterprise-grade security features and a durable build quality.",
       features: "Copilot+ PC with Intel Core Ultra, PixelSense Flow HDR touchscreen (120 Hz), ultra-thin chassis, haptic touchpad, long battery",
       processor: "Intel® Core™ Ultra 5 or Core™ Ultra 7",

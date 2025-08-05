@@ -1,6 +1,16 @@
 @tailwind base;
 @tailwind components;
-@tailwind utilities; 
+@tailwind utilities;
+
+@layer base {
+  html, body {
+    font-family: 'Lato', ui-sans-serif, system-ui, sans-serif;
+  }
+  
+  * {
+    font-family: inherit;
+  }
+} 
 
 @font-face {
   font-family: 'ea-text';

@@ -25,7 +25,7 @@ function CategoryCard({ category, count }: { category: Category; count: number }
     >
       <Icon className="w-6 h-6 text-blue-600 mr-3" />
       <div className="flex flex-col items-start">
-        <span className="text-base font-medium text-gray-800">{category.name}</span>
+        <span className="text-base font-bold text-gray-800">{category.name}</span>
         <span className="text-sm font-regular text-gray-600">{count} items</span>
       </div>
     </button>

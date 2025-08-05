@@ -2,13 +2,13 @@
 
 import { useEffect, useState, useContext } from "react";
 import { useRouter } from "next/navigation";
-import { Header } from "@/components/layout/Header";
-import { MainNavigation } from "@/components/layout/MainNavigation";
+import { PageLayout } from "@/components/layout/PageLayout";
+import { OrderSummary } from "@/components/ui/OrderSummary";
 import Image from "next/image";
 import { CartContext } from "@/components/CartContext";
 
 function generateOrderNumber() {
-  return `#${Math.floor(100000 + Math.random() * 900000)}`;
+  return `112-${Math.floor(1000000 + Math.random() * 9000000)}`;
 }
 
 export default function OrderConfirmationPage() {
@@ -25,7 +25,15 @@ export default function OrderConfirmationPage() {
       const parsed = JSON.parse(orderData);
       setOrder(parsed);
       setOrderNumber(generateOrderNumber());
-      setOrderDate(new Date().toLocaleDateString("en-US", { day: "2-digit", month: "long", year: "numeric" }));
+      setOrderDate(new Date().toLocaleDateString("en-US", { 
+        day: "2-digit", 
+        month: "long", 
+        year: "numeric" 
+      }) + " at " + new Date().toLocaleTimeString("en-US", { 
+        hour: "2-digit", 
+        minute: "2-digit", 
+        hour12: true 
+      }) + " PST");
       // Clear order data and cart/selection
       localStorage.removeItem("devSetupOrder");
       localStorage.removeItem("devSetupCart");
@@ -35,10 +43,8 @@ export default function OrderConfirmationPage() {
 
   if (!order) {
     return (
-      <div className="flex flex-col h-screen bg-gray-50">
-        <Header />
-        <MainNavigation />
-        <main className="max-w-3xl mx-auto flex-1 flex flex-col items-center justify-center px-4">
+      <PageLayout>
+        <div className="max-w-3xl mx-auto flex flex-col items-center justify-center px-4">
           <h1 className="text-3xl font-semibold mb-4">No Order Found</h1>
           <p className="mb-6 text-gray-600">It looks like you haven't placed an order yet.</p>
           <button
@@ -47,106 +53,86 @@ export default function OrderConfirmationPage() {
           >
             Back to Home
           </button>
-        </main>
-      </div>
+        </div>
+      </PageLayout>
     );
   }
 
   const { billing, shipping, shippingType, items, subtotal, shippingCost, total } = order;
+  const tax = Math.round((subtotal * 0.0725) * 100) / 100; // 7.25% tax rate
 
   return (
-    <div className="flex flex-col h-screen bg-gray-50 mb-12">
-      <Header />
-      <MainNavigation />
-      <main className="max-w-7xl flex-1 overflow-y-auto px-6 sm:px-12 md:px-16 py-8 mb-16">
-        <button
-          onClick={() => router.push("/")}
-          className="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium transition-colors mb-4"
-          aria-label="Go back"
-        >
-          &larr; Back
-        </button>
-        <div className="mb-12">
-          <h2 className="font-medium text-5xl text-center text-gray-900 mt-6 mb-4">Your Order Confirmed!</h2>
-          <div>
-            <h3 className="font-medium text-2xl text-gray-900 mb-1">Hello {billing.name}!</h3>
-            <h4 className="font-lg font-semibold text-gray-600 text-gray-600 mb-4">Your order has been confirmed and will be shipping soon.</h4>
-            <h4 className="font-base text-gray-600 mb-4">We'll send you shipping confirmation when your item(s) are on the way!</h4>
+    <PageLayout>
+      {/* Order Confirmation Header */}
+      <div className="text-left mb-8">
+        <h1 className="text-5xl font-medium text-gray-900 mt-6 mb-2">Order Confirmation</h1>
+        <p className="font-base text-gray-800 mb-4">
+          Your order has been submitted for manager approval. We'll send you confirmation of approval and when your item(s) will be on the way.
+        </p>
+        {/* <div className="pt-4">
+          <div className="flex flex-col">
+              <div className="text-2xl font-regular text-gray-900">Order {orderNumber}</div>
+              <div className="text-gray-600">Submitted on {orderDate}</div>
           </div>
+        </div> */}
+      </div>
+
+      {/* Product Details Table */}
+      <div className="bg-white rounded-lg border border-gray-200 overflow-hidden mb-4">
+        {/* Order Number and Date */}
+        <div className="flex flex-col pt-6 px-6">
+          <div className="text-xl font-regular text-gray-900">Order {orderNumber}</div>
+          <div className="text-gray-600">Submitted on {orderDate}</div>
         </div>
-        <div className="flex items-center justify-between mb-6 gap-4 flex-wrap w-full">
-          <div className="flex flex-wrap gap-8 justify-start">
-            <div>
-              <div className="font-semibold text-gray-700">Order Date</div>
-              <div>{orderDate}</div>
-            </div>
-            <div>
-              <div className="font-semibold text-gray-700">Order Number</div>
-              <div>{orderNumber}</div>
-            </div>
-            <div>
-              <div className="font-semibold text-gray-700">Ordered For</div>
-              <div>{
-                shipping?.firstName && shipping?.lastName
-                  ? `${shipping.firstName} ${shipping.lastName}`
-                  : billing?.name || "-"
-              }</div>
-            </div>
-            <div>
-              <div className="font-semibold text-gray-700">Shipping to {shippingType === "office" ? "Office" : "Residential"} Address</div>
-              <div>
-                {shippingType === "office"
-                  ? `${shipping.officeLocation || ""} ${shipping.buildingNumber || ""} ${shipping.workspaceLocation || ""}`
-                  : [
-                      shipping.address1,
-                      shipping.city,
-                      shipping.state,
-                      shipping.zip,
-                      shipping.country
-                    ].filter(Boolean).join(', ')}
-              </div>
-            </div>
-          </div>
+        {/* Product Details Table */}
+        <div className="p-6 overflow-x-auto">
+          <table className="w-full">
+            <thead className="bg-gray-100">
+              <tr>
+                <th className="text-base text-left px-6 py-4 font-semibold text-gray-900">Product Details</th>
+                <th className="text-base text-center px-6 py-4 font-semibold text-gray-900">Quantity</th>
+                <th className="text-base text-right px-6 py-4 font-semibold text-gray-900">Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              {items.map((item: any, index: number) => (
+                <tr key={item.model} className={index < items.length - 1 ? "border-b border-gray-200" : ""}>
+                  <td className="px-6 py-4">
+                    <div className="flex items-center gap-4">
+                      <div className="w-16 h-12 relative flex-shrink-0">
+                        <Image src={item.image} alt={item.model} fill className="object-contain rounded" />
+                      </div>
+                      <div>
+                        <div className="text-lg font-regular text-gray-900">{item.brand} {item.model}</div>
+                        <div className="text-base text-gray-600">{item.card_description || item.description}</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td className="text-center px-6 py-4 text-gray-900">{item.quantity || 1}</td>
+                  <td className="text-right px-6 py-4 font-semibold text-gray-900">
+                    {typeof item.price === 'string'
+                      ? `$${Number((item.price as string).replace(/,/g, "")).toLocaleString()}`
+                      : `$${item.price.toLocaleString()}`}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
-        <div className="bg-white rounded-md border border-gray-200 p-6 mb-8">
-          {items.map((item: any) => (
-            <div key={item.model} className="flex items-center border-b last:border-b-0 border-gray-100 py-4 gap-4">
-              <div className="w-24 h-16 relative flex-shrink-0">
-                <Image src={item.image} alt={item.model} fill className="object-contain rounded" />
-              </div>
-              <div className="flex-1">
-                <div className="font-medium text-lg text-gray-900 flex items-center gap-2">
-                  {item.brand} {item.model}
-                  {item.recommended && (
-                    <span className="bg-teal-500 text-white text-xs font-semibold px-3 py-1 rounded-md ml-2">Recommended</span>
-                  )}
-                </div>
-              </div>
-              <div className="text-right min-w-[60px]">Qty {item.quantity || 1}</div>
-              <div className="text-right min-w-[80px] font-semibold text-gray-900">
-                {typeof item.price === 'string'
-                  ? `$${Number((item.price as string).replace(/,/g, "")).toLocaleString()}`
-                  : `$${item.price.toLocaleString()}`}
-              </div>
-            </div>
-          ))}
-        </div>
-        <div className="flex flex-col items-start max-w-xl ml-auto px-6">
-          <div className="flex justify-between w-full text-gray-600 mb-2">
-            <span>Subtotal</span>
-            <span>${subtotal?.toLocaleString()}</span>
-          </div>
-          <div className="flex justify-between w-full text-gray-600 mb-2">
-            <span>Shipping Cost (+)</span>
-            <span>${shippingCost?.toLocaleString()}</span>
-          </div>
-          <div className="border-t border-gray-200 my-4 w-full"></div>
-          <div className="flex justify-between w-full font-bold text-xl mt-2">
-            <span>Total</span>
-            <span>${total?.toLocaleString()}</span>
-          </div>
-        </div>
-      </main>
-    </div>
+      </div>
+
+      {/* Order Summary */}
+      <div className="max-w-md ml-auto">
+        <OrderSummary
+          subtotal={subtotal}
+          tax={tax}
+          shippingCost={shippingCost}
+          total={subtotal + tax + shippingCost}
+          itemCount={items.length}
+          showCheckoutButton={false}
+          showContinueShopping={false}
+        />
+      </div>
+    </PageLayout>
   );
 } 

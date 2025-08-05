@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { SummaryProductCard } from './SummaryProductCard';
 import { CartItemCard } from './CartItemCard';
+import { OrderSummary } from '../ui/OrderSummary';
 import { SquarePen } from "lucide-react";
 import { CartContext } from '../CartContext';
 import { useRouter } from 'next/navigation';
@@ -65,22 +66,23 @@ export function ShoppingCart({ selectedItems, onEdit, onCheckout, onRemove }: Sh
     return sum + price * (item.quantity || 1);
   }, 0);
 
+  const tax = subtotal * 0.047; // 4.7% tax rate
   const shippingCost = shippingMethod === 'express' ? 14 : 0;
-  const total = subtotal + shippingCost;
+  const total = subtotal + tax + shippingCost;
 
   return (
     <div>
       {/* Header */}
       <div className="text-left">
-        <h1 className="text-5xl font-medium text-gray-900 mt-6 mb-4">Shopping Cart</h1>
-        <h4 className="font-base text-gray-600 mb-8">Review your items and proceed to checkout.</h4>
+        <h1 className="text-5xl font-medium text-gray-900 mt-6 mb-2">Shopping Cart</h1>
+        <h4 className="font-base text-gray-800 mb-8">Review your items and proceed to checkout.</h4>
       </div>
       {/* Summary */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-4">
         {/* Left Column: Products and Shipping */}
         <div className="lg:col-span-2 flex flex-col gap-4">
           <div>
-            <h2 className="text-lg font-semibold">Items in cart ({cart.length})</h2>
+            <h2 className="text-base font-semibold">Items in cart ({cart.length})</h2>
           </div>
           {/* Products */}
           <div className="bg-white rounded-lg border border-gray-200 px-4">
@@ -135,39 +137,14 @@ export function ShoppingCart({ selectedItems, onEdit, onCheckout, onRemove }: Sh
               <button className="bg-blue-600 text-white px-4 py-2 rounded-md font-semibold text-sm hover:bg-blue-700 transition" type="button" onClick={handleApplyCostCenter}>Apply</button>
             </div>
           </div>
-          {/* Order Checkout */}
-          <div className="bg-white rounded-md border border-gray-200 p-6 h-fit">
-            <div>
-            <h3 className="text-2xl font-medium tracking-normal mb-4">Order Summary</h3>
-              <h3 className="font-semibold text-lg mb-2">Total</h3>
-              <div className="flex justify-between text-gray-600 mb-2">
-                <span>Subtotal</span>
-                <span>${subtotal.toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
-              </div>
-              <div className="flex justify-between text-gray-600 mb-2">
-                <span>Shipping Cost [+]</span>
-                <span>${shippingCost.toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
-              </div>
-              {costCenter && (
-                <div className="flex justify-between text-gray-600 mb-2">
-                  <span>Cost Center</span>
-                  <span className="font-bold">{costCenter}</span>
-                </div>
-              )}
-              <div className="border-t border-gray-200 my-4"></div>
-              <div className="flex justify-between font-bold text-xl mt-2">
-                <span>Total</span>
-                <span>${total.toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
-              </div>
-            </div>
-
-            <button 
-              onClick={() => onCheckout(costCenter, shippingMethod)}
-              className="w-full mt-6 bg-blue-600 text-white py-3 rounded-md font-semibold text-lg hover:bg-blue-700 transition"
-            >
-              Checkout
-            </button>
-          </div>
+          <OrderSummary
+            subtotal={subtotal}
+            tax={tax}
+            shippingCost={shippingCost}
+            costCenter={costCenter}
+            total={total}
+            onCheckout={() => onCheckout(costCenter, shippingMethod)}
+          />
         </div>
       </div>
     </div>

@@ -11,8 +11,7 @@ import { keyboardData } from "@/data/keyboardData";
 import { webcamData } from "@/data/webcamData";
 import { dockStationData } from "@/data/dockStationData";
 import { backpackData } from "@/data/backpackData";
-import { Header } from "@/components/layout/Header";
-import { MainNavigation } from "@/components/layout/MainNavigation";
+import { PageLayout } from "@/components/layout/PageLayout";
 import { CheckCircle, AlertCircle, ArrowLeft, Box, Undo2 } from "lucide-react";
 import { SearchBar } from "@/components/search/SearchBar";
 import { CartContext } from "@/components/CartContext";
@@ -317,14 +316,10 @@ export default function ProductDetailPage() {
 
   if (!product) {
     return (
-      <div className="flex flex-col h-screen bg-gray-50">
-        <Header />
-        <MainNavigation />
-        <main className="max-w-7xl mx-auto flex-1 overflow-y-auto px-6 sm:px-12 md:px-16 py-8 mb-16">
-          <div className="text-2xl font-semibold text-gray-700 mb-4">Product Not Found</div>
-          <Link href="/" className="text-blue-600 hover:text-blue-800 font-medium">Back to Home</Link>
-        </main>
-      </div>
+      <PageLayout>
+        <div className="text-2xl font-semibold text-gray-700 mb-4">Product Not Found</div>
+        <Link href="/" className="text-blue-600 hover:text-blue-800 font-medium">Back to Home</Link>
+      </PageLayout>
     );
   }
 
@@ -334,10 +329,7 @@ export default function ProductDetailPage() {
     : Boolean(product.price);
 
   return (
-    <div className="flex flex-col h-screen bg-gray-50">
-      <Header />
-      <MainNavigation />
-      <main className="max-w-7xl mx-auto flex-1 overflow-y-auto px-6 sm:px-12 md:px-16 py-8 mb-16">
+    <PageLayout>
         <button
           onClick={handleBackClick}
           className="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium transition-colors mb-4"
@@ -388,7 +380,6 @@ export default function ProductDetailPage() {
           <ProductComparisonList products={comparisonProducts} getProductSpecs={getProductSpecs} />
         </div>
         <SupportBanner />
-      </main>
-    </div>
+    </PageLayout>
   );
 } 

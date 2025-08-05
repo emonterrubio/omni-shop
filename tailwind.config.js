@@ -21,6 +21,7 @@ const config = {
         solarVolt: '#EAFF69',
       },
       fontFamily: {
+        'sans': ['Lato', 'ui-sans-serif', 'system-ui', 'sans-serif'],
         'ea-text': ['ea-text', 'ui-sans-serif', 'system-ui'],
         'ea-display': ['ea-display', 'ui-sans-serif', 'system-ui'],
       },

@@ -196,8 +196,8 @@ export default function BrandCatalogPage({ params }: { params: Promise<{ brand: 
           Back
         </Link>
         <div className="text-left">
-          <h1 className="text-5xl font-medium text-gray-900 mt-6 mb-4">{brand} Products</h1>
-          <h4 className="font-base text-gray-600 mb-8">Browse all {brand} products and find the perfect item for your needs.</h4>
+          <h1 className="text-5xl font-medium text-gray-900 mt-6 mb-2">{brand} Products</h1>
+          <h4 className="font-base text-gray-800 mb-8">Browse all {brand} products and find the perfect item for your needs.</h4>
         </div>
         
         <div className="flex items-center justify-between mb-6 gap-4 flex-wrap w-full">

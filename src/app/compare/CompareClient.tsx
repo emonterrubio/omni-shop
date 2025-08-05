@@ -3,9 +3,7 @@ import React, { useMemo } from "react";
 import { useSearchParams } from "next/navigation";
 import { hardwareData, HardwareSpec } from "@/data/hardwareData";
 import { ComparisonProductCard } from "@/components/product/ProductComparisonCard";
-import { Header } from "@/components/layout/Header";
-import { MainNavigation } from "@/components/layout/MainNavigation";
-import { Footer } from "@/components/layout/Footer";
+import { PageLayout } from "@/components/layout/PageLayout";
 import { SupportBanner } from "@/components/product/SupportBanner";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
@@ -33,10 +31,7 @@ export default function CompareClient() {
   }, [modelsParam, brandParam]);
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-50">
-      <Header />
-      <MainNavigation />
-      <main className="max-w-7xl mx-auto flex-1 overflow-y-auto px-6 sm:px-12 md:px-16 py-8 mb-16">
+    <PageLayout>
         <Link
           href="/"
           className="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium transition-colors"
@@ -95,8 +90,6 @@ export default function CompareClient() {
           ))}
         </div>
         <SupportBanner />
-      </main>
-      <Footer />
-    </div>
+    </PageLayout>
   );
 } 

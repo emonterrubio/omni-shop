@@ -88,18 +88,26 @@ export function ComparisonProductCard({
       </div>
       {/* Footer anchored to bottom */}
       <div className="flex flex-col w-full items-center mt-auto space-y-2 pb-6 px-6">
-        <div className={`flex items-center font-medium text-sm ${isEligible ? "text-green-600" : "text-red-600"}`}>
+        {/* <div className={`flex items-center font-medium text-sm ${isEligible ? "text-green-600" : "text-red-600"}`}>
           {isEligible ? <CheckCircle className="w-5 h-5 mr-1" /> : <AlertCircle className="w-5 h-5 mr-1" />}
           {isEligible ? "Available" : ""}
         </div>
-        <div className="text-gray-600 text-sm">Recommended based on your role</div>
+        <div className="text-gray-600 text-sm">Recommended based on your role</div> */}
         <div className="text-2xl font-semibold">${price.toLocaleString()}.00</div>
-        <button 
-          className="w-full bg-blue-600 text-white rounded-md py-2 font-semibold hover:bg-blue-700 transition"
-          onClick={handleAddToCart}
-        >
-          Add to Cart
-        </button>
+        <div className="flex gap-2 w-full pt-4">
+          <button 
+            className="flex-1 bg-blue-600 text-white rounded-md py-2 font-medium hover:bg-blue-700 transition"
+            onClick={handleAddToCart}
+          >
+            Add to Cart
+          </button>
+          <Link
+            href={`/product/${encodeURIComponent(model)}`}
+            className="flex-1 bg-blue-50 text-blue-600 rounded-md py-2 font-medium hover:bg-blue-100 transition text-center"
+          >
+            View Details
+          </Link>
+        </div>
       </div>
     </div>
   );

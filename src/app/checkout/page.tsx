@@ -2,8 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Header } from "@/components/layout/Header";
-import { MainNavigation } from "@/components/layout/MainNavigation";
+import { PageLayout } from "@/components/layout/PageLayout";
 import { CheckoutPage } from "@/components/developer-setup/CheckoutPage";
 
 interface CheckoutData {
@@ -37,28 +36,20 @@ export default function CheckoutPageWrapper() {
 
   if (!checkoutData) {
     return (
-      <div className="flex flex-col min-h-screen bg-gray-50">
-        <Header />
-        <MainNavigation />
-        <main className="max-w-7xl mx-auto flex-1 overflow-y-auto px-6 sm:px-12 md:px-16 py-8 mb-16">
-          <div className="text-center text-gray-500 text-xl mt-12">Loading checkout...</div>
-        </main>
-      </div>
+      <PageLayout>
+        <div className="text-center text-gray-500 text-xl mt-12">Loading checkout...</div>
+      </PageLayout>
     );
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-50">
-      <Header />
-      <MainNavigation />
-      <main>
-        <CheckoutPage
-          items={checkoutData.items}
-          shippingCost={checkoutData.shippingCost}
-          costCenter={checkoutData.costCenter}
-          onBack={handleBack}
-        />
-      </main>
-    </div>
+    <PageLayout>
+      <CheckoutPage
+        items={checkoutData.items}
+        shippingCost={checkoutData.shippingCost}
+        costCenter={checkoutData.costCenter}
+        onBack={handleBack}
+      />
+    </PageLayout>
   );
 } 

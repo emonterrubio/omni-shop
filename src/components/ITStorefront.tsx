@@ -8,7 +8,6 @@ import { EligibilityInfo } from "./home/EligibilityInfo";
 import { SearchBarClient } from "./search/SearchBarClient";
 import { QuickActionsClient } from "./home/QuickActionsClient";
 import { MainNavigationClient } from "./layout/MainNavigationClient";
-
 interface ITStorefrontProps {
   categories: any[];
   products: any[];
@@ -49,9 +48,9 @@ export function ITStorefront({
         <MainNavigationClient />
       </div>  
       <main className="max-w-7xl mx-auto flex-1 overflow-y-auto px-6 sm:px-12 md:px-16 py-8">
-          <h2 className="text-3xl font-medium mt-12 mb-2">Hello
+          <h2 className="text-3xl sm:text-3xl md:text-4xl font-bold mt-4 mb-2">Hello
             <span className="text-heritageBlue"> {randomName}</span>, welcome to</h2>
-          <h3 className="text-5xl sm:text-6xl md:text-7xl font-medium mb-8">Omni Shopping</h3>
+          <h3 className="text-6xl sm:text-7xl md:text-8xl font-bold mb-8">Omni Shopping</h3>
           {/* Recent Orders */}
           <RecentOrders orders={recentOrders} />
           {/* <SearchBarClient /> */}

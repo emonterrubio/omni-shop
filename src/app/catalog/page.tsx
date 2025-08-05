@@ -9,9 +9,7 @@ import { webcamData } from "@/data/webcamData";
 import { dockStationData } from "@/data/dockStationData";
 import { backpackData } from "@/data/backpackData";
 import { ProductCard } from "@/components/ui/ProductCard";
-import { Header } from "@/components/layout/Header";
-import { MainNavigation } from "@/components/layout/MainNavigation";
-import { Footer } from "@/components/layout/Footer";
+import { PageLayout } from "@/components/layout/PageLayout";
 import { Pagination } from "@/components/ui/Pagination";
 import Link from "next/link";
 import { ArrowLeft, Filter, SortAsc } from "lucide-react";
@@ -200,10 +198,20 @@ export default function CatalogPage() {
     sortedProducts = [...filteredProducts].sort((a, b) => a.model.localeCompare(b.model));
   } else if (sortOption === "za") {
     sortedProducts = [...filteredProducts].sort((a, b) => b.model.localeCompare(a.model));
+  } else if (sortOption === "brand") {
+    sortedProducts = [...filteredProducts].sort((a, b) => {
+      // First sort by brand alphabetically
+      const brandComparison = a.brand.localeCompare(b.brand);
+      if (brandComparison !== 0) {
+        return brandComparison;
+      }
+      // If brands are the same, sort by model name alphabetically
+      return a.model.localeCompare(b.model);
+    });
   } // 'all' just shows the original order
 
   // Pagination logic
-  const itemsPerPage = 10;
+  const itemsPerPage = 9;
   const totalPages = Math.ceil(sortedProducts.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
@@ -215,14 +223,11 @@ export default function CatalogPage() {
   }, [filterOption, sortOption]);
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-50">
-      <Header />
-      <MainNavigation />
-      <main className="max-w-7xl mx-auto flex-1 overflow-y-auto px-6 sm:px-12 md:px-16 py-8 mb-16">
-        <div className="text-left">
-          <h1 className="text-5xl font-medium text-gray-900 mt-6 mb-4">All Products</h1>
-          <h4 className="font-base text-gray-600 mb-8">Browse our catalog of products and find the perfect item for your needs.</h4>
-        </div>
+    <PageLayout>
+      <div className="text-left">
+        <h1 className="text-5xl font-medium text-gray-900 mt-6 mb-2">All Products</h1>
+        <h4 className="font-base text-gray-800 mb-8">Browse our catalog of products and find the perfect item for your needs.</h4>
+      </div>
         <div className="flex items-center justify-between mb-6 gap-4 flex-wrap w-full">
           <div className="text-sm font-regular text-gray-900 min-w-max">
             Showing {startIndex + 1}-{Math.min(endIndex, sortedProducts.length)} of {sortedProducts.length} item{sortedProducts.length === 1 ? "" : "s"}
@@ -256,6 +261,7 @@ export default function CatalogPage() {
                 className="border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="all">All</option>
+                <option value="brand">Brand</option>
                 <option value="price-low">Price: Low to High</option>
                 <option value="price-high">Price: High to Low</option>
                 <option value="az">A-Z</option>
@@ -309,6 +315,7 @@ export default function CatalogPage() {
                   { value: "all", label: "All" },
                   { value: "price-low", label: "Price: Low to High" },
                   { value: "price-high", label: "Price: High to Low" },
+                  { value: "brand", label: "Brand" },
                   { value: "az", label: "A-Z" },
                   { value: "za", label: "Z-A" },
                 ].map(opt => (
@@ -335,8 +342,6 @@ export default function CatalogPage() {
           totalPages={totalPages}
           onPageChange={setCurrentPage}
         />
-      </main>
-      <Footer />
-    </div>
+    </PageLayout>
   );
 } 

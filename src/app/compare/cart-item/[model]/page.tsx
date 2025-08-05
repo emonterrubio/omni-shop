@@ -11,8 +11,7 @@ import { webcamData } from "@/data/webcamData";
 import { dockStationData } from "@/data/dockStationData";
 import { backpackData } from "@/data/backpackData";
 import { ComparisonProductCard } from "@/components/product/ProductComparisonCard";
-import { Header } from "@/components/layout/Header";
-import { MainNavigation } from "@/components/layout/MainNavigation";
+import { PageLayout } from "@/components/layout/PageLayout";
 import { SupportBanner } from "@/components/product/SupportBanner";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
@@ -313,24 +312,17 @@ export default function CartItemComparePage() {
 
   if (!selectedProduct) {
     return (
-      <div className="flex flex-col h-screen bg-gray-50">
-        <Header />
-        <MainNavigation />
-        <main className="max-w-7xl mx-auto flex-1 overflow-y-auto px-6 sm:px-12 md:px-16 py-8 mb-16">
-          <div className="text-2xl font-semibold text-gray-700 mb-4">Product Not Found</div>
-          <Link href="/cart" className="text-blue-600 hover:text-blue-800 font-medium">Back to Cart</Link>
-        </main>
-      </div>
+      <PageLayout>
+        <div className="text-2xl font-semibold text-gray-700 mb-4">Product Not Found</div>
+        <Link href="/cart" className="text-blue-600 hover:text-blue-800 font-medium">Back to Cart</Link>
+      </PageLayout>
     );
   }
 
   const allProducts = [selectedProduct, ...comparisonProducts];
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-50">
-      <Header />
-      <MainNavigation />
-      <main className="max-w-7xl mx-auto flex-1 overflow-y-auto px-6 sm:px-12 md:px-16 py-8 mb-16">
+    <PageLayout>
         <button
           onClick={handleBackClick}
           className="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium transition-colors mb-4"
@@ -364,7 +356,6 @@ export default function CartItemComparePage() {
           ))}
         </div>
         <SupportBanner />
-      </main>
-    </div>
+    </PageLayout>
   );
 } 

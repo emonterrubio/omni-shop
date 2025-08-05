@@ -74,7 +74,7 @@ export function ProductCard({ product, fromCatalog = false }: { product: Product
           href={fromCatalog ? `/product/${encodeURIComponent(product.model)}?from=catalog` : `/product/${encodeURIComponent(product.model)}`}
           className="block"
         >
-          <h3 className="text-xl font-medium text-gray-900 mb-1 hover:text-blue-600 transition-colors cursor-pointer">
+          <h3 className="text-2xl font-regular text-gray-900 mb-1 hover:text-blue-600 transition-colors cursor-pointer">
             {product.model}
           </h3>
         </Link>
@@ -95,13 +95,21 @@ export function ProductCard({ product, fromCatalog = false }: { product: Product
             {isEligible ? "Available" : ""}
           </div>
         </div>
-        {/* Single Add to Cart button */}
-        <button
-          onClick={handleAddToCart}
-          className="w-full bg-blue-600 text-white px-4 py-2 hover:bg-blue-700 transition-colors rounded-md font-medium"
-        >
-          Add to Cart
-        </button>
+        {/* Action buttons */}
+        <div className="flex gap-2">
+          <button
+            onClick={handleAddToCart}
+            className="flex-1 bg-blue-600 text-white px-4 py-2 hover:bg-blue-700 transition-colors rounded-md font-medium"
+          >
+            Add to Cart
+          </button>
+          <Link
+            href={fromCatalog ? `/product/${encodeURIComponent(product.model)}?from=catalog` : `/product/${encodeURIComponent(product.model)}`}
+            className="flex-1 bg-blue-50 text-blue-600 px-4 py-2 hover:bg-blue-100 transition-colors rounded-md font-medium text-center"
+          >
+            View Details
+          </Link>
+        </div>
       </div>
     </div>
   );
