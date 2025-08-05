@@ -65,27 +65,53 @@ export default function OrderConfirmationPage() {
     <PageLayout>
       {/* Order Confirmation Header */}
       <div className="text-left mb-8">
-        <h1 className="text-5xl font-medium text-gray-900 mt-6 mb-2">Order Confirmation</h1>
-        <p className="font-base text-gray-800 mb-4">
-          Your order has been submitted for manager approval. We'll send you confirmation of approval and when your item(s) will be on the way.
+        <h1 className="text-5xl font-medium text-gray-900 mt-6 mb-4">Order Confirmation</h1>
+        <p className="text-lg font-regular text-gray-800 mb-4">
+          Your order has been submitted for manager approval.<br /> We'll send you confirmation of approval and when your item(s) will be on the way.
         </p>
-        {/* <div className="pt-4">
-          <div className="flex flex-col">
-              <div className="text-2xl font-regular text-gray-900">Order {orderNumber}</div>
-              <div className="text-gray-600">Submitted on {orderDate}</div>
-          </div>
-        </div> */}
       </div>
 
       {/* Product Details Table */}
       <div className="bg-white rounded-lg border border-gray-200 overflow-hidden mb-4">
         {/* Order Number and Date */}
         <div className="flex flex-col pt-6 px-6">
-          <div className="text-xl font-regular text-gray-900">Order {orderNumber}</div>
-          <div className="text-gray-600">Submitted on {orderDate}</div>
+          <div className="text-2xl font-regular text-gray-900">Order {orderNumber}</div>
+          <div className="text-base font-regular text-gray-600">Order submitted on: <span className="font-bold">{orderDate}</span></div>
+          <div className="flex inline-block mt-4 gap-4">
+            {/* Ordered For Section */}
+            <div className="flex inline-block">
+              <h2 className="text-base font-bold text-gray-900">Ordered For: &nbsp;</h2>
+              <div className="text-base font-regular text-gray-900">
+                {billing.name} {billing.lastName}
+              </div>
+            </div>
+            {/* Shipping Address Section */}
+            <div className="flex inline-block">
+              <h2 className="text-base font-bold text-gray-900 mb-2">
+                Shipping to {shippingType === 'residential' ? 'Residential Address' : 'Office Address'}: &nbsp;
+              </h2>
+              <div className="text-base font-regular text-gray-900">
+                {shippingType === 'residential' ? (
+                  <>
+                    {shipping.firstName} {shipping.lastName}
+                    {shipping.address1}
+                    {shipping.address2 && <>{shipping.address2}</>}
+                    {shipping.city}, {shipping.country} {shipping.zip}
+                  </>
+                ) : (
+                  <>
+                    {/* {shipping.officeFirstName} {shipping.officeLastName} */}
+                    {shipping.officeLocation}, &nbsp;
+                    Building {shipping.buildingNumber}, &nbsp;
+                    Desk {shipping.workspaceLocation}
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
         </div>
         {/* Product Details Table */}
-        <div className="p-6 overflow-x-auto">
+        <div className="px-6 py-4 overflow-x-auto">
           <table className="w-full">
             <thead className="bg-gray-100">
               <tr>

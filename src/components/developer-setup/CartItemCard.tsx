@@ -57,13 +57,7 @@ export function CartItemCard({ item, onQuantityChange, onRemove, onCompare }: Ca
             {(item.card_description || item.description) && (
               <p className="text-sm text-gray-600 mb-3">{item.card_description || item.description}</p>
             )}
-            {item.recommended && (
-              <div className="mb-3">
-                <span className="bg-yellow-100 text-yellow-800 text-xs font-semibold px-2 py-1 rounded">
-                  Manager Approval Required
-                </span>
-              </div>
-            )}
+
             
             {/* Quantity Controls and Action Links */}
             <div className="flex flex-col gap-2">

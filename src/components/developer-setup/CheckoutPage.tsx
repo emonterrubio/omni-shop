@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { BillingDetailsForm } from './BillingDetailsForm';
 import { ShippingDetailsForm } from './ShippingDetailsForm';
 import { OrderSummary } from '../ui/OrderSummary';
+import { CostCenter } from '../ui/CostCenter';
 import { useRouter } from "next/navigation";
 
 interface Item {
@@ -32,6 +33,9 @@ export function CheckoutPage({ items, shippingCost, costCenter, onBack }: Checko
     department: '',
     info: '',
   });
+  
+  // Cost center state
+  const [costCenterValue, setCostCenterValue] = useState(costCenter || '');
   
   // Shipping form state
   const [shippingType, setShippingType] = useState<'residential' | 'office'>('residential');
@@ -130,13 +134,17 @@ export function CheckoutPage({ items, shippingCost, costCenter, onBack }: Checko
           </div>
         </div>
 
-        {/* Right Column: Order Summary */}
+        {/* Right Column: Cost Center and Order Summary */}
         <div className="flex flex-col gap-2">
+          <CostCenter 
+            value={costCenterValue}
+            onChange={setCostCenterValue}
+          />
           <OrderSummary
             subtotal={subtotal}
             tax={tax}
             shippingCost={shippingCost}
-            costCenter={costCenter}
+            costCenter={costCenterValue}
             total={total}
             onCheckout={handlePlaceOrder}
             checkoutButtonText="Submit"

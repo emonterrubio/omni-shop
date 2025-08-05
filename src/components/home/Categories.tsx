@@ -35,7 +35,7 @@ function CategoryCard({ category, count }: { category: Category; count: number }
 export function Categories() {
   return (
     <section className="mb-8">
-      <h2 className="text-xl font-semibold text-gray-900 mb-4">Browse Categories</h2>
+      <h2 className="text-xl font-bold text-gray-900 mb-4">Browse Categories</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-2">
         {categories.map((category, idx) => {
           let count;

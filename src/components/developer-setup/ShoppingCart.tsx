@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { SummaryProductCard } from './SummaryProductCard';
 import { CartItemCard } from './CartItemCard';
 import { OrderSummary } from '../ui/OrderSummary';
+import { CostCenter } from '../ui/CostCenter';
 import { SquarePen } from "lucide-react";
 import { CartContext } from '../CartContext';
 import { useRouter } from 'next/navigation';
@@ -27,7 +28,6 @@ interface ShoppingCartProps {
 export function ShoppingCart({ selectedItems, onEdit, onCheckout, onRemove }: ShoppingCartProps) {
   const { cartItems, updateQuantity, removeFromCart } = useContext(CartContext);
   const router = useRouter();
-  const [costCenterInput, setCostCenterInput] = useState('');
   const [costCenter, setCostCenter] = useState('');
   const [shippingMethod, setShippingMethod] = useState<'free' | 'express'>('express');
 
@@ -52,8 +52,8 @@ export function ShoppingCart({ selectedItems, onEdit, onCheckout, onRemove }: Sh
     router.push(`/compare/cart-item/${encodeURIComponent(model)}`);
   };
 
-  const handleApplyCostCenter = () => {
-    setCostCenter(costCenterInput.trim());
+  const handleCostCenterChange = (newCostCenter: string) => {
+    setCostCenter(newCostCenter);
   };
 
   const subtotal = cart.reduce((sum, item) => {
@@ -66,9 +66,9 @@ export function ShoppingCart({ selectedItems, onEdit, onCheckout, onRemove }: Sh
     return sum + price * (item.quantity || 1);
   }, 0);
 
-  const tax = subtotal * 0.047; // 4.7% tax rate
+  const tax = Math.round((subtotal * 0.047) * 100) / 100; // 4.7% tax rate, rounded to 2 decimal places
   const shippingCost = shippingMethod === 'express' ? 14 : 0;
-  const total = subtotal + tax + shippingCost;
+  const total = Math.round((subtotal + tax + shippingCost) * 100) / 100; // Total rounded to 2 decimal places
 
   return (
     <div>
@@ -82,7 +82,7 @@ export function ShoppingCart({ selectedItems, onEdit, onCheckout, onRemove }: Sh
         {/* Left Column: Products and Shipping */}
         <div className="lg:col-span-2 flex flex-col gap-4">
           <div>
-            <h2 className="text-base font-semibold">Items in cart ({cart.length})</h2>
+            <h2 className="text-base font-regular">Items in cart ({cart.length})</h2>
           </div>
           {/* Products */}
           <div className="bg-white rounded-lg border border-gray-200 px-4">
@@ -122,21 +122,12 @@ export function ShoppingCart({ selectedItems, onEdit, onCheckout, onRemove }: Sh
         </div>
 
         {/* Right Column: Cost Center and Order Checkout */}
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-4">
           {/* Cost Center */}
-          <div className="bg-white rounded-md border border-gray-200 p-6 h-fit">
-          <h3 className="text-2xl font-medium tracking-normal mb-4">Cost Center</h3>
-            <p className="text-gray-500 mb-2">Expedite your check out</p>
-            <div className="flex gap-2">
-              <input
-                className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm"
-                placeholder="Enter cost center"
-                value={costCenterInput}
-                onChange={e => setCostCenterInput(e.target.value)}
-              />
-              <button className="bg-blue-600 text-white px-4 py-2 rounded-md font-semibold text-sm hover:bg-blue-700 transition" type="button" onClick={handleApplyCostCenter}>Apply</button>
-            </div>
-          </div>
+          <CostCenter 
+            value={costCenter}
+            onChange={handleCostCenterChange}
+          />
           <OrderSummary
             subtotal={subtotal}
             tax={tax}

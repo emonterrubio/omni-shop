@@ -50,7 +50,7 @@ export function ITStorefront({
       <main className="max-w-7xl mx-auto flex-1 overflow-y-auto px-6 sm:px-12 md:px-16 py-8">
           <h2 className="text-3xl sm:text-3xl md:text-4xl font-bold mt-4 mb-2">Hello
             <span className="text-heritageBlue"> {randomName}</span>, welcome to</h2>
-          <h3 className="text-6xl sm:text-7xl md:text-8xl font-bold mb-8">Omni Shopping</h3>
+          <h3 className="text-6xl sm:text-7xl md:text-8xl font-regular mb-12">Omni Shopping</h3>
           {/* Recent Orders */}
           <RecentOrders orders={recentOrders} />
           {/* <SearchBarClient /> */}
