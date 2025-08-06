@@ -11,7 +11,7 @@ function generateOrderNumber() {
   return `112-${Math.floor(1000000 + Math.random() * 9000000)}`;
 }
 
-export default function OrderConfirmationPage() {
+export default function OrderDetailsPage() {
   const router = useRouter();
   const [order, setOrder] = useState<any>(null);
   const [orderNumber, setOrderNumber] = useState<string>("");
@@ -19,25 +19,73 @@ export default function OrderConfirmationPage() {
   const { clearCart } = useContext(CartContext);
 
   useEffect(() => {
-    // Read order data from localStorage
-    const orderData = localStorage.getItem("devSetupOrder");
-    if (orderData) {
-      const parsed = JSON.parse(orderData);
-      setOrder(parsed);
-      setOrderNumber(generateOrderNumber());
-      setOrderDate(new Date().toLocaleDateString("en-US", { 
-        day: "2-digit", 
-        month: "long", 
-        year: "numeric" 
-      }) + " at " + new Date().toLocaleTimeString("en-US", { 
-        hour: "2-digit", 
-        minute: "2-digit", 
-        hour12: true 
-      }) + " PST");
-      // Clear order data and cart/selection
-      localStorage.removeItem("devSetupOrder");
-      localStorage.removeItem("devSetupCart");
-      clearCart(); // Hide cart bubble after order is confirmed
+    const searchParams = new URLSearchParams(window.location.search);
+    const orderId = searchParams.get('orderId');
+    
+    if (orderId) {
+      // Viewing an existing order
+      const savedOrders = JSON.parse(localStorage.getItem('userOrders') || '[]');
+      const existingOrder = savedOrders.find((order: any) => order.id === orderId);
+      
+      if (existingOrder) {
+        setOrderNumber(existingOrder.orderNumber);
+        setOrderDate(existingOrder.orderDate);
+        // Convert the saved order back to the format expected by the page
+        const orderedByParts = existingOrder.orderedBy.split(' ');
+        const orderedForParts = existingOrder.orderedFor.split(' ');
+        
+        const convertedOrder = {
+          billing: {
+            name: orderedByParts[0] || '',
+            lastName: orderedByParts.slice(1).join(' ') || ''
+          },
+          shipping: {
+            firstName: orderedForParts[0] || '',
+            lastName: orderedForParts.slice(1).join(' ') || '',
+            address1: existingOrder.shippingAddress.address,
+            city: '',
+            country: '',
+            zip: ''
+          },
+          shippingType: existingOrder.shippingAddress.type,
+          items: existingOrder.items,
+          subtotal: existingOrder.total,
+          shippingCost: 0,
+          total: existingOrder.total
+        };
+        setOrder(convertedOrder);
+      }
+    } else {
+      // New order from checkout
+      const orderData = localStorage.getItem("devSetupOrder");
+      if (orderData) {
+        const parsed = JSON.parse(orderData);
+        setOrder(parsed);
+        
+        // Get the actual order number from the saved order
+        const savedOrders = JSON.parse(localStorage.getItem('userOrders') || '[]');
+        const latestOrder = savedOrders[0]; // Most recent order
+        if (latestOrder) {
+          setOrderNumber(latestOrder.orderNumber);
+          setOrderDate(latestOrder.orderDate);
+        } else {
+          setOrderNumber(generateOrderNumber());
+          setOrderDate(new Date().toLocaleDateString("en-US", { 
+            day: "2-digit", 
+            month: "long", 
+            year: "numeric" 
+          }) + " at " + new Date().toLocaleTimeString("en-US", { 
+            hour: "2-digit", 
+            minute: "2-digit", 
+            hour12: true 
+          }) + " PST");
+        }
+        
+        // Clear order data and cart/selection
+        localStorage.removeItem("devSetupOrder");
+        localStorage.removeItem("devSetupCart");
+        clearCart(); // Hide cart bubble after order is confirmed
+      }
     }
   }, [clearCart]);
 
@@ -63,49 +111,47 @@ export default function OrderConfirmationPage() {
 
   return (
     <PageLayout>
-      {/* Order Confirmation Header */}
+      {/* Order Details Header */}
       <div className="text-left mb-8">
-        <h1 className="text-5xl font-medium text-gray-900 mt-6 mb-4">Order Confirmation</h1>
+        <h1 className="text-5xl font-medium text-gray-900 mt-6 mb-4">Order Details</h1>
         <p className="text-lg font-regular text-gray-800 mb-4">
-          Your order has been submitted for manager approval.<br /> We'll send you confirmation of approval and when your item(s) will be on the way.
+          View the details of your submitted order.
         </p>
       </div>
 
       {/* Product Details Table */}
       <div className="bg-white rounded-lg border border-gray-200 overflow-hidden mb-4">
         {/* Order Number and Date */}
-        <div className="flex flex-col pt-6 px-6">
+        <div className="flex flex-col pt-8 px-8 pb-4">
           <div className="text-2xl font-regular text-gray-900">Order {orderNumber}</div>
-          <div className="text-base font-regular text-gray-600">Order submitted on: <span className="font-bold">{orderDate}</span></div>
-          <div className="flex inline-block mt-4 gap-4">
-            {/* Ordered For Section */}
-            <div className="flex inline-block">
-              <h2 className="text-base font-bold text-gray-900">Ordered For: &nbsp;</h2>
+          <div className="border-b border-gray-200 pb-4"></div>
+          <div className="flex inline-block mt-4 gap-12">
+            {/* Ordered By Section */}
+            <div className="flex flex-col">
+              <h2 className="text-base font-bold text-gray-900">Ordered by</h2>
               <div className="text-base font-regular text-gray-900">
                 {billing.name} {billing.lastName}
               </div>
             </div>
+            {/* Ordered For Section */}
+            <div className="flex flex-col">
+              <h2 className="text-base font-bold text-gray-900">Ordered for</h2>
+              <div className="text-base font-regular text-gray-900">
+                {shipping.firstName} {shipping.lastName}
+              </div>
+            </div>
+            {/* Order Number */}
+            <div className="flex flex-col">
+              <h2 className="text-base font-bold text-gray-900">Order submitted</h2>
+              <div className="text-base font-regular text-gray-900">{orderDate}</div>
+            </div>
             {/* Shipping Address Section */}
-            <div className="flex inline-block">
-              <h2 className="text-base font-bold text-gray-900 mb-2">
+            <div className="flex flex-col">
+              <h2 className="text-base font-bold text-gray-900">
                 Shipping to {shippingType === 'residential' ? 'Residential Address' : 'Office Address'}: &nbsp;
               </h2>
               <div className="text-base font-regular text-gray-900">
-                {shippingType === 'residential' ? (
-                  <>
-                    {shipping.firstName} {shipping.lastName}
-                    {shipping.address1}
-                    {shipping.address2 && <>{shipping.address2}</>}
-                    {shipping.city}, {shipping.country} {shipping.zip}
-                  </>
-                ) : (
-                  <>
-                    {/* {shipping.officeFirstName} {shipping.officeLastName} */}
-                    {shipping.officeLocation}, &nbsp;
-                    Building {shipping.buildingNumber}, &nbsp;
-                    Desk {shipping.workspaceLocation}
-                  </>
-                )}
+                {shipping.address1}
               </div>
             </div>
           </div>

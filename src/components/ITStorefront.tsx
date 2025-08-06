@@ -38,7 +38,7 @@ export function ITStorefront({
   eligibilityData,
 }: ITStorefrontProps) {
   const { displayedProducts, showCompareButton } = getRecommendedProducts(products);
-  const names = ["Ed", "Marlon", "Marcus", "Lekeedra", "Natashia", "Krish", "Alea", "Kamal", "Gaby"];
+  const names = ["Ed", "Marlon", "Marcus", "Lekeedra", "Eric", "Krish", "Michael", "Kamal", "Eve"];
   const randomName = names[Math.floor(Math.random() * names.length)];
 
   return (
@@ -50,7 +50,7 @@ export function ITStorefront({
       <main className="max-w-7xl mx-auto flex-1 overflow-y-auto px-6 sm:px-12 md:px-16 py-8">
           <h2 className="text-3xl sm:text-3xl md:text-4xl font-bold mt-4 mb-2">Hello
             <span className="text-heritageBlue"> {randomName}</span>, welcome to</h2>
-          <h3 className="text-6xl sm:text-7xl md:text-8xl font-regular mb-12">Omni Shopping</h3>
+          <h3 className="text-5xl sm:text-6xl md:text-7xl font-bold mb-12">Omni Shopping</h3>
           {/* Recent Orders */}
           <RecentOrders orders={recentOrders} />
           {/* <SearchBarClient /> */}
