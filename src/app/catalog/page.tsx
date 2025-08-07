@@ -11,8 +11,8 @@ import { backpackData } from "@/data/backpackData";
 import { ProductCard } from "@/components/ui/ProductCard";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { Pagination } from "@/components/ui/Pagination";
-import Link from "next/link";
-import { ArrowLeft, Filter, SortAsc } from "lucide-react";
+import { CatalogSidebar } from "@/components/catalog/CatalogSidebar";
+import { SortAsc } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 
 export default function CatalogPage() {
@@ -129,23 +129,15 @@ export default function CatalogPage() {
   });
 
   const [sortOption, setSortOption] = useState("all");
-  const [filterOption, setFilterOption] = useState("all");
-  const [showFilterMenu, setShowFilterMenu] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [selectedBrand, setSelectedBrand] = useState("all");
   const [showSortMenu, setShowSortMenu] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const filterMenuRef = useRef<HTMLDivElement>(null);
   const sortMenuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      if (
-        filterMenuRef.current &&
-        !filterMenuRef.current.contains(event.target as Node) &&
-        showFilterMenu
-      ) {
-        setShowFilterMenu(false);
-      }
       if (
         sortMenuRef.current &&
         !sortMenuRef.current.contains(event.target as Node) &&
@@ -158,7 +150,7 @@ export default function CatalogPage() {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [showFilterMenu, showSortMenu]);
+  }, [showSortMenu]);
 
   // Flatten all products for sorting
   const flatProducts = [...allProducts];
@@ -168,16 +160,17 @@ export default function CatalogPage() {
 
   // Filter logic
   let filteredProducts = flatProducts;
-  if (filterOption !== "all") {
-    if (filterOption === "docking stations") {
-      filteredProducts = flatProducts.filter((product) =>
-        product.category && product.category.toLowerCase() === "docking stations"
-      );
-    } else {
-      filteredProducts = flatProducts.filter((product) =>
-        product.category && product.category.toLowerCase() === filterOption
-      );
-    }
+  
+  // If a brand is selected, it overrides category selection
+  if (selectedBrand !== "all") {
+    filteredProducts = filteredProducts.filter((product) =>
+      product.brand && product.brand.toLowerCase() === selectedBrand.toLowerCase()
+    );
+  } else if (selectedCategory !== "all") {
+    // Only filter by category if no brand is selected
+    filteredProducts = filteredProducts.filter((product) =>
+      product.category && product.category.toLowerCase() === selectedCategory.toLowerCase()
+    );
   }
 
   // Sorting logic
@@ -220,128 +213,110 @@ export default function CatalogPage() {
   // Reset to first page when filters change
   useEffect(() => {
     setCurrentPage(1);
-  }, [filterOption, sortOption]);
+  }, [selectedCategory, selectedBrand, sortOption]);
+
+  // Reset brand selection when category is selected
+  useEffect(() => {
+    if (selectedCategory !== "all") {
+      setSelectedBrand("all");
+    }
+  }, [selectedCategory]);
+
+  // Reset category selection when brand is selected
+  useEffect(() => {
+    if (selectedBrand !== "all") {
+      setSelectedCategory("all");
+    }
+  }, [selectedBrand]);
 
   return (
     <PageLayout>
-      <div className="text-left">
+      <div className="text-left mb-8">
         <h1 className="text-5xl font-medium text-gray-900 mt-6 mb-2">All Products</h1>
-        <h4 className="font-base text-gray-800 mb-8">Browse our catalog of products and find the perfect item for your needs.</h4>
+        <h4 className="font-base text-gray-800 mb-4">Browse our catalog of products and find the perfect item for your needs.</h4>
       </div>
-        <div className="flex items-center justify-between mb-6 gap-4 flex-wrap w-full">
-          <div className="text-sm font-regular text-gray-900 min-w-max">
-            Showing {startIndex + 1}-{Math.min(endIndex, sortedProducts.length)} of {sortedProducts.length} item{sortedProducts.length === 1 ? "" : "s"}
-          </div>
-          {/* Desktop filter/sort dropdowns */}
-          <div className="hidden md:flex items-center gap-4 ml-auto">
-            <div>
-              <label htmlFor="filter" className="mr-2 text-sm font-regular text-gray-700">Filter by:</label>
-              <select
-                id="filter"
-                value={filterOption}
-                onChange={e => setFilterOption(e.target.value)}
-                className="border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="all">All</option>
-                <option value="laptops">Laptops</option>
-                <option value="desktops">Desktops</option>
-                <option value="monitors">Monitors</option>
-                <option value="headphones">Headphones</option>
-                <option value="keyboards">Keyboards</option>
-                <option value="mice">Mice</option>
-                <option value="docking stations">Docking Stations</option>
-              </select>
-            </div>
-            <div>
-              <label htmlFor="sort" className="mr-2 text-sm font-regular text-gray-700">Sort by:</label>
-              <select
-                id="sort"
-                value={sortOption}
-                onChange={e => setSortOption(e.target.value)}
-                className="border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="all">All</option>
-                <option value="brand">Brand</option>
-                <option value="price-low">Price: Low to High</option>
-                <option value="price-high">Price: High to Low</option>
-                <option value="az">A-Z</option>
-                <option value="za">Z-A</option>
-              </select>
-            </div>
-          </div>
-          {/* Mobile filter/sort icons */}
-          <div className="flex md:hidden items-center gap-4 ml-auto relative">
-            <button
-              aria-label="Filter"
-              className="p-2 rounded hover:bg-gray-100"
-              onClick={() => setShowFilterMenu((v) => !v)}
-            >
-              <Filter className="w-6 h-6" />
-            </button>
-            <button
-              aria-label="Sort"
-              className="p-2 rounded hover:bg-gray-100"
-              onClick={() => setShowSortMenu((v) => !v)}
-            >
-              <SortAsc className="w-6 h-6" />
-            </button>
-            {/* Filter menu */}
-            {showFilterMenu && (
-              <div ref={filterMenuRef} className="absolute right-12 top-10 z-50 bg-white border border-gray-200 rounded shadow-md w-40">
-                {[
-                  { value: "all", label: "All" },
-                  { value: "laptops", label: "Laptops" },
-                  { value: "desktops", label: "Desktops" },
-                  { value: "monitors", label: "Monitors" },
-                  { value: "headphones", label: "Headphones" },
-                  { value: "keyboards", label: "Keyboards" },
-                  { value: "mice", label: "Mice" },
-                  { value: "docking stations", label: "Docking Stations" },
-                ].map(opt => (
-                  <button
-                    key={opt.value}
-                    className={`block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${filterOption === opt.value ? "bg-gray-100 font-semibold" : ""}`}
-                    onClick={() => { setFilterOption(opt.value); setShowFilterMenu(false); }}
-                  >
-                    {opt.label}
-                  </button>
-                ))}
-              </div>
-            )}
-            {/* Sort menu */}
-            {showSortMenu && (
-              <div ref={sortMenuRef} className="absolute right-0 top-10 z-50 bg-white border border-gray-200 rounded shadow-md w-40">
-                {[
-                  { value: "all", label: "All" },
-                  { value: "price-low", label: "Price: Low to High" },
-                  { value: "price-high", label: "Price: High to Low" },
-                  { value: "brand", label: "Brand" },
-                  { value: "az", label: "A-Z" },
-                  { value: "za", label: "Z-A" },
-                ].map(opt => (
-                  <button
-                    key={opt.value}
-                    className={`block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${sortOption === opt.value ? "bg-gray-100 font-semibold" : ""}`}
-                    onClick={() => { setSortOption(opt.value); setShowSortMenu(false); }}
-                  >
-                    {opt.label}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {paginatedProducts.map((product, idx) => (
-            <ProductCard key={`${product.model}-${idx}`} product={product} fromCatalog={true} />
-          ))}
-        </div>
-        
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={setCurrentPage}
+      
+      <div className="flex">
+        {/* Sidebar */}
+        <CatalogSidebar
+          selectedCategory={selectedCategory}
+          selectedBrand={selectedBrand}
+          onCategorySelect={setSelectedCategory}
+          onBrandSelect={setSelectedBrand}
+          productsByBrand={productsByBrand}
         />
+        
+        {/* Main Content */}
+        <div className="flex-1 pl-4">
+          <div className="flex items-center justify-between mb-6 gap-4 flex-wrap w-full">
+            <div className="text-sm font-regular text-gray-900 min-w-max">
+              Showing {startIndex + 1}-{Math.min(endIndex, sortedProducts.length)} of {sortedProducts.length} item{sortedProducts.length === 1 ? "" : "s"}
+            </div>
+            {/* Desktop sort dropdown */}
+            <div className="hidden md:flex items-center gap-4 ml-auto">
+              <div>
+                <label htmlFor="sort" className="mr-2 text-sm font-regular text-gray-700">Sort by:</label>
+                <select
+                  id="sort"
+                  value={sortOption}
+                  onChange={e => setSortOption(e.target.value)}
+                  className="border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="all">All</option>
+                  <option value="brand">Brand</option>
+                  <option value="price-low">Price: Low to High</option>
+                  <option value="price-high">Price: High to Low</option>
+                  <option value="az">A-Z</option>
+                  <option value="za">Z-A</option>
+                </select>
+              </div>
+            </div>
+            {/* Mobile sort icon */}
+            <div className="flex md:hidden items-center gap-4 ml-auto relative">
+              <button
+                aria-label="Sort"
+                className="p-2 rounded hover:bg-gray-100"
+                onClick={() => setShowSortMenu((v) => !v)}
+              >
+                <SortAsc className="w-6 h-6" />
+              </button>
+              {/* Sort menu */}
+              {showSortMenu && (
+                <div ref={sortMenuRef} className="absolute right-0 top-10 z-50 bg-white border border-gray-200 rounded shadow-md w-40">
+                  {[
+                    { value: "all", label: "All" },
+                    { value: "price-low", label: "Price: Low to High" },
+                    { value: "price-high", label: "Price: High to Low" },
+                    { value: "brand", label: "Brand" },
+                    { value: "az", label: "A-Z" },
+                    { value: "za", label: "Z-A" },
+                  ].map(opt => (
+                    <button
+                      key={opt.value}
+                      className={`block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${sortOption === opt.value ? "bg-gray-100 font-semibold" : ""}`}
+                      onClick={() => { setSortOption(opt.value); setShowSortMenu(false); }}
+                    >
+                      {opt.label}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {paginatedProducts.map((product, idx) => (
+              <ProductCard key={`${product.model}-${idx}`} product={product} fromCatalog={true} />
+            ))}
+          </div>
+          
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
+          />
+        </div>
+      </div>
     </PageLayout>
   );
 } 

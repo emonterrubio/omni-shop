@@ -2,6 +2,7 @@ import React from "react";
 import { Header } from "./layout/Header";
 import { Footer } from "./layout/Footer";
 import { Categories } from "./home/Categories";
+import { FeaturedItems } from "./home/FeaturedItems";
 import { RecommendedItems } from "./home/RecommendedItems";
 import { RecentOrders } from "./home/RecentOrders";
 import { EligibilityInfo } from "./home/EligibilityInfo";
@@ -11,9 +12,17 @@ import { MainNavigationClient } from "./layout/MainNavigationClient";
 interface ITStorefrontProps {
   categories: any[];
   products: any[];
-  recentOrders: any[];
   quickActions: any[];
   eligibilityData: any;
+}
+
+function getRandomItems(arr: any[], n: number) {
+  const shuffled = [...arr].sort(() => 0.5 - Math.random());
+  return shuffled.slice(0, n);
+}
+
+function getFeaturedProducts(products: any[], n = 3) {
+  return getRandomItems(products, n);
 }
 
 function getRecommendedProducts(products: any[], n = 3) {
@@ -21,10 +30,6 @@ function getRecommendedProducts(products: any[], n = 3) {
   const brands = Array.from(new Set(eligibleProducts.map((p) => p.brand)));
   const selectedBrand = brands[Math.floor(Math.random() * brands.length)];
   const brandProducts = eligibleProducts.filter((p) => p.brand === selectedBrand);
-  function getRandomItems(arr: any[], n: number) {
-    const shuffled = [...arr].sort(() => 0.5 - Math.random());
-    return shuffled.slice(0, n);
-  }
   const displayedProducts = getRandomItems(brandProducts, n);
   const showCompareButton = eligibleProducts.length > 3;
   return { displayedProducts, showCompareButton };
@@ -33,10 +38,10 @@ function getRecommendedProducts(products: any[], n = 3) {
 export function ITStorefront({
   categories,
   products,
-  recentOrders,
   quickActions,
   eligibilityData,
 }: ITStorefrontProps) {
+  const featuredProducts = getFeaturedProducts(products);
   const { displayedProducts, showCompareButton } = getRecommendedProducts(products);
   const names = ["Ed", "Marlon", "Marcus", "Lekeedra", "Eric", "Krish", "Michael", "Kamal", "Eve"];
   const randomName = names[Math.floor(Math.random() * names.length)];
@@ -48,14 +53,17 @@ export function ITStorefront({
         <MainNavigationClient />
       </div>  
       <main className="max-w-7xl mx-auto flex-1 overflow-y-auto px-6 sm:px-12 md:px-16 py-8">
-          <h2 className="text-3xl sm:text-3xl md:text-4xl font-bold mt-4 mb-2">Hello
+          <h2 className="text-3xl sm:text-3xl md:text-4xl font-regular mt-4 mb-2">Hello
             <span className="text-heritageBlue"> {randomName}</span>, welcome to</h2>
-          <h3 className="text-5xl sm:text-6xl md:text-7xl font-bold mb-12">Omni Shopping</h3>
+          <h3 className="text-5xl sm:text-6xl md:text-7xl font-regular mb-12">Omni Shopping</h3>
           {/* Recent Orders */}
-          <RecentOrders orders={recentOrders} />
+          <RecentOrders maxOrders={2} />
           {/* <SearchBarClient /> */}
-          <Categories />
+          {/* <Categories /> */}
           {/* <QuickActionsClient actions={quickActions} /> */}
+          {/* Featured Items */}
+          <FeaturedItems displayedProducts={featuredProducts} />
+          {/* Recommended Items */}
           <RecommendedItems displayedProducts={displayedProducts} showCompareButton={showCompareButton} />
 
           {/* <EligibilityInfo data={eligibilityData} /> */}

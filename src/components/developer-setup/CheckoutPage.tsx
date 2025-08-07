@@ -129,9 +129,9 @@ export function CheckoutPage({ items, shippingCost, costCenter, onBack }: Checko
       </div>
       
       {/* Main Content */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
         {/* Left Column: Billing and Shipping Forms */}
-        <div className="lg:col-span-2 flex flex-col gap-4">
+        <div className="lg:col-span-3 flex flex-col gap-4">
           {/* Billing Details */}
           <div className="bg-white rounded-lg border border-gray-200 px-4 py-4">
             <BillingDetailsForm value={billing} onChange={setBilling} />

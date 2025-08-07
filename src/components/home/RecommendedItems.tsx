@@ -12,7 +12,7 @@ export function RecommendedItems({ displayedProducts, showCompareButton }: Recom
   return (
     <section className="mb-8">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-semibold text-gray-900">Recommended for You</h2>
+        <h2 className="text-xl font-regular text-gray-900">Recommended for You</h2>
         {showCompareButton && (
           <div className="flex gap-2">
             <Link

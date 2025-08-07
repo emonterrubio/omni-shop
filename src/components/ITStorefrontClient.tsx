@@ -8,7 +8,7 @@ import { RecommendedItems } from "./home/RecommendedItems";
 import { RecentOrders } from "./home/RecentOrders";
 import { EligibilityInfo } from "./home/EligibilityInfo";
 import { MainNavigation } from "./layout/MainNavigation";
-import { QuickAction, RecentOrder, EligibilityData, Category } from "@/types";
+import { QuickAction, EligibilityData, Category } from "@/types";
 import { HardwareSpec } from "@/data/hardwareData";
 
 interface ITStorefrontClientProps {
@@ -16,7 +16,6 @@ interface ITStorefrontClientProps {
   categories: Category[];
   displayedProducts: HardwareSpec[];
   showCompareButton: boolean;
-  recentOrders: RecentOrder[];
   eligibilityData: EligibilityData;
 }
 
@@ -25,7 +24,6 @@ export function ITStorefrontClient({
   categories,
   displayedProducts,
   showCompareButton,
-  recentOrders,
   eligibilityData,
 }: ITStorefrontClientProps) {
   const [searchQuery, setSearchQuery] = useState("");
@@ -76,7 +74,7 @@ export function ITStorefrontClient({
         />
       )} */}
       <RecommendedItems displayedProducts={displayedProducts} showCompareButton={showCompareButton} />
-      <RecentOrders orders={recentOrders} />
+      <RecentOrders maxOrders={2} />
       <EligibilityInfo data={eligibilityData} />
       <MainNavigation />
     </>

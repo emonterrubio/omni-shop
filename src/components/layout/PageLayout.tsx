@@ -14,7 +14,7 @@ export function PageLayout({ children, showFooter = true, className = "" }: Page
     <div className={`flex flex-col min-h-screen bg-gray-50 ${className}`}>
       <Header />
       <MainNavigation />
-      <main className="max-w-7xl flex-1 overflow-y-auto px-6 sm:px-12 md:px-16 py-8">
+      <main className="max-w-7xl mx-auto flex-1 overflow-y-auto px-6 sm:px-12 md:px-16 py-8">
         {children}
       </main>
       {showFooter && <Footer />}
