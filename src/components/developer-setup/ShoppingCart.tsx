@@ -3,9 +3,18 @@ import { SummaryProductCard } from './SummaryProductCard';
 import { CartItemCard } from './CartItemCard';
 import { OrderSummary } from '../ui/OrderSummary';
 import { CostCenter } from '../ui/CostCenter';
+import { ProductCard } from '../ui/ProductCard';
 import { SquarePen } from "lucide-react";
 import { CartContext } from '../CartContext';
 import { useRouter } from 'next/navigation';
+import { hardwareData } from '../../data/hardwareData';
+import { monitorData } from '../../data/monitorData';
+import { headphoneData } from '../../data/headphoneData';
+import { mouseData } from '../../data/mouseData';
+import { keyboardData } from '../../data/keyboardData';
+import { webcamData } from '../../data/webcamData';
+import { dockStationData } from '../../data/dockStationData';
+import { backpackData } from '../../data/backpackData';
 
 // This should be a shared type, but for now, we define it here.
 interface Item {
@@ -31,8 +40,110 @@ export function ShoppingCart({ selectedItems, onEdit, onCheckout, onRemove }: Sh
   const [costCenter, setCostCenter] = useState('');
   const [shippingMethod, setShippingMethod] = useState<'free' | 'express'>('express');
 
+  // Function to get related items based on cart items
+  const getRelatedItems = () => {
+    // Get all available products
+    const allProducts = [
+      ...hardwareData,
+      ...monitorData.map(item => ({
+        brand: item.brand,
+        model: item.model,
+        category: "Monitors",
+        description: item.description,
+        card_description: item.card_description,
+        features: `${item.display_resolution}, ${item.aspect_ratio}, ${item.display_type}`,
+        image: item.image,
+        price: item.price,
+        recommended: item.recommended,
+      })),
+      ...headphoneData.map(item => ({
+        brand: item.brand,
+        model: item.model,
+        category: "Headphones",
+        description: item.description,
+        card_description: item.card_description,
+        features: item.features,
+        image: item.image,
+        price: item.price,
+        recommended: item.recommended,
+      })),
+      ...mouseData.map(item => ({
+        brand: item.brand,
+        model: item.model,
+        category: "Mice",
+        description: item.description,
+        card_description: item.description,
+        features: item.description,
+        image: item.image,
+        price: item.price,
+        recommended: item.recommended,
+      })),
+      ...keyboardData.map(item => ({
+        brand: item.brand,
+        model: item.model,
+        category: "Keyboards",
+        description: item.description,
+        card_description: item.card_description,
+        features: `${item.connectivity}, ${item.compatibility}, ${item.number_keys} keys`,
+        image: item.image,
+        price: item.price,
+        recommended: item.recommended,
+      })),
+      ...webcamData.map(item => ({
+        brand: item.brand,
+        model: item.model,
+        category: "Webcams",
+        description: item.description,
+        card_description: item.card_description,
+        features: `${item.video_resolution}, ${item.display_resolution}, ${item.image_capture_rate}`,
+        image: item.image,
+        price: item.price,
+        recommended: item.recommended,
+      })),
+      ...dockStationData.map(item => ({
+        brand: item.brand,
+        model: item.model,
+        category: "Docking Stations",
+        description: item.description,
+        card_description: item.card_description,
+        features: `${item.ports}, ${item.power}`,
+        image: item.image,
+        price: item.price,
+        recommended: item.recommended,
+      })),
+      ...backpackData.map(item => ({
+        brand: item.brand,
+        model: item.model,
+        category: "Backpacks",
+        description: item.description,
+        card_description: item.card_description,
+        features: `${item.size}, ${item.capacity}`,
+        image: item.image,
+        price: item.price,
+        recommended: item.recommended,
+      })),
+    ];
+
+    // Get brands and categories from cart items
+    const cartBrands = cart.map(item => item.brand);
+    const cartCategories = cart.map(item => (item as any).category || 'Laptops'); // Default to Laptops if no category
+
+    // Find related items (same brand or same category, excluding items already in cart)
+    const relatedItems = allProducts
+      .filter(product => 
+        !cart.some(cartItem => cartItem.model === product.model) && // Not already in cart
+        (cartBrands.includes(product.brand) || cartCategories.includes(product.category))
+      )
+      .sort(() => 0.5 - Math.random()) // Randomize order
+      .slice(0, 3); // Take first 3
+
+    return relatedItems;
+  };
+
   // Use cartItems from context instead of local state
   const cart = cartItems.length > 0 ? cartItems : selectedItems.map(item => ({ ...item, quantity: item.quantity || 1 }));
+
+  const relatedItems = getRelatedItems();
 
   const handleQuantityChange = (model: string, quantity: number) => {
     updateQuantity(model, quantity);
@@ -119,6 +230,7 @@ export function ShoppingCart({ selectedItems, onEdit, onCheckout, onRemove }: Sh
               </label>
             </div>
           </div>
+
         </div>
 
         {/* Right Column: Cost Center and Order Checkout */}
@@ -138,6 +250,18 @@ export function ShoppingCart({ selectedItems, onEdit, onCheckout, onRemove }: Sh
           />
         </div>
       </div>
+
+      {/* Related Items - Full Width */}
+      {relatedItems.length > 0 && (
+        <div className="mt-8">
+          <h3 className="text-2xl font-medium tracking-normal mb-4">Related Items</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {relatedItems.map((product, idx) => (
+              <ProductCard key={`${product.model}-${idx}`} product={product} fromCatalog={true} />
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 } 

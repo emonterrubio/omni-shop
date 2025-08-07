@@ -12,7 +12,7 @@ import { ProductCard } from "@/components/ui/ProductCard";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { Pagination } from "@/components/ui/Pagination";
 import { CatalogSidebar } from "@/components/catalog/CatalogSidebar";
-import { SortAsc } from "lucide-react";
+import { SortAsc, Filter } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 
 export default function CatalogPage() {
@@ -132,9 +132,11 @@ export default function CatalogPage() {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [selectedBrand, setSelectedBrand] = useState("all");
   const [showSortMenu, setShowSortMenu] = useState(false);
+  const [showFilterMenu, setShowFilterMenu] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
 
   const sortMenuRef = useRef<HTMLDivElement>(null);
+  const filterMenuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -145,12 +147,19 @@ export default function CatalogPage() {
       ) {
         setShowSortMenu(false);
       }
+      if (
+        filterMenuRef.current &&
+        !filterMenuRef.current.contains(event.target as Node) &&
+        showFilterMenu
+      ) {
+        setShowFilterMenu(false);
+      }
     }
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [showSortMenu]);
+  }, [showSortMenu, showFilterMenu]);
 
   // Flatten all products for sorting
   const flatProducts = [...allProducts];
@@ -161,15 +170,17 @@ export default function CatalogPage() {
   // Filter logic
   let filteredProducts = flatProducts;
   
-  // If a brand is selected, it overrides category selection
+  // Filter by category first
+  if (selectedCategory !== "all") {
+    filteredProducts = filteredProducts.filter((product) =>
+      product.category && product.category.toLowerCase() === selectedCategory.toLowerCase()
+    );
+  }
+  
+  // Then filter by brand (refines the category filter)
   if (selectedBrand !== "all") {
     filteredProducts = filteredProducts.filter((product) =>
       product.brand && product.brand.toLowerCase() === selectedBrand.toLowerCase()
-    );
-  } else if (selectedCategory !== "all") {
-    // Only filter by category if no brand is selected
-    filteredProducts = filteredProducts.filter((product) =>
-      product.category && product.category.toLowerCase() === selectedCategory.toLowerCase()
     );
   }
 
@@ -191,16 +202,6 @@ export default function CatalogPage() {
     sortedProducts = [...filteredProducts].sort((a, b) => a.model.localeCompare(b.model));
   } else if (sortOption === "za") {
     sortedProducts = [...filteredProducts].sort((a, b) => b.model.localeCompare(a.model));
-  } else if (sortOption === "brand") {
-    sortedProducts = [...filteredProducts].sort((a, b) => {
-      // First sort by brand alphabetically
-      const brandComparison = a.brand.localeCompare(b.brand);
-      if (brandComparison !== 0) {
-        return brandComparison;
-      }
-      // If brands are the same, sort by model name alphabetically
-      return a.model.localeCompare(b.model);
-    });
   } // 'all' just shows the original order
 
   // Pagination logic
@@ -215,19 +216,27 @@ export default function CatalogPage() {
     setCurrentPage(1);
   }, [selectedCategory, selectedBrand, sortOption]);
 
-  // Reset brand selection when category is selected
-  useEffect(() => {
-    if (selectedCategory !== "all") {
-      setSelectedBrand("all");
+  // Function to get brand counts based on selected category
+  const getBrandCountsForCategory = () => {
+    if (selectedCategory === "all") {
+      // If no category is selected, show total counts
+      return Object.keys(productsByBrand).reduce((acc, brand) => {
+        acc[brand] = productsByBrand[brand].length;
+        return acc;
+      }, {} as { [brand: string]: number });
+    } else {
+      // If category is selected, count only products in that category
+      return Object.keys(productsByBrand).reduce((acc, brand) => {
+        const count = productsByBrand[brand].filter(product => 
+          product.category && product.category.toLowerCase() === selectedCategory.toLowerCase()
+        ).length;
+        acc[brand] = count;
+        return acc;
+      }, {} as { [brand: string]: number });
     }
-  }, [selectedCategory]);
+  };
 
-  // Reset category selection when brand is selected
-  useEffect(() => {
-    if (selectedBrand !== "all") {
-      setSelectedCategory("all");
-    }
-  }, [selectedBrand]);
+  const brandCounts = getBrandCountsForCategory();
 
   return (
     <PageLayout>
@@ -247,13 +256,29 @@ export default function CatalogPage() {
         />
         
         {/* Main Content */}
-        <div className="flex-1 pl-4">
+        <div className="flex-1 pl-3">
           <div className="flex items-center justify-between mb-6 gap-4 flex-wrap w-full">
             <div className="text-sm font-regular text-gray-900 min-w-max">
               Showing {startIndex + 1}-{Math.min(endIndex, sortedProducts.length)} of {sortedProducts.length} item{sortedProducts.length === 1 ? "" : "s"}
             </div>
-            {/* Desktop sort dropdown */}
+            {/* Desktop filter and sort dropdowns */}
             <div className="hidden md:flex items-center gap-4 ml-auto">
+              <div>
+                <label htmlFor="brand-filter" className="mr-2 text-sm font-regular text-gray-700">Filter by:</label>
+                <select
+                  id="brand-filter"
+                  value={selectedBrand}
+                  onChange={e => setSelectedBrand(e.target.value)}
+                  className="border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="all">All Brands</option>
+                  {Object.keys(productsByBrand).sort().map((brand) => (
+                    <option key={brand} value={brand}>
+                      {brand} ({brandCounts[brand]})
+                    </option>
+                  ))}
+                </select>
+              </div>
               <div>
                 <label htmlFor="sort" className="mr-2 text-sm font-regular text-gray-700">Sort by:</label>
                 <select
@@ -263,7 +288,6 @@ export default function CatalogPage() {
                   className="border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                   <option value="all">All</option>
-                  <option value="brand">Brand</option>
                   <option value="price-low">Price: Low to High</option>
                   <option value="price-high">Price: High to Low</option>
                   <option value="az">A-Z</option>
@@ -271,8 +295,15 @@ export default function CatalogPage() {
                 </select>
               </div>
             </div>
-            {/* Mobile sort icon */}
+            {/* Mobile filter and sort icons */}
             <div className="flex md:hidden items-center gap-4 ml-auto relative">
+              <button
+                aria-label="Filter"
+                className="p-2 rounded hover:bg-gray-100"
+                onClick={() => setShowFilterMenu((v) => !v)}
+              >
+                <Filter className="w-6 h-6" />
+              </button>
               <button
                 aria-label="Sort"
                 className="p-2 rounded hover:bg-gray-100"
@@ -280,6 +311,27 @@ export default function CatalogPage() {
               >
                 <SortAsc className="w-6 h-6" />
               </button>
+              {/* Filter menu */}
+              {showFilterMenu && (
+                <div ref={filterMenuRef} className="absolute right-12 top-10 z-50 bg-white border border-gray-200 rounded shadow-md w-40">
+                  <div className="px-4 py-2 text-sm font-medium text-gray-700 border-b border-gray-200">Brands</div>
+                  <button
+                    className={`block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${selectedBrand === "all" ? "bg-gray-100 font-semibold" : ""}`}
+                    onClick={() => { setSelectedBrand("all"); setShowFilterMenu(false); }}
+                  >
+                    All Brands
+                  </button>
+                  {Object.keys(productsByBrand).sort().map((brand) => (
+                    <button
+                      key={brand}
+                      className={`block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${selectedBrand === brand ? "bg-gray-100 font-semibold" : ""}`}
+                      onClick={() => { setSelectedBrand(brand); setShowFilterMenu(false); }}
+                    >
+                      {brand} ({brandCounts[brand]})
+                    </button>
+                  ))}
+                </div>
+              )}
               {/* Sort menu */}
               {showSortMenu && (
                 <div ref={sortMenuRef} className="absolute right-0 top-10 z-50 bg-white border border-gray-200 rounded shadow-md w-40">
@@ -287,7 +339,6 @@ export default function CatalogPage() {
                     { value: "all", label: "All" },
                     { value: "price-low", label: "Price: Low to High" },
                     { value: "price-high", label: "Price: High to Low" },
-                    { value: "brand", label: "Brand" },
                     { value: "az", label: "A-Z" },
                     { value: "za", label: "Z-A" },
                   ].map(opt => (
@@ -304,17 +355,69 @@ export default function CatalogPage() {
             </div>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {paginatedProducts.map((product, idx) => (
-              <ProductCard key={`${product.model}-${idx}`} product={product} fromCatalog={true} />
-            ))}
-          </div>
+          {filteredProducts.length === 0 ? (
+            <div className="text-center py-12">
+              <div className="max-w-md mx-auto">
+                <div className="text-gray-400 mb-4">
+                  <svg className="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2M4 13h2m13-8V4a1 1 0 00-1-1H6a1 1 0 00-1 1v1m8 0V4a1 1 0 00-1-1H9a1 1 0 00-1 1v1" />
+                  </svg>
+                </div>
+                <h3 className="text-lg font-medium text-gray-900 mb-2">
+                  {selectedCategory !== "all" && selectedBrand !== "all" 
+                    ? `No ${selectedCategory} available from ${selectedBrand}`
+                    : selectedCategory !== "all"
+                    ? `No ${selectedCategory} available`
+                    : selectedBrand !== "all"
+                    ? `No products available from ${selectedBrand}`
+                    : "No products found"
+                  }
+                </h3>
+                <p className="text-gray-600 mb-6">
+                  {selectedCategory !== "all" && selectedBrand !== "all"
+                    ? `We don't currently have any ${selectedCategory.toLowerCase()} from ${selectedBrand} in our catalog. Try selecting a different brand or category.`
+                    : selectedCategory !== "all"
+                    ? `We don't currently have any ${selectedCategory.toLowerCase()} in our catalog. Try selecting a different category.`
+                    : selectedBrand !== "all"
+                    ? `We don't currently have any products from ${selectedBrand} in our catalog. Try selecting a different brand.`
+                    : "We don't currently have any products matching your criteria. Try adjusting your filters."
+                  }
+                </p>
+                <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                  {selectedCategory !== "all" && (
+                    <button
+                      onClick={() => setSelectedCategory("all")}
+                      className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors font-medium"
+                    >
+                      View All Categories
+                    </button>
+                  )}
+                  {selectedBrand !== "all" && (
+                    <button
+                      onClick={() => setSelectedBrand("all")}
+                      className="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 transition-colors font-medium"
+                    >
+                      View All Brands
+                    </button>
+                  )}
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+              {paginatedProducts.map((product, idx) => (
+                <ProductCard key={`${product.model}-${idx}`} product={product} fromCatalog={true} />
+              ))}
+            </div>
+          )}
           
-          <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={setCurrentPage}
-          />
+          {filteredProducts.length > 0 && (
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={setCurrentPage}
+            />
+          )}
         </div>
       </div>
     </PageLayout>

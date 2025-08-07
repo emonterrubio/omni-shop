@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { ChevronRight, ChevronDown } from "lucide-react";
+import React from "react";
+import { ChevronRight } from "lucide-react";
 import { categories } from "@/data/categories";
 import { hardwareData } from "@/data/hardwareData";
 import { monitorData } from "@/data/monitorData";
@@ -16,8 +16,6 @@ interface CategoryMenuProps {
 }
 
 export function CategoryMenu({ selectedCategory, onCategorySelect }: CategoryMenuProps) {
-  const [isExpanded, setIsExpanded] = useState(true);
-  
   const getCategoryCount = (categoryName: string): number => {
     const name = categoryName.toLowerCase();
     switch (name) {
@@ -43,23 +41,9 @@ export function CategoryMenu({ selectedCategory, onCategorySelect }: CategoryMen
   };
 
   return (
-    <div className="mb-8">
-      <div className="flex items-center justify-between mb-4">
-        <h3 className="text-lg font-semibold text-gray-900">Categories</h3>
-        <button
-          onClick={() => setIsExpanded(!isExpanded)}
-          className="p-1 hover:bg-gray-100 rounded transition-colors"
-          aria-label={isExpanded ? "Collapse categories" : "Expand categories"}
-        >
-          {isExpanded ? (
-            <ChevronDown className="w-4 h-4 text-gray-600" />
-          ) : (
-            <ChevronRight className="w-4 h-4 text-gray-600" />
-          )}
-        </button>
-      </div>
-      {isExpanded && (
-        <div className="space-y-1">
+    <div>
+      <h3 className="text-lg font-semibold text-gray-900">Categories</h3>
+      <div className="space-y-1">
         <button
           onClick={() => onCategorySelect("all")}
           className={`w-full flex items-center justify-between px-3 py-2 text-left rounded-md transition-colors ${
@@ -99,8 +83,7 @@ export function CategoryMenu({ selectedCategory, onCategorySelect }: CategoryMen
             </button>
           );
         })}
-        </div>
-      )}
+      </div>
     </div>
   );
 }
