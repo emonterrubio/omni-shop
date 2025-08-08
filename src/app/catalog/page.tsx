@@ -12,7 +12,7 @@ import { ProductCard } from "@/components/ui/ProductCard";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { Pagination } from "@/components/ui/Pagination";
 import { CatalogSidebar } from "@/components/catalog/CatalogSidebar";
-import { SortAsc, Filter } from "lucide-react";
+import { SortAsc, Filter, PackageSearch } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 
 export default function CatalogPage() {
@@ -359,9 +359,7 @@ export default function CatalogPage() {
             <div className="text-center py-12">
               <div className="max-w-md mx-auto">
                 <div className="text-gray-400 mb-4">
-                  <svg className="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2M4 13h2m13-8V4a1 1 0 00-1-1H6a1 1 0 00-1 1v1m8 0V4a1 1 0 00-1-1H9a1 1 0 00-1 1v1" />
-                  </svg>
+                  <PackageSearch className="w-16 h-16 mx-auto" />
                 </div>
                 <h3 className="text-lg font-medium text-gray-900 mb-2">
                   {selectedCategory !== "all" && selectedBrand !== "all" 

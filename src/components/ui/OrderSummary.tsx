@@ -14,7 +14,6 @@ interface OrderSummaryProps {
   itemCount?: number;
   showContinueShopping?: boolean;
   onContinueShopping?: () => void;
-  requestedFor?: string;
 }
 
 export function OrderSummary({
@@ -30,8 +29,7 @@ export function OrderSummary({
   className = "",
   itemCount,
   showContinueShopping = true,
-  onContinueShopping,
-  requestedFor
+  onContinueShopping
 }: OrderSummaryProps) {
   return (
     <div className={`bg-white rounded-md border border-gray-200 p-6 h-fit ${className}`}>
@@ -68,14 +66,7 @@ export function OrderSummary({
           <span>${total.toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
         </div>
         
-        {requestedFor && (
-          <div className="mt-4">
-            <label className="block text-sm font-medium text-gray-700 mb-2">Requested for:</label>
-            <select className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm">
-              <option>{requestedFor}</option>
-            </select>
-          </div>
-        )}
+
       </div>
       <div className="mt-4">
       {showCheckoutButton && onCheckout && (

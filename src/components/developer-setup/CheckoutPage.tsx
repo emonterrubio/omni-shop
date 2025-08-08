@@ -167,7 +167,6 @@ export function CheckoutPage({ items, shippingCost, costCenter, onBack }: Checko
             itemCount={items.length}
             showContinueShopping={true}
             onContinueShopping={() => router.push('/catalog')}
-            requestedFor="John Doe"
           />
         </div>
       </div>

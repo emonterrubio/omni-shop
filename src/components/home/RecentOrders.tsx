@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { CheckCircle, Clock, Truck } from "lucide-react";
+import { CheckCircle, Clock, Truck, PackageSearch } from "lucide-react";
 import { getOrders } from "@/services/orders";
 import { Order } from "@/types/orders";
 
@@ -63,8 +63,38 @@ export function RecentOrders({ maxOrders = 2 }: RecentOrdersProps) {
     return (
       <section className="mb-8">
         <h2 className="text-xl font-bold text-gray-900 mb-4">Your Recent Orders</h2>
-        <div className="bg-white rounded-lg border border-gray-200 p-8 text-center">
-          <p className="text-gray-500">No orders yet. Start shopping to see your recent orders here.</p>
+        <div className="bg-white rounded-lg border border-gray-200 p-8">
+          <div className="text-center">
+            <div className="text-gray-400 mb-4">
+              <PackageSearch className="w-16 h-16 mx-auto" />
+            </div>
+            <h3 className="text-lg font-medium text-gray-900 mb-2">No orders yet</h3>
+            <p className="text-gray-600 mb-6">
+              Ready to build your perfect setup? Start shopping to see your recent orders here.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              <Link
+                href="/catalog"
+                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors font-medium"
+              >
+                Browse Catalog
+              </Link>
+            </div>
+            <div className="mt-6 pt-6 border-t border-gray-200">
+              <p className="text-sm text-gray-500 mb-3">Popular categories to explore:</p>
+              <div className="flex flex-wrap gap-2 justify-center">
+                {["Laptops", "Monitors", "Keyboards", "Mice", "Headphones"].map((category) => (
+                  <Link
+                    key={category}
+                    href={`/category/${category.toLowerCase()}`}
+                    className="px-3 py-1 text-sm bg-gray-50 text-gray-700 rounded-full hover:bg-gray-100 transition-colors"
+                  >
+                    {category}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       </section>
     );
@@ -98,14 +128,14 @@ export function RecentOrders({ maxOrders = 2 }: RecentOrdersProps) {
                   />
                 </div>
                 
-                                  {/* Order Details */}
+                  {/* Order Details */}
                   <div className="flex-1 min-w-0">
                     <h3 className="text-lg font-regular leading-tight text-gray-900 truncate">{firstItem.model}</h3>
                     <Link 
                       href={`/developer-setup/details?orderId=${order.id}`}
-                      className="text-base text-blue-600 hover:text-blue-800 font-regular transition-colors"
+                      className="text-sm text-blue-600 hover:text-blue-800 font-regular transition-colors"
                     >
-                      #{order.orderNumber}
+                      Order #{order.orderNumber}
                     </Link>
                   </div>
                 
