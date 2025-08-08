@@ -39,7 +39,7 @@ export function CheckoutPage({ items, shippingCost, costCenter, onBack }: Checko
   const [costCenterValue, setCostCenterValue] = useState(costCenter || '');
   
   // Shipping form state
-  const [shippingType, setShippingType] = useState<'residential' | 'office'>('residential');
+  const [shippingType, setShippingType] = useState<'residential' | 'office'>('office');
   const [shipping, setShipping] = useState({
     // residential
     firstName: '',

@@ -1,5 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
+import { Trash2 } from 'lucide-react';
 
 interface CartItemCardProps {
   item: {
@@ -16,9 +17,10 @@ interface CartItemCardProps {
   onQuantityChange: (model: string, quantity: number) => void;
   onRemove: (model: string) => void;
   onCompare: (model: string) => void;
+  onShare?: (model: string) => void;
 }
 
-export function CartItemCard({ item, onQuantityChange, onRemove, onCompare }: CartItemCardProps) {
+export function CartItemCard({ item, onQuantityChange, onRemove, onCompare, onShare }: CartItemCardProps) {
   const handleQuantityChange = (newQuantity: number) => {
     if (newQuantity >= 1 && newQuantity <= 10) {
       onQuantityChange(item.model, newQuantity);
@@ -32,8 +34,23 @@ export function CartItemCard({ item, onQuantityChange, onRemove, onCompare }: Ca
     return `$${price.toLocaleString()}`;
   };
 
+  const handleShare = () => {
+    if (onShare) {
+      onShare(item.model);
+    } else {
+      // Default share behavior - copy product URL to clipboard
+      const productUrl = `${window.location.origin}/product/${item.model}`;
+      navigator.clipboard.writeText(productUrl).then(() => {
+        // You could add a toast notification here
+        console.log('Product URL copied to clipboard');
+      }).catch(err => {
+        console.error('Failed to copy URL: ', err);
+      });
+    }
+  };
+
   return (
-    <div className="flex items-start gap-4 py-6 px-8 border-b border-gray-200 last:border-b-0">
+    <div className="flex items-start gap-4 py-6 px-2 border-b border-gray-200 last:border-b-0">
       {/* Product Image */}
       <div className="w-24 h-24 flex-shrink-0 relative">
         <Image 
@@ -60,15 +77,18 @@ export function CartItemCard({ item, onQuantityChange, onRemove, onCompare }: Ca
 
             
             {/* Quantity Controls and Action Links */}
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col sm:flex-row gap-4">
               {/* Quantity Controls */}
               <div className="flex items-center border border-gray-300 rounded-lg w-fit">
                 <button
-                  onClick={() => handleQuantityChange(item.quantity - 1)}
-                  disabled={item.quantity <= 1}
+                  onClick={() => item.quantity === 1 ? onRemove(item.model) : handleQuantityChange(item.quantity - 1)}
                   className="px-3 py-1 text-gray-600 hover:text-gray-800 disabled:text-gray-300 disabled:cursor-not-allowed"
                 >
-                  -
+                  {item.quantity === 1 ? (
+                    <Trash2 className="w-4 h-4" />
+                  ) : (
+                    "-"
+                  )}
                 </button>
                 <span className="px-2 py-1 text-gray-900 font-medium min-w-[2rem] text-sm text-center">
                   {item.quantity}
@@ -88,7 +108,7 @@ export function CartItemCard({ item, onQuantityChange, onRemove, onCompare }: Ca
                   onClick={() => onRemove(item.model)}
                   className="text-blue-600 hover:text-blue-800 font-medium"
                 >
-                  Remove
+                  Delete
                 </button>
                 <span className="mx-2 text-gray-400">|</span>
                 <button
@@ -96,6 +116,13 @@ export function CartItemCard({ item, onQuantityChange, onRemove, onCompare }: Ca
                   className="text-blue-600 hover:text-blue-800 font-medium"
                 >
                   Compare with similar items
+                </button>
+                <span className="mx-2 text-gray-400">|</span>
+                <button
+                  onClick={handleShare}
+                  className="text-blue-600 hover:text-blue-800 font-medium"
+                >
+                  Share
                 </button>
               </div>
             </div>

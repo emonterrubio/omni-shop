@@ -10,7 +10,7 @@ interface FeaturedItemsProps {
 export function FeaturedItems({ displayedProducts }: FeaturedItemsProps) {
   return (
     <section className="mb-8">
-      <div className="flex justify-between items-center mb-4">
+      <div className="flex justify-between items-center mb-2">
         <h2 className="text-xl font-regular text-gray-900">Featured Items</h2>
         <Link
           href="/catalog"

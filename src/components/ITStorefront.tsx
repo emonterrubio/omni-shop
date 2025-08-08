@@ -1,4 +1,6 @@
 import React from "react";
+import Image from "next/image";
+import Link from "next/link";
 import { Header } from "./layout/Header";
 import { Footer } from "./layout/Footer";
 import { Categories } from "./home/Categories";
@@ -53,11 +55,48 @@ export function ITStorefront({
         <MainNavigationClient />
       </div>  
       <main className="max-w-7xl mx-auto flex-1 overflow-y-auto px-6 sm:px-12 md:px-16 py-8">
-          <h2 className="text-3xl sm:text-3xl md:text-4xl font-regular mt-4 mb-2">Hello
-            <span className="text-heritageBlue"> {randomName}</span>, welcome to</h2>
-          <h3 className="text-5xl sm:text-6xl md:text-7xl font-regular mb-12">Omni Shopping</h3>
+          {/* Hero Banner */}
+          <div className="bg-blue-50 rounded-lg p-12 mb-8">
+            <div className="flex flex-col lg:flex-row items-center gap-8">
+              {/* Left side - Text content */}
+              <div className="flex-1 text-left">
+                <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+                  Our Newest Laptop
+                </h2>
+                <h3 className="text-xl md:text-2xl font-medium text-gray-900 mb-4">
+                  Surface Pro 11, Copilot+ PC, 13-inch
+                </h3>
+                <p className="text-gray-600 text-base mb-6">
+                  A flexible design and larger display, ideal for those wanting the portability of a tablet and the power of a laptop. Powered by Windows 11.
+                </p>
+                <Link href="/product/Surface%20Pro%2011?from=catalog">
+                  <button className="bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors">
+                    See Details
+                  </button>
+                </Link>
+              </div>
+              
+              {/* Right side - Product image */}
+              <div className="flex-1 flex justify-center mr-12 lg:justify-end">
+                <div className="relative">
+                  {/* Background circle */}
+                  <div className="absolute w-full h-full bg-blue-100 rounded-full opacity-50"></div>
+                  {/* Surface Pro 11 image */}
+                  <div className="relative z-10 w-full h-full transform rotate-6">
+                    <Image
+                      src="/images/microsoft_surface_pro_11.png"
+                      alt="Surface Pro 11"
+                      width={256}
+                      height={192}
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
           {/* Recent Orders */}
-          <RecentOrders maxOrders={2} />
+          <RecentOrders maxOrders={3} />
           {/* <SearchBarClient /> */}
           {/* <Categories /> */}
           {/* <QuickActionsClient actions={quickActions} /> */}

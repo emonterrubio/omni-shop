@@ -38,7 +38,7 @@ export function ShoppingCart({ selectedItems, onEdit, onCheckout, onRemove }: Sh
   const { cartItems, updateQuantity, removeFromCart } = useContext(CartContext);
   const router = useRouter();
   const [costCenter, setCostCenter] = useState('');
-  const [shippingMethod, setShippingMethod] = useState<'free' | 'express'>('express');
+  const [shippingMethod, setShippingMethod] = useState<'free' | 'express'>('free');
 
   // Function to get related items based on cart items
   const getRelatedItems = () => {

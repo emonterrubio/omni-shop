@@ -42,18 +42,18 @@ export function CategoryMenu({ selectedCategory, onCategorySelect }: CategoryMen
 
   return (
     <div>
-      <h3 className="text-lg font-semibold text-gray-900">Categories</h3>
+      <h3 className="text-lg font-semibold text-gray-900 mb-2">Categories</h3>
       <div className="space-y-1">
         <button
           onClick={() => onCategorySelect("all")}
-          className={`w-full flex items-center justify-between px-3 py-2 text-left rounded-md transition-colors ${
+          className={`w-full flex items-center justify-between px-3 py-2 text-left rounded transition-colors ${
             selectedCategory === "all"
               ? "bg-blue-50 text-blue-700 font-medium"
               : "text-gray-700 hover:bg-gray-50"
           }`}
         >
           <div className="flex flex-col items-start">
-            <span>All</span>
+            <span className="leading-tight">All</span>
             <span className="text-xs text-gray-500">
               {hardwareData.length + monitorData.length + headphoneData.length + 
                mouseData.length + keyboardData.length + webcamData.length + 
@@ -69,7 +69,7 @@ export function CategoryMenu({ selectedCategory, onCategorySelect }: CategoryMen
             <button
               key={category.name}
               onClick={() => onCategorySelect(category.name.toLowerCase())}
-              className={`w-full flex items-center justify-between px-3 py-1 text-left rounded-md transition-colors ${
+              className={`w-full flex items-center justify-between px-3 py-2 text-left rounded transition-colors ${
                 selectedCategory === category.name.toLowerCase()
                   ? "bg-blue-50 text-blue-700 font-medium"
                   : "text-gray-700 hover:text-blue-600 hover:bg-blue-50"

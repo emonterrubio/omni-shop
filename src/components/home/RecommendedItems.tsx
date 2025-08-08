@@ -11,7 +11,7 @@ interface RecommendedItemsProps {
 export function RecommendedItems({ displayedProducts, showCompareButton }: RecommendedItemsProps) {
   return (
     <section className="mb-8">
-      <div className="flex justify-between items-center mb-4">
+      <div className="flex justify-between items-center mb-2">
         <h2 className="text-xl font-regular text-gray-900">Recommended for You</h2>
         {showCompareButton && (
           <div className="flex gap-2">

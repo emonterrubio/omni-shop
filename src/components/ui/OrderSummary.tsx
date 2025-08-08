@@ -68,7 +68,7 @@ export function OrderSummary({
         
 
       </div>
-      <div className="mt-4">
+      <div className="mt-1">
       {showCheckoutButton && onCheckout && (
                 <button 
           onClick={onCheckout}

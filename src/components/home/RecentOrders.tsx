@@ -61,6 +61,7 @@ export function RecentOrders({ maxOrders = 2 }: RecentOrdersProps) {
 
   if (orders.length === 0) {
     return (
+      // Empty State
       <section className="mb-8">
         <h2 className="text-xl font-bold text-gray-900 mb-4">Your Recent Orders</h2>
         <div className="bg-white rounded-lg border border-gray-200 p-8">
@@ -70,7 +71,7 @@ export function RecentOrders({ maxOrders = 2 }: RecentOrdersProps) {
             </div>
             <h3 className="text-lg font-medium text-gray-900 mb-2">No orders yet</h3>
             <p className="text-gray-600 mb-6">
-              Ready to build your perfect setup? Start shopping to see your recent orders here.
+              Start shopping to see your recent orders here.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <Link
@@ -101,8 +102,9 @@ export function RecentOrders({ maxOrders = 2 }: RecentOrdersProps) {
   }
 
   return (
+    // Recent Orders
     <section className="mb-8">
-      <div className="flex justify-between items-center mb-4">
+      <div className="flex justify-between items-center mb-2">
         <h2 className="text-xl font-regular text-gray-900">Your Recent Orders</h2>
         <Link
           href="/orders"
