@@ -31,11 +31,11 @@ export function ProductInfoPanel({
   return (
     <div className="flex flex-col gap-4">
       <div>
-        <Link href={`/catalog/brand/${encodeURIComponent(brand)}`} className="text-lg font-bold text-blue-600 mb-2 hover:underline block">
+        <Link href={`/catalog/brand/${encodeURIComponent(brand)}`} className="text-lg font-bold text-blue-600 hover:underline block">
           {brand}
         </Link>
         <h1 className="text-4xl font-regular tracking-normal">{title}</h1>
-        <div className="text-gray-500 text-base font-normal mt-2">SKU: {sku}</div>
+        <div className="text-gray-500 text-base font-normal mt-1">SKU: {sku}</div>
         <div className="text-3xl font-bold mt-2">${price.toLocaleString()}</div>
         <div className={available ? "font-base text-green-600 font-medium mt-2" : "text-red-600 font-medium mt-1"}>
           {available ? 'Available Now' : 'Out of Stock'}

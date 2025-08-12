@@ -123,6 +123,22 @@ export default function BrandCatalogPage({ params }: { params: Promise<{ brand: 
 
   const brandProducts = allProducts.filter((p) => p.brand === brand);
 
+  // Get available categories for this brand
+  const availableCategories = Array.from(new Set(brandProducts.map(product => product.category)));
+  
+  // Map category names to filter values
+  const categoryFilterMap: { [key: string]: string } = {
+    'Laptops': 'laptops',
+    'Desktops': 'desktops', 
+    'Monitors': 'monitors',
+    'Headphones': 'headphones',
+    'Mice': 'mice',
+    'Keyboards': 'keyboards',
+    'Webcams': 'webcams',
+    'Docking Stations': 'docking stations',
+    'Backpacks': 'backpacks'
+  };
+
   const [sortOption, setSortOption] = useState("all");
   const [filterOption, setFilterOption] = useState("all");
   const [showFilterMenu, setShowFilterMenu] = useState(false);
@@ -157,10 +173,29 @@ export default function BrandCatalogPage({ params }: { params: Promise<{ brand: 
   // Filter logic
   let filteredProducts = brandProducts;
   if (filterOption !== "all") {
-    filteredProducts = brandProducts.filter((product) =>
-      product.category && product.category.toLowerCase() === filterOption
+    // Find the category name that matches the filter value
+    const selectedCategory = Object.keys(categoryFilterMap).find(
+      key => categoryFilterMap[key] === filterOption
     );
+    
+    if (selectedCategory) {
+      filteredProducts = brandProducts.filter((product) =>
+        product.category === selectedCategory
+      );
+    }
   }
+  
+  // Reset filter if the selected category is no longer available
+  useEffect(() => {
+    if (filterOption !== "all") {
+      const selectedCategory = Object.keys(categoryFilterMap).find(
+        key => categoryFilterMap[key] === filterOption
+      );
+      if (!selectedCategory || !availableCategories.includes(selectedCategory)) {
+        setFilterOption("all");
+      }
+    }
+  }, [availableCategories, filterOption, categoryFilterMap]);
 
   // Sorting logic
   let sortedProducts = filteredProducts;
@@ -201,11 +236,11 @@ export default function BrandCatalogPage({ params }: { params: Promise<{ brand: 
         </div>
         
         <div className="flex items-center justify-between mb-6 gap-4 flex-wrap w-full">
-          <div className="text-sm font-regular text-gray-900 min-w-max">{sortedProducts.length} item{sortedProducts.length === 1 ? "" : "s"} found</div>
+          <div className="text-base font-regular text-gray-900 min-w-max">{sortedProducts.length} item{sortedProducts.length === 1 ? "" : "s"} found</div>
           {/* Desktop filter/sort dropdowns */}
           <div className="hidden md:flex items-center gap-4 ml-auto">
             <div>
-              <label htmlFor="filter" className="mr-2 text-sm font-regular text-gray-700">Filter by:</label>
+              <label htmlFor="filter" className="mr-2 text-base font-regular text-gray-700">Filter by:</label>
               <select
                 id="filter"
                 value={filterOption}
@@ -213,19 +248,21 @@ export default function BrandCatalogPage({ params }: { params: Promise<{ brand: 
                 className="border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="all">All</option>
-                <option value="laptops">Laptops</option>
-                <option value="desktops">Desktops</option>
-                <option value="monitors">Monitors</option>
-                <option value="headphones">Headphones</option>
-                <option value="mice">Mice</option>
-                <option value="keyboards">Keyboards</option>
-                <option value="webcams">Webcams</option>
-                <option value="docking stations">Docking Stations</option>
-                <option value="backpacks">Backpacks</option>
+                {availableCategories.map(category => {
+                  const filterValue = categoryFilterMap[category];
+                  if (filterValue) {
+                    return (
+                      <option key={filterValue} value={filterValue}>
+                        {category}
+                      </option>
+                    );
+                  }
+                  return null;
+                })}
               </select>
             </div>
             <div>
-              <label htmlFor="sort" className="mr-2 text-sm font-regular text-gray-700">Sort by:</label>
+              <label htmlFor="sort" className="mr-2 text-base font-regular text-gray-700">Sort by:</label>
               <select
                 id="sort"
                 value={sortOption}
@@ -259,26 +296,28 @@ export default function BrandCatalogPage({ params }: { params: Promise<{ brand: 
             {/* Filter menu */}
             {showFilterMenu && (
               <div ref={filterMenuRef} className="absolute right-12 top-10 z-50 bg-white border border-gray-200 rounded shadow-md w-40">
-                {[
-                  { value: "all", label: "All" },
-                  { value: "laptops", label: "Laptops" },
-                  { value: "desktops", label: "Desktops" },
-                  { value: "monitors", label: "Monitors" },
-                  { value: "headphones", label: "Headphones" },
-                  { value: "mice", label: "Mice" },
-                  { value: "keyboards", label: "Keyboards" },
-                  { value: "webcams", label: "Webcams" },
-                  { value: "docking stations", label: "Docking Stations" },
-                  { value: "backpacks", label: "Backpacks" },
-                ].map(opt => (
-                  <button
-                    key={opt.value}
-                    className={`block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${filterOption === opt.value ? "bg-gray-100 font-semibold" : ""}`}
-                    onClick={() => { setFilterOption(opt.value); setShowFilterMenu(false); }}
-                  >
-                    {opt.label}
-                  </button>
-                ))}
+                <button
+                  key="all"
+                  className={`block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${filterOption === "all" ? "bg-gray-100 font-semibold" : ""}`}
+                  onClick={() => { setFilterOption("all"); setShowFilterMenu(false); }}
+                >
+                  All
+                </button>
+                {availableCategories.map(category => {
+                  const filterValue = categoryFilterMap[category];
+                  if (filterValue) {
+                    return (
+                      <button
+                        key={filterValue}
+                        className={`block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${filterOption === filterValue ? "bg-gray-100 font-semibold" : ""}`}
+                        onClick={() => { setFilterOption(filterValue); setShowFilterMenu(false); }}
+                      >
+                        {category}
+                      </button>
+                    );
+                  }
+                  return null;
+                })}
               </div>
             )}
             {/* Sort menu */}
@@ -304,7 +343,7 @@ export default function BrandCatalogPage({ params }: { params: Promise<{ brand: 
           </div>
         </div>
         
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {sortedProducts.map((product, idx) => (
             <ProductCard key={`${product.model}-${idx}`} product={product} />
           ))}

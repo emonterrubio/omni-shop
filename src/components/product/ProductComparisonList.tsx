@@ -22,7 +22,7 @@ interface ProductComparisonListProps {
 export function ProductComparisonList({ products, getProductSpecs }: ProductComparisonListProps) {
   if (!products || products.length === 0) return null;
   return (
-    <div className="mt-12">
+    <div className="mt-8">
       <h2 className="text-2xl font-medium mb-4">Compare with similar items</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 items-stretch">
         {products.map((p: Product, idx: number) => (

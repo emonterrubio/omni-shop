@@ -18,7 +18,7 @@ export function CatalogSidebar({
   productsByBrand,
 }: CatalogSidebarProps) {
   return (
-    <div className="w-1/5 h-full flex-shrink-0 bg-white border-gray-200 rounded p-4">
+    <div className="h-full flex-shrink-0 bg-white border-gray-200 rounded p-4">
       <CategoryMenu
         selectedCategory={selectedCategory}
         onCategorySelect={onCategorySelect}

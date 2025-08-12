@@ -112,40 +112,70 @@ export default function OrderDetailsPage() {
   return (
     <PageLayout>
       {/* Order Details Header */}
-      <div className="text-left mb-8">
-        <h1 className="text-5xl font-medium text-gray-900 mt-6 mb-4">Order Details</h1>
-        <p className="text-lg font-regular text-gray-800 mb-4">
-          View the details of your submitted order.
+      <div className="text-left mb-4 lg:mb-8 px-4 lg:px-0">
+        <h1 className="text-3xl lg:text-5xl font-medium text-gray-900 mt-4 lg:mt-6 mb-4">Order Details</h1>
+        <p className="text-base lg:text-lg font-regular text-gray-800 mb-4">
+          Your order has been submitted for manager approval. We'll send you confirmation of approval and when your item(s) will be on the way.
         </p>
       </div>
 
-      {/* Product Details Table */}
-      <div className="bg-white rounded-lg border border-gray-200 overflow-hidden mb-4">
-        {/* Order Number and Date */}
-        <div className="flex flex-col pt-8 px-8 pb-4">
-          <div className="text-2xl font-regular text-gray-900">Order {orderNumber}</div>
-          <div className="border-b border-gray-200 pb-4"></div>
-          <div className="flex inline-block mt-4 gap-12">
-            {/* Ordered By Section */}
+      {/* Order Summary Card */}
+      <div className="bg-white rounded-lg border border-gray-200 overflow-hidden mb-4 px-4 lg:px-0">
+        {/* Order Number Header */}
+        <div className="pt-6 lg:pt-8 px-4 lg:px-8 pb-4">
+          <div className="text-xl lg:text-2xl font-bold text-gray-900 mb-4">Order #{orderNumber}</div>
+          <div className="border-b border-gray-200"></div>
+          
+          {/* Mobile: Two-column grid layout */}
+          <div className="lg:hidden">
+            <div className="grid grid-cols-2 gap-4 mt-4">
+              <div className="flex flex-col">
+                <span className="font-regular text-sm text-gray-700">Order Number</span>
+                <span className="text-base text-gray-900 font-bold">{orderNumber}</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="font-regular text-sm text-gray-700">Order Date</span>
+                <span className="text-base text-gray-900 font-bold">{orderDate}</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="font-regular text-sm text-gray-700">Ordered for</span>
+                <span className="text-base text-gray-900 font-bold">{shipping.firstName} {shipping.lastName}</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="font-regular text-sm text-gray-700">Ordered by</span>
+                <span className="text-base text-gray-900 font-bold">{billing.name} {billing.lastName}</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="font-regular text-sm text-gray-700">Order Total</span>
+                <span className="text-base text-gray-900 font-bold">${total.toLocaleString()}</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="font-regular text-sm text-gray-700">Shipping to</span>
+                <span className="text-base text-gray-900 font-bold">
+                  {shippingType === 'residential' ? 'Residential' : 'Office'}
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          {/* Desktop: Original horizontal layout */}
+          <div className="hidden lg:flex mt-4 gap-12">
             <div className="flex flex-col">
               <h2 className="text-base font-bold text-gray-900">Ordered by</h2>
               <div className="text-base font-regular text-gray-900">
                 {billing.name} {billing.lastName}
               </div>
             </div>
-            {/* Ordered For Section */}
             <div className="flex flex-col">
               <h2 className="text-base font-bold text-gray-900">Ordered for</h2>
               <div className="text-base font-regular text-gray-900">
                 {shipping.firstName} {shipping.lastName}
               </div>
             </div>
-            {/* Order Number */}
             <div className="flex flex-col">
               <h2 className="text-base font-bold text-gray-900">Order submitted</h2>
               <div className="text-base font-regular text-gray-900">{orderDate}</div>
             </div>
-            {/* Shipping Address Section */}
             <div className="flex flex-col">
               <h2 className="text-base font-bold text-gray-900">
                 Shipping to {shippingType === 'residential' ? 'Residential Address' : 'Office Address'}: &nbsp;
@@ -156,46 +186,78 @@ export default function OrderDetailsPage() {
             </div>
           </div>
         </div>
-        {/* Product Details Table */}
-        <div className="px-6 py-4 overflow-x-auto">
-          <table className="w-full">
-            <thead className="bg-gray-100">
-              <tr>
-                <th className="text-base text-left px-6 py-4 font-semibold text-gray-900">Product Details</th>
-                <th className="text-base text-center px-6 py-4 font-semibold text-gray-900">Quantity</th>
-                <th className="text-base text-right px-6 py-4 font-semibold text-gray-900">Price</th>
-              </tr>
-            </thead>
-            <tbody>
+        {/* Product Details Section */}
+        <div className="px-4 lg:px-6 py-4">
+          {/* Mobile: Product list layout */}
+          <div className="lg:hidden">
+            <div className="bg-gray-100 rounded-t-lg px-4 py-3 mb-4">
+              <h3 className="text-base font-bold text-gray-900">Product Details</h3>
+            </div>
+            <div className="space-y-4">
               {items.map((item: any, index: number) => (
-                <tr key={item.model} className={index < items.length - 1 ? "border-b border-gray-200" : ""}>
-                  <td className="px-6 py-4">
-                    <div className="flex items-center gap-4">
-                      <div className="w-16 h-12 relative flex-shrink-0">
-                        <Image src={item.image} alt={item.model} fill className="object-contain rounded" />
-                      </div>
-                      <div>
-                        <div className="text-lg font-regular text-gray-900">{item.brand} {item.model}</div>
-                        <div className="text-base text-gray-600">{item.card_description || item.description}</div>
+                <div key={item.model} className={`pb-4 ${index < items.length - 1 ? "border-b border-gray-200" : ""}`}>
+                  <div className="flex items-start gap-4">
+                    <div className="w-16 h-12 relative flex-shrink-0">
+                      <Image src={item.image} alt={item.model} fill className="object-contain rounded" />
+                    </div>
+                    <div className="flex-1">
+                      <div className="text-base font-bold text-gray-900 mb-1">{item.brand} {item.model}</div>
+                      <div className="text-sm text-gray-600 mb-2">{item.card_description || item.description}</div>
+                      <div className="flex justify-between items-center">
+                        <span className="text-sm text-gray-700">Quantity: {item.quantity || 1}</span>
+                        <span className="text-base font-bold text-gray-900">
+                          {typeof item.price === 'string'
+                            ? `$${Number((item.price as string).replace(/,/g, "")).toLocaleString()}`
+                            : `$${item.price.toLocaleString()}`}
+                        </span>
                       </div>
                     </div>
-                  </td>
-                  <td className="text-center px-6 py-4 text-gray-900">{item.quantity || 1}</td>
-                  <td className="text-right px-6 py-4 font-semibold text-gray-900">
-                    {typeof item.price === 'string'
-                      ? `$${Number((item.price as string).replace(/,/g, "")).toLocaleString()}`
-                      : `$${item.price.toLocaleString()}`}
-                  </td>
-                </tr>
+                  </div>
+                </div>
               ))}
-            </tbody>
-          </table>
+            </div>
+          </div>
+          
+          {/* Desktop: Table layout */}
+          <div className="hidden lg:block overflow-x-auto">
+            <table className="w-full">
+              <thead className="bg-gray-100">
+                <tr>
+                  <th className="text-base text-left px-6 py-4 font-semibold text-gray-900">Product Details</th>
+                  <th className="text-base text-center px-6 py-4 font-semibold text-gray-900">Quantity</th>
+                  <th className="text-base text-right px-6 py-4 font-semibold text-gray-900">Price</th>
+                </tr>
+              </thead>
+              <tbody>
+                {items.map((item: any, index: number) => (
+                  <tr key={item.model} className={index < items.length - 1 ? "border-b border-gray-200" : ""}>
+                    <td className="px-6 py-4">
+                      <div className="flex items-center gap-4">
+                        <div className="w-16 h-12 relative flex-shrink-0">
+                          <Image src={item.image} alt={item.model} fill className="object-contain rounded" />
+                        </div>
+                        <div>
+                          <div className="text-lg font-regular text-gray-900">{item.brand} {item.model}</div>
+                          <div className="text-base text-gray-600">{item.card_description || item.description}</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="text-center px-6 py-4 text-gray-900">{item.quantity || 1}</td>
+                    <td className="text-right px-6 py-4 font-semibold text-gray-900">
+                      {typeof item.price === 'string'
+                        ? `$${Number((item.price as string).replace(/,/g, "")).toLocaleString()}`
+                        : `$${item.price.toLocaleString()}`}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
 
       {/* Order Summary */}
-      <div className="max-w-md ml-auto">
-        <OrderSummary
+      <OrderSummary
           subtotal={subtotal}
           tax={tax}
           shippingCost={shippingCost}
@@ -204,7 +266,6 @@ export default function OrderDetailsPage() {
           showCheckoutButton={false}
           showContinueShopping={false}
         />
-      </div>
     </PageLayout>
   );
 } 

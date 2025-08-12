@@ -8,7 +8,7 @@ interface OrderItemsProps {
 
 export function OrderItems({ items }: OrderItemsProps) {
   return (
-    <div className="divide-y divide-gray-200 px-4 py-3">
+    <div className="divide-y divide-gray-200 px-2 lg:px-4 py-2">
       {items.map((item, index) => (
         <OrderItemRow key={`${item.model}-${index}`} item={item} />
       ))}

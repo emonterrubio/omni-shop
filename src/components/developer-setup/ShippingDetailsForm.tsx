@@ -81,7 +81,7 @@ export function ShippingDetailsForm({ value, onChange, shippingType, setShipping
   };
 
   return (
-    <div className="px-6 py-4">
+    <div className="px-2 py-2 sm:px-6 sm:py-4">
       <h3 className="text-2xl font-regular mb-4">Shipping Details</h3>
       <div className="flex items-center gap-6 mb-4">
         <label className="flex items-center cursor-pointer">

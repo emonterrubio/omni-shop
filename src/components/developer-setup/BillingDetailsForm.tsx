@@ -41,7 +41,7 @@ export function BillingDetailsForm({ value, onChange }: BillingDetailsFormProps)
     setErrors((prev: any) => ({ ...prev, [name]: validate(name, val) }));
   };
   return (
-    <div className="px-6 py-4">
+    <div className="px-2 py-2 sm:px-6 sm:py-4">
       <h3 className="text-2xl font-regular mb-4">Billing Details</h3>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>

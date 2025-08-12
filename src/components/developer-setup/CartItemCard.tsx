@@ -115,7 +115,8 @@ export function CartItemCard({ item, onQuantityChange, onRemove, onCompare, onSh
                   onClick={() => onCompare(item.model)}
                   className="text-blue-600 hover:text-blue-800 font-medium"
                 >
-                  Compare with similar items
+                  <span className="hidden lg:inline">Compare with similar items</span>
+                  <span className="lg:hidden">Compare</span>
                 </button>
                 <span className="mx-2 text-gray-400">|</span>
                 <button

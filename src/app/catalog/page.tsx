@@ -240,36 +240,57 @@ export default function CatalogPage() {
 
   return (
     <PageLayout>
-      <div className="text-left mb-8">
-        <h1 className="text-5xl font-medium text-gray-900 mt-6 mb-2">All Products</h1>
-        <h4 className="font-base text-gray-800 mb-4">Browse our catalog of products and find the perfect item for your needs.</h4>
+      <div className="text-left mb-4 lg:mb-8 sm:px-4 lg:px-0">
+        <h1 className="text-4xl md:text-5xl font-medium text-gray-900 mt-4 lg:mt-6 mb-2">
+          {selectedCategory === "all" ? "All Products" : `All ${selectedCategory.charAt(0).toUpperCase() + selectedCategory.slice(1)}`}
+        </h1>
+        <h4 className="text-base font-base text-gray-800 mb-4">Browse our catalog of products and find the perfect item for your needs.</h4>
       </div>
       
-      <div className="flex">
-        {/* Sidebar */}
-        <CatalogSidebar
-          selectedCategory={selectedCategory}
-          selectedBrand={selectedBrand}
-          onCategorySelect={setSelectedCategory}
-          onBrandSelect={setSelectedBrand}
-          productsByBrand={productsByBrand}
-        />
+      <div className="flex flex-col lg:flex-row">
+        {/* Mobile: Filter Panel */}
+        <div className="lg:hidden my-4 sm:px-4">
+          <div>
+            <label className="block text-2xl font-regular text-gray-700 mb-2">Categories</label>
+            <select
+              value={selectedCategory}
+              onChange={e => setSelectedCategory(e.target.value)}
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="all">All</option>
+              {Array.from(new Set(allProducts.map((p: any) => p.category))).sort().map(category => (
+                <option key={category} value={category}>{category}</option>
+              ))}
+            </select>
+          </div>
+        </div>
+        
+        {/* Desktop: Sidebar */}
+        <div className="hidden lg:block">
+          <CatalogSidebar
+            selectedCategory={selectedCategory}
+            selectedBrand={selectedBrand}
+            onCategorySelect={setSelectedCategory}
+            onBrandSelect={setSelectedBrand}
+            productsByBrand={productsByBrand}
+          />
+        </div>
         
         {/* Main Content */}
-        <div className="flex-1 pl-3">
-          <div className="flex items-center justify-between mb-6 gap-4 flex-wrap w-full">
-            <div className="text-sm font-regular text-gray-900 min-w-max">
+        <div className="flex-1 lg:pl-3 sm:px-4 lg:px-0">
+          <div className="flex items-center justify-between mb-4 gap-4 flex-wrap w-full">
+            <div className="text-base font-regular text-gray-900 min-w-max">
               Showing {startIndex + 1}-{Math.min(endIndex, sortedProducts.length)} of {sortedProducts.length} item{sortedProducts.length === 1 ? "" : "s"}
             </div>
             {/* Desktop filter and sort dropdowns */}
-            <div className="hidden md:flex items-center gap-4 ml-auto">
+            <div className="hidden lg:flex items-center gap-4 ml-auto">
               <div>
-                <label htmlFor="brand-filter" className="mr-2 text-sm font-regular text-gray-700">Filter by:</label>
+                <label htmlFor="brand-filter" className="mr-2 text-base font-regular text-gray-700">Filter by:</label>
                 <select
                   id="brand-filter"
                   value={selectedBrand}
                   onChange={e => setSelectedBrand(e.target.value)}
-                  className="border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="border border-gray-300 rounded-md px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                   <option value="all">All Brands</option>
                   {Object.keys(productsByBrand).sort().map((brand) => (
@@ -280,12 +301,12 @@ export default function CatalogPage() {
                 </select>
               </div>
               <div>
-                <label htmlFor="sort" className="mr-2 text-sm font-regular text-gray-700">Sort by:</label>
+                <label htmlFor="sort" className="mr-2 text-base font-regular text-gray-700">Sort by:</label>
                 <select
                   id="sort"
                   value={sortOption}
                   onChange={e => setSortOption(e.target.value)}
-                  className="border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="border border-gray-300 rounded-md px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                   <option value="all">All</option>
                   <option value="price-low">Price: Low to High</option>
@@ -296,7 +317,7 @@ export default function CatalogPage() {
               </div>
             </div>
             {/* Mobile filter and sort icons */}
-            <div className="flex md:hidden items-center gap-4 ml-auto relative">
+            <div className="flex lg:hidden items-center gap-4 ml-auto relative">
               <button
                 aria-label="Filter"
                 className="p-2 rounded hover:bg-gray-100"
@@ -402,7 +423,7 @@ export default function CatalogPage() {
               </div>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-3">
               {paginatedProducts.map((product, idx) => (
                 <ProductCard key={`${product.model}-${idx}`} product={product} fromCatalog={true} />
               ))}

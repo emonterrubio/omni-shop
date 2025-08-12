@@ -133,12 +133,12 @@ export function CheckoutPage({ items, shippingCost, costCenter, onBack }: Checko
         {/* Left Column: Billing and Shipping Forms */}
         <div className="lg:col-span-3 flex flex-col gap-4">
           {/* Billing Details */}
-          <div className="bg-white rounded-lg border border-gray-200 px-4 py-4">
+          <div className="sm:bg-white sm:rounded-lg sm:border sm:border-gray-200 sm:px-4 sm:py-4">
             <BillingDetailsForm value={billing} onChange={setBilling} />
           </div>
 
           {/* Shipping Details */}
-          <div className="bg-white rounded-lg border border-gray-200 px-4 py-4">
+          <div className="sm:bg-white sm:rounded-lg sm:border sm:border-gray-200 sm:px-4 sm:py-4">
             <ShippingDetailsForm 
               value={shipping} 
               onChange={setShipping} 

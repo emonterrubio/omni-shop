@@ -25,7 +25,7 @@ export function OrderItemRow({ item }: OrderItemRowProps) {
   };
 
   return (
-    <div className="px-6 py-6">
+    <div className="px-4 lg:px-6 py-4">
       <div className="flex items-center gap-4">
         {/* Product Image */}
         <div className="w-16 h-12 relative flex-shrink-0">
@@ -44,7 +44,7 @@ export function OrderItemRow({ item }: OrderItemRowProps) {
               <div className="text-lg font-medium text-gray-900 truncate">
                 {item.brand} {item.model}
               </div>
-              <div className="text-base text-gray-800 truncate">
+              <div className="text-sm text-gray-800">
                 {item.description}
               </div>
             </div>

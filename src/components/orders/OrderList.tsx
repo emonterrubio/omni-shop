@@ -27,7 +27,7 @@ export function OrderList() {
   }
 
   return (
-    <div className="space-y-6">
+    <div>
       {orders.map((order) => (
         <OrderCard key={order.id} order={order} />
       ))}
