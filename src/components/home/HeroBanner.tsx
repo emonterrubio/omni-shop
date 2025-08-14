@@ -22,17 +22,17 @@ export function HeroBanner({
   imageAlt
 }: HeroBannerProps) {
   return (
-    <div className="rounded-lg py-6 sm:py-8 md:py-8 mb-6 sm:mb-8">
-      <div className="flex flex-col-reverse lg:flex-row items-center gap-4 sm:gap-6 lg:gap-8">
-        {/* Left side - Text content */}
-        <div className="flex-1 text-center lg:text-left w-full lg:w-auto">
+    <div className="rounded-lg mb-6 sm:mb-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 items-center">
+        {/* Text content - Takes up 2 columns on desktop */}
+        <div className="lg:col-span-2 text-center lg:text-left w-full">
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-2 sm:mb-3 md:mb-4">
             {title}
           </h2>
-          <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 mb-2 sm:mb-3 md:mb-4">
+          <h3 className="text-xl sm:text-3xl font-regular text-gray-900 mb-2 sm:mb-3 md:mb-4">
             {subtitle}
           </h3>
-          <p className="text-base sm:text-base leading-tight font-regular text-gray-800 mb-4 sm:mb-6">
+          <p className="text-base sm:text-lg leading-tight font-regular text-gray-800 mb-4 sm:mb-6">
             {description}
           </p>
           <Link href={buttonLink}>
@@ -42,9 +42,9 @@ export function HeroBanner({
           </Link>
         </div>
         
-        {/* Product image - Top on mobile, right on desktop */}
-        <div className="flex-1 flex justify-center w-full lg:w-auto lg:mr-12 lg:justify-end">
-          <div className="relative w-48 h-36 sm:w-56 sm:h-42 md:w-64 md:h-48 lg:w-96 lg:h-72">
+        {/* Product image - Takes up 1 column on desktop, full width on mobile */}
+        <div className="lg:col-span-1 flex w-full">
+          <div className="relative w-full h-full">
             {/* Product image */}
             <div className="relative z-10 w-full h-full transform rotate-3 sm:rotate-4 md:rotate-5 lg:rotate-6">
               <Image
