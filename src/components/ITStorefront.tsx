@@ -10,6 +10,7 @@ import { SearchBarClient } from "./search/SearchBarClient";
 import { QuickActionsClient } from "./home/QuickActionsClient";
 import { MainNavigationClient } from "./layout/MainNavigationClient";
 import { HeroBanner } from "./home/HeroBanner";
+import { RequestHardwareBanner } from "./product/RequestHardwareBanner";
 interface ITStorefrontProps {
   categories: any[];
   products: any[];
@@ -63,7 +64,6 @@ export function ITStorefront({
             buttonLink="/product/Surface%20Pro%2011?from=catalog"
             imageSrc="/images/microsoft_surface_pro_11.png"
             imageAlt="Surface Pro 11"
-            backgroundColor="bg-blue-50"
           />
           {/* Recent Orders */}
           <RecentOrders maxOrders={3} />
@@ -74,7 +74,8 @@ export function ITStorefront({
           <FeaturedItems displayedProducts={featuredProducts} />
           {/* Recommended Items */}
           <RecommendedItems displayedProducts={displayedProducts} showCompareButton={showCompareButton} />
-
+          {/* Request Hardware Banner */}
+          <RequestHardwareBanner />
           {/* <EligibilityInfo data={eligibilityData} /> */}
       </main>
       <Footer />

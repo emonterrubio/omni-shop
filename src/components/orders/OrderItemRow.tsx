@@ -41,9 +41,12 @@ export function OrderItemRow({ item }: OrderItemRowProps) {
         <div className="flex-1 min-w-0">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
             <div className="flex-1 min-w-0">
-              <div className="text-lg font-medium text-gray-900 truncate">
+              <Link 
+                href={`/product/${encodeURIComponent(item.model)}?from=orders`}
+                className="text-lg font-medium text-gray-900 hover:text-blue-600 truncate transition-colors"
+              >
                 {item.brand} {item.model}
-              </div>
+              </Link>
               <div className="text-sm text-gray-800">
                 {item.description}
               </div>

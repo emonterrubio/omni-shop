@@ -10,8 +10,6 @@ interface HeroBannerProps {
   buttonLink: string;
   imageSrc: string;
   imageAlt: string;
-  backgroundColor?: string;
-  className?: string;
 }
 
 export function HeroBanner({
@@ -21,12 +19,10 @@ export function HeroBanner({
   buttonText,
   buttonLink,
   imageSrc,
-  imageAlt,
-  backgroundColor = "bg-blue-50",
-  className = ""
+  imageAlt
 }: HeroBannerProps) {
   return (
-    <div className={`${backgroundColor} rounded-lg p-6 sm:p-8 md:p-8 lg:p-12 mb-6 sm:mb-8 ${className}`}>
+    <div className="rounded-lg py-6 sm:py-8 md:py-8 mb-6 sm:mb-8">
       <div className="flex flex-col-reverse lg:flex-row items-center gap-4 sm:gap-6 lg:gap-8">
         {/* Left side - Text content */}
         <div className="flex-1 text-center lg:text-left w-full lg:w-auto">
@@ -40,7 +36,7 @@ export function HeroBanner({
             {description}
           </p>
           <Link href={buttonLink}>
-            <button className="w-full sm:w-auto bg-blue-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors text-base">
+            <button className="w-full sm:w-auto bg-blue-600 text-white px-6 py-2 rounded-md font-medium hover:bg-blue-700 transition-colors text-base">
               {buttonText}
             </button>
           </Link>
@@ -48,7 +44,7 @@ export function HeroBanner({
         
         {/* Product image - Top on mobile, right on desktop */}
         <div className="flex-1 flex justify-center w-full lg:w-auto lg:mr-12 lg:justify-end">
-          <div className="relative w-48 h-36 sm:w-56 sm:h-42 md:w-64 md:h-48 lg:w-full lg:h-full">
+          <div className="relative w-48 h-36 sm:w-56 sm:h-42 md:w-64 md:h-48 lg:w-96 lg:h-72">
             {/* Product image */}
             <div className="relative z-10 w-full h-full transform rotate-3 sm:rotate-4 md:rotate-5 lg:rotate-6">
               <Image

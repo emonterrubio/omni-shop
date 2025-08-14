@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { OrderSummary } from "@/components/ui/OrderSummary";
 import Image from "next/image";
+import Link from "next/link";
 import { CartContext } from "@/components/CartContext";
 
 function generateOrderNumber() {
@@ -154,6 +155,13 @@ export default function OrderDetailsPage() {
                 <span className="text-base text-gray-900 font-bold">
                   {shippingType === 'residential' ? 'Residential' : 'Office'}
                 </span>
+                <span className="text-sm text-gray-600 mt-1">
+                  {shipping.address1}
+                  {shipping.city && `, ${shipping.city}`}
+                  {shipping.state && `, ${shipping.state}`}
+                  {shipping.zip && ` ${shipping.zip}`}
+                  {shipping.country && `, ${shipping.country}`}
+                </span>
               </div>
             </div>
           </div>
@@ -182,6 +190,10 @@ export default function OrderDetailsPage() {
               </h2>
               <div className="text-base font-regular text-gray-900">
                 {shipping.address1}
+                {shipping.city && `, ${shipping.city}`}
+                {shipping.state && `, ${shipping.state}`}
+                {shipping.zip && ` ${shipping.zip}`}
+                {shipping.country && `, ${shipping.country}`}
               </div>
             </div>
           </div>
@@ -201,7 +213,12 @@ export default function OrderDetailsPage() {
                       <Image src={item.image} alt={item.model} fill className="object-contain rounded" />
                     </div>
                     <div className="flex-1">
-                      <div className="text-base font-bold text-gray-900 mb-1">{item.brand} {item.model}</div>
+                      <Link 
+                        href={`/product/${encodeURIComponent(item.model)}?from=orders`}
+                        className="text-base font-bold text-gray-900 hover:text-blue-600 mb-1 block transition-colors"
+                      >
+                        {item.brand} {item.model}
+                      </Link>
                       <div className="text-sm text-gray-600 mb-2">{item.card_description || item.description}</div>
                       <div className="flex justify-between items-center">
                         <span className="text-sm text-gray-700">Quantity: {item.quantity || 1}</span>
@@ -237,7 +254,12 @@ export default function OrderDetailsPage() {
                           <Image src={item.image} alt={item.model} fill className="object-contain rounded" />
                         </div>
                         <div>
-                          <div className="text-lg font-regular text-gray-900">{item.brand} {item.model}</div>
+                          <Link 
+                            href={`/product/${encodeURIComponent(item.model)}?from=orders`}
+                            className="text-lg font-regular text-gray-900 hover:text-blue-600 transition-colors"
+                          >
+                            {item.brand} {item.model}
+                          </Link>
                           <div className="text-base text-gray-600">{item.card_description || item.description}</div>
                         </div>
                       </div>

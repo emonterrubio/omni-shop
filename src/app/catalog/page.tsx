@@ -9,6 +9,7 @@ import { webcamData } from "@/data/webcamData";
 import { dockStationData } from "@/data/dockStationData";
 import { backpackData } from "@/data/backpackData";
 import { ProductCard } from "@/components/ui/ProductCard";
+import { PlatformInfoBanner } from "@/components/ui/PlatformInfoBanner";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { Pagination } from "@/components/ui/Pagination";
 import { CatalogSidebar } from "@/components/catalog/CatalogSidebar";
@@ -240,12 +241,14 @@ export default function CatalogPage() {
 
   return (
     <PageLayout>
-      <div className="text-left mb-4 lg:mb-8 sm:px-4 lg:px-0">
+      <div className="text-left mb-4 sm:px-4 lg:px-0">
         <h1 className="text-4xl md:text-5xl font-medium text-gray-900 mt-4 lg:mt-6 mb-2">
           {selectedCategory === "all" ? "All Products" : `All ${selectedCategory.charAt(0).toUpperCase() + selectedCategory.slice(1)}`}
         </h1>
-        <h4 className="text-base font-base text-gray-800 mb-4">Browse our catalog of products and find the perfect item for your needs.</h4>
+        <h4 className="text-base font-base text-gray-800 mb-2">Browse our catalog of products and find the perfect item for your needs.</h4>
       </div>
+
+      <PlatformInfoBanner />
       
       <div className="flex flex-col lg:flex-row">
         {/* Mobile: Filter Panel */}

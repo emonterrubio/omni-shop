@@ -15,6 +15,7 @@ import { keyboardData } from '../../data/keyboardData';
 import { webcamData } from '../../data/webcamData';
 import { dockStationData } from '../../data/dockStationData';
 import { backpackData } from '../../data/backpackData';
+import { PlatformInfoBanner } from '../ui/PlatformInfoBanner';
 
 // This should be a shared type, but for now, we define it here.
 interface Item {
@@ -188,6 +189,8 @@ export function ShoppingCart({ selectedItems, onEdit, onCheckout, onRemove }: Sh
         <h1 className="text-5xl font-medium text-gray-900 mt-6 mb-2">Shopping Cart</h1>
         <h4 className="font-base text-gray-800 mb-8">Review your items and proceed to checkout.</h4>
       </div>
+      {/* Platform Info Banner */}
+      <PlatformInfoBanner />
       {/* Summary */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-4">
         {/* Left Column: Products and Shipping */}

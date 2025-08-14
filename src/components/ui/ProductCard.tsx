@@ -45,6 +45,7 @@ export function ProductCard({ product, fromCatalog = false }: { product: Product
       recommended: product.recommended,
       description: product.description,
       card_description: product.card_description,
+      category: category,
     };
     addToCart(cartItem);
   };
@@ -65,7 +66,7 @@ export function ProductCard({ product, fromCatalog = false }: { product: Product
           href={`/catalog/brand/${encodeURIComponent(product.brand)}`}
           className="block"
         >
-          <span className="text-blue-600 text-sm font-medium mb-1 hover:text-blue-800 transition-colors cursor-pointer">
+          <span className="text-blue-600 text-base font-medium mb-1 hover:text-blue-800 transition-colors cursor-pointer">
             {product.brand}
           </span>
         </Link>
@@ -79,7 +80,7 @@ export function ProductCard({ product, fromCatalog = false }: { product: Product
           </h3>
         </Link>
         <div className="space-y-2 pb-4 flex-1">
-          {(product.card_description || product.description) && <div className="text-gray-700 text-sm leading-tight">{product.card_description || product.description}</div>}
+          {(product.card_description || product.description) && <div className="text-gray-700 text-base leading-tight">{product.card_description || product.description}</div>}
           <div className="text-xl font-semibold text-gray-900 mt-2">
             ${product.price.toLocaleString()}
           </div>

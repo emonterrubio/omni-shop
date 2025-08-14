@@ -9,6 +9,7 @@ import { webcamData } from "@/data/webcamData";
 import { dockStationData } from "@/data/dockStationData";
 import { backpackData } from "@/data/backpackData";
 import { ProductCard } from "@/components/ui/ProductCard";
+import { PlatformInfoBanner } from "@/components/ui/PlatformInfoBanner";
 import { Header } from "@/components/layout/Header";
 import { MainNavigation } from "@/components/layout/MainNavigation";
 import Link from "next/link";
@@ -342,6 +343,8 @@ export default function BrandCatalogPage({ params }: { params: Promise<{ brand: 
             )}
           </div>
         </div>
+        
+        <PlatformInfoBanner />
         
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {sortedProducts.map((product, idx) => (

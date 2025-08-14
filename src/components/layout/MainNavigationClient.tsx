@@ -25,7 +25,7 @@ export const MainNavigationClient = () => {
               Catalog
             </Link>
             <Link href="/orders" className={`font-medium text-gray-900 border-b-4 py-3 border-transparent hover:border-b-4 hover:border-heritageBlue ${pathname === "/orders" ? "border-b-4 border-heritageBlue !border-heritageBlue" : ""}`}>
-              Orders
+              My Orders
             </Link>
             <Link href="/support" className={`font-medium text-gray-900 border-b-4 py-3 border-transparent hover:border-b-4 hover:border-heritageBlue ${pathname === "/support" ? "border-b-4 border-heritageBlue !border-heritageBlue" : ""}`}>
               Support
@@ -61,7 +61,7 @@ export const MainNavigationClient = () => {
               href="/orders"
               className={`block px-4 py-2 text-3xl font-regular text-gray-900 ${pathname === "/orders" ? "!text-heritageBlue" : ""}`}
             >
-              Orders
+              My Orders
             </Link>
             <Link
               href="/cart"

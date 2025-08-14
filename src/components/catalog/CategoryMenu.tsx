@@ -43,7 +43,7 @@ export function CategoryMenu({ selectedCategory, onCategorySelect }: CategoryMen
   return (
     <div>
       <h3 className="text-lg font-semibold text-gray-900 mb-2">Categories</h3>
-      <div className="space-y-1">
+      <div className="space-y-0">
         <button
           onClick={() => onCategorySelect("all")}
           className={`w-full flex items-center justify-between px-3 py-2 text-left rounded transition-colors ${
@@ -69,7 +69,7 @@ export function CategoryMenu({ selectedCategory, onCategorySelect }: CategoryMen
             <button
               key={category.name}
               onClick={() => onCategorySelect(category.name.toLowerCase())}
-              className={`w-full flex items-center justify-between px-3 py-2 text-left rounded transition-colors ${
+              className={`w-full flex items-center justify-between px-3 py-2 mr-4 text-left rounded transition-colors ${
                 selectedCategory === category.name.toLowerCase()
                   ? "bg-blue-50 text-blue-700 font-medium"
                   : "text-gray-700 hover:text-blue-600 hover:bg-blue-50"

@@ -363,6 +363,7 @@ export default function ProductDetailPage() {
                   recommended: product.recommended,
                   description: product.description,
                   card_description: product.card_description,
+                  category: product.category,
                 });
               }}
               onCompare={() => {

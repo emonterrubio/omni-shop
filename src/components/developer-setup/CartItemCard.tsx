@@ -13,6 +13,7 @@ interface CartItemCardProps {
     recommended?: boolean;
     quantity: number;
     sku?: string;
+    category?: string;
   };
   onQuantityChange: (model: string, quantity: number) => void;
   onRemove: (model: string) => void;
@@ -21,6 +22,18 @@ interface CartItemCardProps {
 }
 
 export function CartItemCard({ item, onQuantityChange, onRemove, onCompare, onShare }: CartItemCardProps) {
+  // Helper function to infer category from model name if not provided
+  const inferCategory = (model: string): string => {
+    const name = model.toLowerCase();
+    if (name.includes("macbook") || name.includes("latitude") || name.includes("xps") || name.includes("surface") || name.includes("laptop") || name.includes("thinkpad") || name.includes("yoga")) return "Laptops";
+    if (name.includes("tower") || name.includes("precision") || name.includes("desktop") || name.includes("thinkcentre")) return "Desktops";
+    return "Other";
+  };
+  
+  // Check if item is a laptop or desktop (to disable + button)
+  const itemCategory = item.category || inferCategory(item.model);
+  const isLaptopOrDesktop = itemCategory === 'Laptops' || itemCategory === 'Desktops';
+  
   const handleQuantityChange = (newQuantity: number) => {
     if (newQuantity >= 1 && newQuantity <= 10) {
       onQuantityChange(item.model, newQuantity);
@@ -79,27 +92,34 @@ export function CartItemCard({ item, onQuantityChange, onRemove, onCompare, onSh
             {/* Quantity Controls and Action Links */}
             <div className="flex flex-col sm:flex-row gap-4">
               {/* Quantity Controls */}
-              <div className="flex items-center border border-gray-300 rounded-lg w-fit">
-                <button
-                  onClick={() => item.quantity === 1 ? onRemove(item.model) : handleQuantityChange(item.quantity - 1)}
-                  className="px-3 py-1 text-gray-600 hover:text-gray-800 disabled:text-gray-300 disabled:cursor-not-allowed"
-                >
-                  {item.quantity === 1 ? (
-                    <Trash2 className="w-4 h-4" />
-                  ) : (
-                    "-"
-                  )}
-                </button>
-                <span className="px-2 py-1 text-gray-900 font-medium min-w-[2rem] text-sm text-center">
-                  {item.quantity}
-                </span>
-                <button
-                  onClick={() => handleQuantityChange(item.quantity + 1)}
-                  disabled={item.quantity >= 10}
-                  className="px-3 py-1 text-gray-600 hover:text-gray-800 disabled:text-gray-300 disabled:cursor-not-allowed"
-                >
-                  +
-                </button>
+              <div className="flex flex-col gap-1">
+                <div className="flex items-center border border-gray-300 rounded-lg w-fit">
+                  <button
+                    onClick={() => item.quantity === 1 ? onRemove(item.model) : handleQuantityChange(item.quantity - 1)}
+                    className="px-3 py-1 text-gray-600 hover:text-gray-800 disabled:text-gray-300 disabled:cursor-not-allowed"
+                  >
+                    {item.quantity === 1 ? (
+                      <Trash2 className="w-4 h-4" />
+                    ) : (
+                      "-"
+                    )}
+                  </button>
+                  <span className="px-2 py-1 text-gray-900 font-medium min-w-[2rem] text-sm text-center">
+                    {item.quantity}
+                  </span>
+                  <button
+                    onClick={() => handleQuantityChange(item.quantity + 1)}
+                    disabled={item.quantity >= 10 || isLaptopOrDesktop}
+                    className="px-3 py-1 text-gray-600 hover:text-gray-800 disabled:text-gray-300 disabled:cursor-not-allowed"
+                  >
+                    +
+                  </button>
+                </div>
+                {isLaptopOrDesktop && (
+                  <p className="text-xs text-gray-500 italic">
+                    Limited to 1 per order
+                  </p>
+                )}
               </div>
               
               {/* Action Links */}

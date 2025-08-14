@@ -13,6 +13,7 @@ export interface CartItem {
   recommended?: boolean;
   description?: string;
   card_description?: string;
+  category?: string;
   // Add other fields as needed
 }
 
