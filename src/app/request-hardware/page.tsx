@@ -19,12 +19,14 @@ export default function RequestHardwarePage() {
 
   const [filters, setFilters] = useState<FilterState>({
     usage: 'Business & Productivity',
-    keyFeatures: ['Ultra-Lightweight', 'Large Screen (15"+)'],
+    keyFeatures: [],
     priceRange: 'All'
   });
 
   const [showFilters, setShowFilters] = useState(false);
   const [suggestedProducts, setSuggestedProducts] = useState<any[]>([]);
+  const [filtersApplied, setFiltersApplied] = useState(false);
+  const [defaultProducts, setDefaultProducts] = useState<any[]>([]);
 
   // Enhanced product suggestion mapping based on usage type
   const usageProductMapping = {
@@ -113,11 +115,17 @@ export default function RequestHardwarePage() {
       keyFeatures: [],
       priceRange: 'All'
     });
+    setFiltersApplied(false);
+    setSuggestedProducts(defaultProducts);
   };
 
   const applyFilters = () => {
-    // Handle filter application logic here
     console.log('Applying filters:', filters);
+    
+    // Apply the filters and update the product grid
+    const filteredProducts = filterProducts();
+    setSuggestedProducts(filteredProducts);
+    setFiltersApplied(true);
     setShowFilters(false);
   };
 
@@ -241,6 +249,52 @@ export default function RequestHardwarePage() {
         matchDetails.push('Good value');
       }
 
+      // Apply key features filter if user has selected any
+      if (filters.keyFeatures.length > 0) {
+        const productText = `${product.features} ${product.description} ${product.card_description}`.toLowerCase();
+        let featureMatches = 0;
+        
+        filters.keyFeatures.forEach(feature => {
+          const featureLower = feature.toLowerCase();
+          if (productText.includes(featureLower)) {
+            featureMatches++;
+            score += 15;
+            matchDetails.push(`Selected feature: ${feature}`);
+          }
+        });
+        
+        // Bonus for matching multiple selected features
+        if (featureMatches > 1) {
+          score += 10;
+          matchDetails.push(`Multiple feature matches: ${featureMatches}`);
+        }
+      }
+
+      // Apply price range filter
+      if (filters.priceRange !== 'All') {
+        let priceMatch = false;
+        
+        switch (filters.priceRange) {
+          case 'Under $1,500':
+            priceMatch = product.price < 1500;
+            break;
+          case '$1,500 - $2,500':
+            priceMatch = product.price >= 1500 && product.price <= 2500;
+            break;
+          case '$2,500+':
+            priceMatch = product.price > 2500;
+            break;
+        }
+        
+        if (priceMatch) {
+          score += 20;
+          matchDetails.push(`Price range: ${filters.priceRange}`);
+        } else {
+          score -= 30; // Significant penalty for price mismatch
+          matchDetails.push(`Price mismatch: ${filters.priceRange}`);
+        }
+      }
+
       console.log(`Product ${product.model}: Score=${score}, Details:`, matchDetails);
 
       return {
@@ -267,19 +321,13 @@ export default function RequestHardwarePage() {
     return filtered.slice(0, 6);
   };
 
-  // Update suggested products when filters change and on initial load
-  useEffect(() => {
-    const products = filterProducts();
-    setSuggestedProducts(products);
-  }, [filters]);
-
   // Initialize with default products on component mount
   useEffect(() => {
-    const defaultProducts = filterProducts();
-    console.log('Default products found:', defaultProducts.length);
-    console.log('Default filters:', filters);
+    const initialProducts = hardwareData.slice(0, 6);
+    console.log('Default products found:', initialProducts.length);
     console.log('Available hardware data:', hardwareData.length);
-    setSuggestedProducts(defaultProducts);
+    setDefaultProducts(initialProducts);
+    setSuggestedProducts(initialProducts);
   }, []); // Empty dependency array means this runs once on mount
 
   return (
@@ -390,25 +438,30 @@ export default function RequestHardwarePage() {
 
           {/* Filter Actions */}
           {showFilters && (
-            <div className="flex items-center justify-between bg-gray-50 rounded-lg">
-              <div className="flex items-center gap-2">
+            <div className="flex items-center justify-between bg-gray-50 rounded-lg p-4">
+              <div className="flex items-center gap-4">
                 <span className="text-base text-gray-800">
                   {filters.keyFeatures.length} key features selected
                 </span>
+                {filtersApplied && (
+                  <span className="text-sm text-green-600 font-medium">
+                    ✓ Filters applied
+                  </span>
+                )}
               </div>
               <div className="flex items-center gap-2">
-              <button
+                <button
                   onClick={clearAllFilters}
                   className="bg-gray-200 text-gray-900 px-6 py-2 rounded-lg hover:bg-gray-700 transition-colors"
                 >
                   Clear All
                 </button>
-              <button
-                onClick={applyFilters}
-                className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
-              >
-                Apply Filters
-              </button>
+                <button
+                  onClick={applyFilters}
+                  className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                >
+                  Apply Filters
+                </button>
               </div>
             </div>
           )}
@@ -419,11 +472,19 @@ export default function RequestHardwarePage() {
           <div className="flex items-end justify-between mb-6">
             <div>
               <h2 className="text-2xl font-semibold text-gray-900">
-                Suggested for {filters.usage}
+                {filtersApplied ? `Results for ${filters.usage}` : 'Popular Devices'}
               </h2>
               <p className="text-gray-600 mt-1">
-                {usageProductMapping[filters.usage as keyof typeof usageProductMapping]?.description}
+                {filtersApplied 
+                  ? usageProductMapping[filters.usage as keyof typeof usageProductMapping]?.description
+                  : 'Browse our selection of recommended hardware to get started'
+                }
               </p>
+              {filtersApplied && (
+                <div className="mt-2 text-sm text-gray-500">
+                  <span className="font-medium">Applied filters:</span> {filters.keyFeatures.length} key features, {filters.priceRange}
+                </div>
+              )}
             </div>
             <div className="text-base text-gray-800">
               Showing {suggestedProducts.length} devices
