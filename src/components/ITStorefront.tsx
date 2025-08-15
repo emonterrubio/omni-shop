@@ -66,7 +66,7 @@ export function ITStorefront({
             imageAlt="Surface Pro 11"
           />
           {/* Recent Orders */}
-          <RecentOrders maxOrders={3} />
+          <RecentOrders maxOrders={2} />
           {/* <SearchBarClient /> */}
           {/* <Categories /> */}
           {/* <QuickActionsClient actions={quickActions} /> */}

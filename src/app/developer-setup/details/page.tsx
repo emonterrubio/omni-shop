@@ -24,16 +24,47 @@ export default function OrderDetailsPage() {
     const orderId = searchParams.get('orderId');
     
     if (orderId) {
-      // Viewing an existing order
+      // Viewing an existing order (either from URL or from checkout)
       const savedOrders = JSON.parse(localStorage.getItem('userOrders') || '[]');
       const existingOrder = savedOrders.find((order: any) => order.id === orderId);
       
       if (existingOrder) {
+        console.log('Found order by ID:', existingOrder);
         setOrderNumber(existingOrder.orderNumber);
         setOrderDate(existingOrder.orderDate);
+        
         // Convert the saved order back to the format expected by the page
         const orderedByParts = existingOrder.orderedBy.split(' ');
         const orderedForParts = existingOrder.orderedFor.split(' ');
+        
+        console.log('Ordered by parts:', orderedByParts);
+        console.log('Ordered for parts:', orderedForParts);
+        
+        // Parse shipping address back into components
+        let parsedAddress = {
+          address1: existingOrder.shippingAddress.address,
+          city: '',
+          state: '',
+          zip: '',
+          country: ''
+        };
+        
+        if (existingOrder.shippingAddress.type === 'residential') {
+          // Parse residential address: "address1, city, country zip"
+          const addressParts = existingOrder.shippingAddress.address.split(', ');
+          if (addressParts.length >= 3) {
+            parsedAddress.address1 = addressParts[0];
+            parsedAddress.city = addressParts[1];
+            const lastPart = addressParts[2];
+            const zipMatch = lastPart.match(/(\d{5})/);
+            if (zipMatch) {
+              parsedAddress.zip = zipMatch[1];
+              parsedAddress.country = lastPart.replace(/\d{5}/, '').trim();
+            } else {
+              parsedAddress.country = lastPart;
+            }
+          }
+        }
         
         const convertedOrder = {
           billing: {
@@ -43,10 +74,7 @@ export default function OrderDetailsPage() {
           shipping: {
             firstName: orderedForParts[0] || '',
             lastName: orderedForParts.slice(1).join(' ') || '',
-            address1: existingOrder.shippingAddress.address,
-            city: '',
-            country: '',
-            zip: ''
+            ...parsedAddress
           },
           shippingType: existingOrder.shippingAddress.type,
           items: existingOrder.items,
@@ -54,22 +82,82 @@ export default function OrderDetailsPage() {
           shippingCost: 0,
           total: existingOrder.total
         };
+        console.log('Converted order:', convertedOrder);
         setOrder(convertedOrder);
+      } else {
+        console.log('Order not found by ID:', orderId);
+        console.log('Available orders:', savedOrders);
       }
     } else {
       // New order from checkout
       const orderData = localStorage.getItem("devSetupOrder");
       if (orderData) {
         const parsed = JSON.parse(orderData);
-        setOrder(parsed);
         
-        // Get the actual order number from the saved order
+        // Get the actual order data from the saved orders
         const savedOrders = JSON.parse(localStorage.getItem('userOrders') || '[]');
         const latestOrder = savedOrders[0]; // Most recent order
+        
         if (latestOrder) {
+          console.log('Found latest order:', latestOrder);
+          // Use the processed order data that includes orderedFor
           setOrderNumber(latestOrder.orderNumber);
           setOrderDate(latestOrder.orderDate);
+          
+          // Convert the processed order back to the format expected by the page
+          const orderedByParts = latestOrder.orderedBy.split(' ');
+          const orderedForParts = latestOrder.orderedFor.split(' ');
+          
+          console.log('Ordered by parts:', orderedByParts);
+          console.log('Ordered for parts:', orderedForParts);
+          
+          // Parse shipping address back into components
+          let parsedAddress = {
+            address1: latestOrder.shippingAddress.address,
+            city: '',
+            state: '',
+            zip: '',
+            country: ''
+          };
+          
+          if (latestOrder.shippingAddress.type === 'residential') {
+            // Parse residential address: "address1, city, country zip"
+            const addressParts = latestOrder.shippingAddress.address.split(', ');
+            if (addressParts.length >= 3) {
+              parsedAddress.address1 = addressParts[0];
+              parsedAddress.city = addressParts[1];
+              const lastPart = addressParts[2];
+              const zipMatch = lastPart.match(/(\d{5})/);
+              if (zipMatch) {
+                parsedAddress.zip = zipMatch[1];
+                parsedAddress.country = lastPart.replace(/\d{5}/, '').trim();
+              } else {
+                parsedAddress.country = lastPart;
+              }
+            }
+          }
+          
+          const convertedOrder = {
+            billing: {
+              name: orderedByParts[0] || '',
+              lastName: orderedByParts.slice(1).join(' ') || ''
+            },
+            shipping: {
+              firstName: orderedForParts[0] || '',
+              lastName: orderedForParts.slice(1).join(' ') || '',
+              ...parsedAddress
+            },
+            shippingType: latestOrder.shippingAddress.type,
+            items: latestOrder.items,
+            subtotal: latestOrder.total,
+            shippingCost: 0,
+            total: latestOrder.total
+          };
+          console.log('Converted order:', convertedOrder);
+          setOrder(convertedOrder);
         } else {
+          // Fallback to checkout form data if no processed order found
+          setOrder(parsed);
           setOrderNumber(generateOrderNumber());
           setOrderDate(new Date().toLocaleDateString("en-US", { 
             day: "2-digit", 
@@ -115,7 +203,7 @@ export default function OrderDetailsPage() {
       {/* Order Details Header */}
       <div className="text-left mb-4 lg:mb-8 px-4 lg:px-0">
         <h1 className="text-3xl lg:text-5xl font-medium text-gray-900 mt-4 lg:mt-6 mb-4">Order Details</h1>
-        <p className="text-base lg:text-lg font-regular text-gray-800 mb-4">
+        <p className="text-base font-regular text-gray-800 mb-4">
           Your order has been submitted for manager approval. We'll send you confirmation of approval and when your item(s) will be on the way.
         </p>
       </div>
@@ -288,6 +376,18 @@ export default function OrderDetailsPage() {
           showCheckoutButton={false}
           showContinueShopping={false}
         />
+      
+      {/* Continue Shopping Button */}
+      <div className="max-w-3xl mx-auto px-4 py-6">
+        <div className="flex justify-center">
+          <Link
+            href="/catalog"
+            className="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+          >
+            Continue Shopping
+          </Link>
+        </div>
+      </div>
     </PageLayout>
   );
 } 

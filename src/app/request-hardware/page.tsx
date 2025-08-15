@@ -333,8 +333,8 @@ export default function RequestHardwarePage() {
   return (
     <PageLayout>
         {/* Header */}
-        <div className="text-left mb-4 lg:mb-6 px-4 lg:px-0">
-          <h1 className="text-3xl lg:text-5xl font-medium text-gray-900 mt-4 lg:mt-6 mb-4">
+        <div className="text-left mb-4 lg:mb-6">
+          <h1 className="text-4xl lg:text-5xl font-medium text-gray-900 mt-4 lg:mt-6 mb-4">
             Find the right device for your work
           </h1>
           <p className="text-base font-regular text-gray-800 mb-2">
@@ -438,7 +438,7 @@ export default function RequestHardwarePage() {
 
           {/* Filter Actions */}
           {showFilters && (
-            <div className="flex items-center justify-between bg-gray-50 rounded-lg p-4">
+            <div className="grid grid-cols-1 lg:grid-cols-2 justify-between bg-gray-50 rounded-lg p-4">
               <div className="flex items-center gap-4">
                 <span className="text-base text-gray-800">
                   {filters.keyFeatures.length} key features selected
@@ -469,7 +469,7 @@ export default function RequestHardwarePage() {
 
         {/* Product Suggestions */}
         <div className="mt-8">
-          <div className="flex items-end justify-between mb-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 justify-between mb-4">
             <div>
               <h2 className="text-2xl font-semibold text-gray-900">
                 {filtersApplied ? `Results for ${filters.usage}` : 'Popular Devices'}
@@ -481,12 +481,12 @@ export default function RequestHardwarePage() {
                 }
               </p>
               {filtersApplied && (
-                <div className="mt-2 text-sm text-gray-500">
-                  <span className="font-medium">Applied filters:</span> {filters.keyFeatures.length} key features, {filters.priceRange}
+                <div className="mt-2 text-sm text-gray-800">
+                  <span className="font-bold">Applied filters:</span> {filters.keyFeatures.length} key features, {filters.priceRange}
                 </div>
               )}
             </div>
-            <div className="text-base text-gray-800">
+            <div className="text-base text-gray-800 mt-2">
               Showing {suggestedProducts.length} devices
             </div>
           </div>

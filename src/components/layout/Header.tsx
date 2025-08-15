@@ -46,13 +46,13 @@ export function Header({ cartItems: cartItemsProp }: { cartItems?: number }) {
         </svg>
       </div>
       <div className="relative z-10">
-        <div className="flex items-center justify-between ml-2 px-6 md:px-8 py-6">
+        <div className="flex items-center justify-between ml-1 px-4 sm:px-6 md:px-8 py-6">
           <div className="flex items-center">
             <Link href="/">
               <img src="/logo/ea_logo_white.svg" alt="Omni Shopping" className="h-10 object-contain" />
             </Link>
           </div>
-          <div className="flex-1 flex justify-end items-center relative space-x-4">
+          <div className="flex-1 flex justify-end items-center relative space-x-1 sm:space-x-4">
             {!isHome && (
               <Link
                 href="/search"

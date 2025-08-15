@@ -104,7 +104,13 @@ export function CheckoutPage({ items, shippingCost, costCenter, onBack }: Checko
       shippingCost,
       total
     );
+    
+    console.log('Created order:', order);
     saveOrder(order);
+    
+    // Verify the order was saved
+    const savedOrders = JSON.parse(localStorage.getItem('userOrders') || '[]');
+    console.log('Saved orders after creation:', savedOrders);
 
     // Also save for confirmation page (existing functionality)
     const orderData = {
@@ -117,7 +123,9 @@ export function CheckoutPage({ items, shippingCost, costCenter, onBack }: Checko
       total,
     };
     localStorage.setItem("devSetupOrder", JSON.stringify(orderData));
-    router.push("/developer-setup/details");
+    
+    // Pass the order ID as a query parameter to ensure we can find the order
+    router.push(`/developer-setup/details?orderId=${order.id}`);
   };
 
   return (

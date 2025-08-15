@@ -62,7 +62,7 @@ export function RecentOrders({ maxOrders = 2 }: RecentOrdersProps) {
   if (orders.length === 0) {
     return (
       // Empty State
-      <section className="mb-8">
+      <section className="my-8">
         <h2 className="text-xl font-bold text-gray-900 mb-4">Your Recent Orders</h2>
         <div className="bg-white rounded-lg border border-gray-200 p-8">
           <div className="text-center">
@@ -103,7 +103,7 @@ export function RecentOrders({ maxOrders = 2 }: RecentOrdersProps) {
 
   return (
     // Recent Orders
-    <section className="mb-8">
+    <section className="my-8">
       <div className="flex justify-between items-center mb-2">
         <h2 className="text-xl font-regular text-gray-900">Your Recent Orders</h2>
         <Link
@@ -118,7 +118,7 @@ export function RecentOrders({ maxOrders = 2 }: RecentOrdersProps) {
           const firstItem = order.items[0];
           return (
             <div key={order.id} className="p-4">
-              <div className="flex items-start items-center space-x-4">
+              <div className="flex items-start items-center space-x-3">
                 {/* Product Image */}
                 <div className="flex-shrink-0">
                   <Image
@@ -135,24 +135,19 @@ export function RecentOrders({ maxOrders = 2 }: RecentOrdersProps) {
                     <h3 className="text-lg font-regular leading-tight text-gray-900 truncate">{firstItem.model}</h3>
                     <Link 
                       href={`/developer-setup/details?orderId=${order.id}`}
-                      className="text-sm text-blue-600 hover:text-blue-800 font-regular transition-colors"
+                      className="text-base text-blue-600 hover:text-blue-800 font-regular transition-colors"
                     >
                       Order #{order.orderNumber}
                     </Link>
-                  </div>
-                
-                {/* Status and Date */}
-                <div className="flex-shrink-0 text-right">
-                  <div className="flex items-center justify-end space-x-1 mb-1">
-                    {/* {getStatusIcon(order.status)} */}
-                    <span
-                      className={`inline-block px-2 py-1 text-sm font-medium rounded-full ${getStatusColor(order.status)}`}
-                    >
+                    <div className="flex items-center justify-between">
+                      <p className="text-sm text-gray-800">{order.orderDate}</p>
+                      <span
+                      className={`inline-block px-2 py-1 text-sm font-medium rounded-full ${getStatusColor(order.status)} text-white`}
+                      >
                       {getStatusText(order.status)}
-                    </span>
+                      </span>
+                    </div>
                   </div>
-                  <p className="text-sm text-gray-800">{order.orderDate}</p>
-                </div>
               </div>
             </div>
           );

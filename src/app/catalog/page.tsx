@@ -252,7 +252,7 @@ export default function CatalogPage() {
       
       <div className="flex flex-col lg:flex-row">
         {/* Mobile: Filter Panel */}
-        <div className="lg:hidden my-4 sm:px-4">
+        <div className="lg:hidden my-0 sm:my-4 sm:px-4">
           <div>
             <label className="block text-2xl font-regular text-gray-700 mb-2">Categories</label>
             <select
@@ -280,8 +280,8 @@ export default function CatalogPage() {
         </div>
         
         {/* Main Content */}
-        <div className="flex-1 lg:pl-3 sm:px-4 lg:px-0">
-          <div className="flex items-center justify-between mb-4 gap-4 flex-wrap w-full">
+        <div className="flex-1 mt-4 sm:mt-0 lg:pl-3 sm:px-4 lg:px-0">
+          <div className="flex items-center justify-between mb-2 sm:mb-4 gap-4 flex-wrap w-full">
             <div className="text-base font-regular text-gray-900 min-w-max">
               Showing {startIndex + 1}-{Math.min(endIndex, sortedProducts.length)} of {sortedProducts.length} item{sortedProducts.length === 1 ? "" : "s"}
             </div>
@@ -426,7 +426,7 @@ export default function CatalogPage() {
               </div>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-3">
               {paginatedProducts.map((product, idx) => (
                 <ProductCard key={`${product.model}-${idx}`} product={product} fromCatalog={true} />
               ))}
