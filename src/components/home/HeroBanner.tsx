@@ -22,13 +22,13 @@ export function HeroBanner({
   imageAlt
 }: HeroBannerProps) {
   return (
-    <div className="rounded-lg my-8">
+    <div className="rounded-lg mb-8 mt-4">
       <div className="grid grid-cols-1 lg:grid-cols-3 items-center gap-6 lg:gap-8">
         {/* Product image - Takes up full width on mobile, 1 column on desktop */}
         <div className="lg:col-span-1 flex justify-center w-full order-1 lg:order-2">
           <div className="relative w-56 :h-42 md:w-64 md:h-48 lg:w-80 lg:h-60">
             {/* Product image */}
-            <div className="relative z-10 w-full h-full transform rotate-3 sm:rotate-4 md:rotate-5 lg:rotate-6">
+            <div className="relative z-10 w-full h-full">
               <Image
                 src={imageSrc}
                 alt={imageAlt}

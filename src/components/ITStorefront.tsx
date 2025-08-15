@@ -37,6 +37,65 @@ function getRecommendedProducts(products: any[], n = 3) {
   return { displayedProducts, showCompareButton };
 }
 
+function getRandomHeroBanner(products: any[]) {
+  // Filter for products that would make good hero banners (laptops, desktops, monitors)
+  const heroEligibleProducts = products.filter(product => {
+    const category = product.category?.toLowerCase() || '';
+    const model = product.model?.toLowerCase() || '';
+    return category === 'laptops' || category === 'desktops' || 
+           category === 'monitors' || model.includes('laptop') || 
+           model.includes('desktop') || model.includes('monitor');
+  });
+
+  if (heroEligibleProducts.length === 0) {
+    // Fallback to any product if no eligible ones found
+    return products[Math.floor(Math.random() * products.length)];
+  }
+
+  return heroEligibleProducts[Math.floor(Math.random() * heroEligibleProducts.length)];
+}
+
+function generateHeroBannerContent(product: any) {
+  const brand = product.brand || 'Premium';
+  const model = product.model || 'Device';
+  const category = product.category || 'Hardware';
+  
+  // Use the actual product descriptions when available
+  const productDescription = product.card_description || product.description || '';
+  
+  // Generate dynamic content based on product type
+  let title, subtitle, description;
+  
+  if (category.toLowerCase() === 'laptops' || product.model?.toLowerCase().includes('laptop')) {
+    title = `Our Newest ${category.slice(0, -1)}`;
+    subtitle = `${brand} ${model}`;
+    // Use product description if available, otherwise fallback to generic
+    description = productDescription || `Experience next-generation performance with cutting-edge technology. Perfect for productivity, creativity, and everything in between.`;
+  } else if (category.toLowerCase() === 'desktops' || product.model?.toLowerCase().includes('desktop')) {
+    title = `Powerful ${category.slice(0, -1)}`;
+    subtitle = `${brand} ${model}`;
+    description = productDescription || `Unleash your potential with desktop-grade performance. Built for demanding workloads and seamless multitasking.`;
+  } else if (category.toLowerCase() === 'monitors' || product.model?.toLowerCase().includes('monitor')) {
+    title = `Crystal Clear ${category.slice(0, -1)}`;
+    subtitle = `${brand} ${model}`;
+    description = productDescription || `Immerse yourself in stunning visuals with our premium display technology. Enhanced productivity meets exceptional clarity.`;
+  } else {
+    title = `Premium ${category}`;
+    subtitle = `${brand} ${model}`;
+    description = productDescription || `Discover exceptional quality and performance. Designed to enhance your workflow and exceed expectations.`;
+  }
+
+  return {
+    title,
+    subtitle,
+    description,
+    buttonText: "See Details",
+    buttonLink: `/product/${encodeURIComponent(product.model)}?from=hero`,
+    imageSrc: product.image,
+    imageAlt: `${brand} ${model}`
+  };
+}
+
 export function ITStorefront({
   categories,
   products,
@@ -48,6 +107,10 @@ export function ITStorefront({
   const names = ["Ed", "Marlon", "Marcus", "Lekeedra", "Eric", "Krish", "Michael", "Kamal", "Eve"];
   const randomName = names[Math.floor(Math.random() * names.length)];
 
+  // Generate dynamic hero banner content
+  const randomHeroProduct = getRandomHeroBanner(products);
+  const heroBannerContent = generateHeroBannerContent(randomHeroProduct);
+
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
       <div className="sticky top-0 z-50">
@@ -57,13 +120,13 @@ export function ITStorefront({
       <main className="max-w-7xl mx-auto flex-1 overflow-y-auto px-6 sm:px-12 md:px-16 py-8">
           {/* Hero Banner */}
           <HeroBanner
-            title="Our Newest Laptop"
-            subtitle="Surface Pro 11, Copilot+ PC, 13-inch"
-            description="A flexible design and larger display, ideal for those wanting the portability of a tablet and the power of a laptop. Powered by Windows 11."
-            buttonText="See Details"
-            buttonLink="/product/Surface%20Pro%2011?from=catalog"
-            imageSrc="/images/microsoft_surface_pro_11.png"
-            imageAlt="Surface Pro 11"
+            title={heroBannerContent.title}
+            subtitle={heroBannerContent.subtitle}
+            description={heroBannerContent.description}
+            buttonText={heroBannerContent.buttonText}
+            buttonLink={heroBannerContent.buttonLink}
+            imageSrc={heroBannerContent.imageSrc}
+            imageAlt={heroBannerContent.imageAlt}
           />
           {/* Recent Orders */}
           <RecentOrders maxOrders={2} />

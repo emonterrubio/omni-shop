@@ -320,7 +320,7 @@ export default function CatalogPage() {
               </div>
             </div>
             {/* Mobile filter and sort icons */}
-            <div className="flex lg:hidden items-center gap-4 ml-auto relative">
+            <div className="flex lg:hidden items-center gap-2 ml-auto relative">
               <button
                 aria-label="Filter"
                 className="p-2 rounded hover:bg-gray-100"

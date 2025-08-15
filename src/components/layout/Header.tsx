@@ -53,7 +53,8 @@ export function Header({ cartItems: cartItemsProp }: { cartItems?: number }) {
             </Link>
           </div>
           <div className="flex-1 flex justify-end items-center relative space-x-1 sm:space-x-4">
-            {!isHome && (
+            {/* TODO: Add search back in */}
+            {/* {!isHome && (
               <Link
                 href="/search"
                 className="p-2 text-white hover:text-gray-100"
@@ -61,7 +62,8 @@ export function Header({ cartItems: cartItemsProp }: { cartItems?: number }) {
               >
                 <SearchIcon className="w-6 h-6" />
               </Link>
-            )}
+            )} */}
+            {/* Shopping Cart */}
             <Link href="/cart" className="relative p-2 text-white hover:text-gray-100" aria-label="Cart">
               <ShoppingCart className="w-6 h-6" />
               {cartItems > 0 && (
@@ -70,6 +72,7 @@ export function Header({ cartItems: cartItemsProp }: { cartItems?: number }) {
                 </span>
               )}
             </Link>
+            {/* User Avatar */}
             <button className="p-2 text-white hover:text-gray-100">
               <img src="/images/ed-avatar.png" alt="User Avatar" className="h-10 object-contain rounded-full" />
             </button>
