@@ -5,6 +5,7 @@ import { PageLayout } from '@/components/layout/PageLayout';
 import { Filter, X } from 'lucide-react';
 import { hardwareData } from '@/data/hardwareData';
 import { ProductCard } from '@/components/ui/ProductCard';
+import { Breadcrumb } from '@/components/ui/Breadcrumb';
 
 interface FilterState {
   usage: string;
@@ -332,6 +333,14 @@ export default function RequestHardwarePage() {
 
   return (
     <PageLayout>
+        {/* Breadcrumb Navigation */}
+        <Breadcrumb
+          items={[
+            { label: "Request Hardware", isActive: true }
+          ]}
+          className="mb-6"
+        />
+        
         {/* Header */}
         <div className="text-left mb-4 lg:mb-6">
           <h1 className="text-4xl lg:text-5xl font-medium text-gray-900 mt-4 lg:mt-6 mb-4">
@@ -340,7 +349,7 @@ export default function RequestHardwarePage() {
           <p className="text-base font-regular text-gray-800 mb-2">
             Each device is rated on key strengths and designed for specific types of work. Use the filters below to find devices that match your needs.
           </p>
-          <a href="#" className="text-blue-600 hover:text-blue-800 font-medium">
+          <a href="/hardware-specs" className="text-blue-600 hover:text-blue-800 font-medium">
             Learn about hardware specs →
           </a>
         </div>
@@ -469,12 +478,12 @@ export default function RequestHardwarePage() {
 
         {/* Product Suggestions */}
         <div className="mt-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 justify-between mb-4">
+          <div className="flex flex-col lg:flex-row items-end justify-between mb-4">
             <div>
               <h2 className="text-2xl font-semibold text-gray-900">
                 {filtersApplied ? `Results for ${filters.usage}` : 'Popular Devices'}
               </h2>
-              <p className="text-gray-600 mt-1">
+              <p className="text-gray-600">
                 {filtersApplied 
                   ? usageProductMapping[filters.usage as keyof typeof usageProductMapping]?.description
                   : 'Browse our selection of recommended hardware to get started'

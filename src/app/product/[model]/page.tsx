@@ -22,6 +22,7 @@ import { ProductSpecsTable } from '@/components/product/ProductSpecsTable';
 import { RequestHardwareBanner } from '@/components/product/RequestHardwareBanner';
 import { ProductComparisonList } from '@/components/product/ProductComparisonList';
 import { SupportBanner } from '@/components/product/SupportBanner';
+import { Breadcrumb } from '@/components/ui/Breadcrumb';
 
 function findProductByModel(model: string): any {
   let product = hardwareData.find(p => p.model === model);
@@ -314,6 +315,13 @@ export default function ProductDetailPage() {
   const [quantity, setQuantity] = useState(1);
   const compareSectionRef = useRef<HTMLDivElement>(null);
 
+  // Ensure quantity is 1 for laptops and desktops
+  React.useEffect(() => {
+    if (product && (product.category === "Laptops" || product.category === "Desktops")) {
+      setQuantity(1);
+    }
+  }, [product]);
+
   if (!product) {
     return (
       <PageLayout>
@@ -330,14 +338,24 @@ export default function ProductDetailPage() {
 
   return (
     <PageLayout>
-        <button
+        {/* <button
           onClick={handleBackClick}
           className="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium transition-colors mb-4"
           aria-label="Go back"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back
-        </button>
+        </button> */}
+        
+        {/* Breadcrumb Navigation */}
+        <Breadcrumb
+          items={[
+            { label: "Catalog", href: "/catalog" },
+            { label: product.category || "Products", href: `/category/${product.category?.toLowerCase()}` },
+            { label: product.model, isActive: true }
+          ]}
+          className="mb-8"
+        />
         <div className="flex flex-col md:flex-row space-x-0 gap-8">
           <div className="flex-1">
             <ProductImageGallery mainImage={product.image} thumbnails={[]} />
@@ -352,6 +370,7 @@ export default function ProductDetailPage() {
               deliveryTime={"2 Days"}
               description={product.description}
               quantity={quantity}
+              category={product.category}
               onQuantityChange={setQuantity}
               onAddToCart={() => {
                 addToCart({

@@ -15,6 +15,7 @@ import { Header } from "@/components/layout/Header";
 import { MainNavigation } from "@/components/layout/MainNavigation";
 import { ArrowLeft } from "lucide-react";
 import { Pagination } from "@/components/ui/Pagination";
+import { Breadcrumb } from "@/components/ui/Breadcrumb";
 
 function getProductsForCategory(category: string): ProductCardProps[] {
   switch (category.toLowerCase()) {
@@ -177,14 +178,24 @@ export default function CategoryPage({ params }: { params: Promise<{ category: s
       <Header />
       <MainNavigation />
       <main className="max-w-7xl mx-auto flex-1 overflow-y-auto px-6 sm:px-12 md:px-16 py-8 mb-16">
-        <Link
+        {/* <Link
           href="/"
           className="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium transition-colors"
           aria-label="Go back"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back
-        </Link>
+        </Link> */}
+        
+        {/* Breadcrumb Navigation */}
+        <Breadcrumb
+          items={[
+            { label: "Catalog", href: "/catalog" },
+            { label: category.charAt(0).toUpperCase() + category.slice(1), isActive: true }
+          ]}
+          className="mb-6"
+        />
+        
         <div className="text-left">
           <h1 className="text-5xl font-medium text-gray-900 mt-6 mb-4 capitalize">{category} <span className="normal-case">available</span></h1>
           <h4 className="font-base text-gray-600 mb-8">Boost your productivity with high-performance equipment.</h4>

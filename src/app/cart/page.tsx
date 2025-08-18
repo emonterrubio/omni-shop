@@ -6,6 +6,7 @@ import { CartContext } from "@/components/CartContext";
 import { ShoppingCart } from "@/components/developer-setup/ShoppingCart";
 import { useRouter } from "next/navigation";
 import { PackageSearch } from "lucide-react";
+import { Breadcrumb } from "@/components/ui/Breadcrumb";
 
 export default function CartPage() {
   const { cartItems, removeFromCart } = useContext(CartContext);
@@ -27,6 +28,14 @@ export default function CartPage() {
 
   return (
     <PageLayout>
+      {/* Breadcrumb Navigation */}
+      <Breadcrumb
+        items={[
+          { label: "Shopping Cart", isActive: true }
+        ]}
+        className="mb-6"
+      />
+      
       {cartItems.length === 0 ? (
         <div className="text-center py-16">
           <div className="max-w-md mx-auto">

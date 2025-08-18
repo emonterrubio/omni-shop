@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { PageLayout } from "@/components/layout/PageLayout";
 import { CheckoutPage } from "@/components/developer-setup/CheckoutPage";
+import { Breadcrumb } from "@/components/ui/Breadcrumb";
 
 interface CheckoutData {
   items: any[];
@@ -44,6 +45,15 @@ export default function CheckoutPageWrapper() {
 
   return (
     <PageLayout>
+      {/* Breadcrumb Navigation */}
+      <Breadcrumb
+        items={[
+          { label: "Shopping Cart", href: "/cart" },
+          { label: "Checkout", isActive: true }
+        ]}
+        className="mb-6"
+      />
+      
       <CheckoutPage
         items={checkoutData.items}
         shippingCost={checkoutData.shippingCost}

@@ -489,7 +489,7 @@ export const hardwareData: HardwareSpec[] = [
       sku: "DEL-PREC5570-5520-023",
       category: "Laptops",
       card_description: "Portable, stylish, and fast—your everyday laptop with a gaming edge.",
-      description: "Portable, stylish, and fast—your everyday laptop with a gaming edge. Features the i7 i7-12700H Fourteen-Core Processor 3.5GHz (4.7GHz With Turbo Boost), 32GB LPDDR5-8000 soldered, and a fast 2TB PCIe 4.0 NVMe SSD. Perfect for gaming and creative work.",
+      description: "Portable, stylish, and fast—your everyday laptop with a gaming edge. Features the i7 Fourteen-Core Processor 3.5GHz, 32GB LPDDR5-8000 soldered, and a fast 2TB PCIe 4.0 NVMe SSD. Perfect for gaming and creative work.",
       features: "Ultra-thin 16″ CNC-milled aluminum unibody (0.59″ thick, 4.6 lbs), matte anodized finish, per-key Razer Chroma RGB",
       processor: "Intel Core i7",  
       memory: "1TB SSD Hard Drive & 32GB RAM Memory",  

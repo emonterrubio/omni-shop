@@ -15,6 +15,7 @@ import { Pagination } from "@/components/ui/Pagination";
 import { CatalogSidebar } from "@/components/catalog/CatalogSidebar";
 import { SortAsc, Filter, PackageSearch } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
+import { Breadcrumb } from "@/components/ui/Breadcrumb";
 
 export default function CatalogPage() {
   // Map monitorData to ProductCardProps
@@ -241,6 +242,15 @@ export default function CatalogPage() {
 
   return (
     <PageLayout>
+            {/* Breadcrumb Navigation */}
+      <Breadcrumb
+        items={[
+          { label: "Catalog", href: "/catalog" },
+          { label: "All Products", isActive: true }
+        ]}
+        className="mb-4 sm:px-4 lg:px-0"
+      />
+
       <div className="text-left mb-4 sm:px-4 lg:px-0">
         <h1 className="text-4xl md:text-5xl font-medium text-gray-900 mt-4 lg:mt-6 mb-2">
           {selectedCategory === "all" ? "All Products" : `All ${selectedCategory.charAt(0).toUpperCase() + selectedCategory.slice(1)}`}

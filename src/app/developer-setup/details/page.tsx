@@ -7,6 +7,7 @@ import { OrderSummary } from "@/components/ui/OrderSummary";
 import Image from "next/image";
 import Link from "next/link";
 import { CartContext } from "@/components/CartContext";
+import { Breadcrumb } from "@/components/ui/Breadcrumb";
 
 function generateOrderNumber() {
   return `112-${Math.floor(1000000 + Math.random() * 9000000)}`;
@@ -200,6 +201,15 @@ export default function OrderDetailsPage() {
 
   return (
     <PageLayout>
+      {/* Breadcrumb Navigation */}
+      <Breadcrumb
+        items={[
+          { label: "My Orders", href: "/orders" },
+          { label: `ORDER #${orderNumber}`, isActive: true }
+        ]}
+        className="mb-6"
+      />
+      
       {/* Order Details Header */}
       <div className="text-left mb-4 lg:mb-8 px-4 lg:px-0">
         <h1 className="text-3xl lg:text-5xl font-medium text-gray-900 mt-4 lg:mt-6 mb-4">Order Details</h1>
@@ -212,7 +222,7 @@ export default function OrderDetailsPage() {
       <div className="bg-white rounded-lg border border-gray-200 overflow-hidden mb-4 px-4 lg:px-0">
         {/* Order Number Header */}
         <div className="pt-6 lg:pt-8 px-4 lg:px-8 pb-4">
-          <div className="text-xl lg:text-2xl font-bold text-gray-900 mb-4">Order #{orderNumber}</div>
+          <div className="text-lg font-regular text-gray-900 mb-4">{'Order'.toUpperCase()} # {orderNumber}</div>
           <div className="border-b border-gray-200"></div>
           
           {/* Mobile: Two-column grid layout */}

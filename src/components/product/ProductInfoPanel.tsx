@@ -10,6 +10,7 @@ interface ProductInfoPanelProps {
   deliveryTime: string;
   description: string;
   quantity: number;
+  category?: string;
   onQuantityChange?: (qty: number) => void;
   onAddToCart?: () => void;
   onCompare?: () => void;
@@ -24,6 +25,7 @@ export function ProductInfoPanel({
   deliveryTime,
   description,
   quantity,
+  category,
   onQuantityChange,
   onAddToCart,
   onCompare,
@@ -49,9 +51,16 @@ export function ProductInfoPanel({
           className="border rounded px-2 py-1"
           value={quantity}
           onChange={e => onQuantityChange && onQuantityChange(Number(e.target.value))}
+          disabled={category === "Laptops" || category === "Desktops"}
         >
-          {[1,2,3,4,5].map(q => <option key={q} value={q}>{q}</option>)}
+          {category === "Laptops" || category === "Desktops" 
+            ? [1].map(q => <option key={q} value={q}>{q}</option>)
+            : [1,2,3,4,5].map(q => <option key={q} value={q}>{q}</option>)
+          }
         </select>
+        {(category === "Laptops" || category === "Desktops") && (
+          <span className="text-sm text-gray-500 italic">Limited to 1 per order</span>
+        )}
       </div>
       <div className="flex gap-2">
         <button className="flex-1 bg-blue-600 text-white px-4 py-2 hover:bg-blue-700 transition-colors rounded-md font-medium" onClick={onAddToCart}>Add to Cart</button>

@@ -15,6 +15,7 @@ import { MainNavigation } from "@/components/layout/MainNavigation";
 import Link from "next/link";
 import { ArrowLeft, Filter, SortAsc } from "lucide-react";
 import { useState, useRef, useEffect, use } from "react";
+import { Breadcrumb } from "@/components/ui/Breadcrumb";
 
 export default function BrandCatalogPage({ params }: { params: Promise<{ brand: string }> }) {
   const resolvedParams = use(params);
@@ -223,14 +224,24 @@ export default function BrandCatalogPage({ params }: { params: Promise<{ brand: 
       <Header />
       <MainNavigation />
       <main className="max-w-7xl mx-auto flex-1 overflow-y-auto px-6 sm:px-12 md:px-16 py-8 mb-16">
-        <Link
+        {/* <Link
           href="/catalog"
           className="inline-flex items-center text-heritageBlue hover:text-blue-800 font-medium transition-colors mb-4"
           aria-label="Go back"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back
-        </Link>
+        </Link> */}
+        
+        {/* Breadcrumb Navigation */}
+        <Breadcrumb
+          items={[
+            { label: "Catalog", href: "/catalog" },
+            { label: brand, isActive: true }
+          ]}
+          className="mb-6"
+        />
+        
         <div className="text-left">
           <h1 className="text-5xl font-medium text-gray-900 mt-6 mb-2">{brand} Products</h1>
           <h4 className="font-base text-gray-800 mb-8">Browse all {brand} products and find the perfect item for your needs.</h4>
