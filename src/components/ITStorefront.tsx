@@ -67,7 +67,7 @@ function generateHeroBannerContent(product: any) {
   let title, subtitle, description;
   
   if (category.toLowerCase() === 'laptops' || product.model?.toLowerCase().includes('laptop')) {
-    title = `Our Newest ${category.slice(0, -1)}`;
+    title = `Trending Products`;
     subtitle = `${brand} ${model}`;
     // Use product description if available, otherwise fallback to generic
     description = productDescription || `Experience next-generation performance with cutting-edge technology. Perfect for productivity, creativity, and everything in between.`;

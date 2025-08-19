@@ -142,7 +142,7 @@ export function RecentOrders({ maxOrders = 2 }: RecentOrdersProps) {
                     <div className="flex items-center justify-between">
                       <p className="text-sm text-gray-800">{order.orderDate}</p>
                       <span
-                      className={`inline-block px-2 py-1 text-sm font-medium rounded-full ${getStatusColor(order.status)} text-white`}
+                      className={`inline-block px-2 py-1 text-xs font-regular rounded-full ${getStatusColor(order.status)} text-white`}
                       >
                       {getStatusText(order.status)}
                       </span>

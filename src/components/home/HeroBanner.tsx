@@ -22,11 +22,11 @@ export function HeroBanner({
   imageAlt
 }: HeroBannerProps) {
   return (
-    <div className="rounded-lg mb-8 mt-4">
+    <div className="bg-white border border-gray-200 rounded-lg px-8 sm:px-10 py-8 sm:mt-4 sm:mb-8">
       <div className="grid grid-cols-1 lg:grid-cols-3 items-center gap-6 lg:gap-8">
         {/* Product image - Takes up full width on mobile, 1 column on desktop */}
         <div className="lg:col-span-1 flex justify-center w-full order-1 lg:order-2">
-          <div className="relative w-56 :h-42 md:w-64 md:h-48 lg:w-80 lg:h-60">
+          <div className="relative w-56 h-42 md:w-64 md:h-48 lg:w-80 lg:h-60">
             {/* Product image */}
             <div className="relative z-10 w-full h-full">
               <Image
@@ -42,13 +42,13 @@ export function HeroBanner({
         
         {/* Text content - Takes up full width on mobile, 2 columns on desktop */}
         <div className="lg:col-span-2 text-center lg:text-left w-full order-2 lg:order-1">
-          <h2 className="text-4xl sm:text-4xl lg:text-6xl font-bold text-gray-900 mb-3 sm:mb-4 md:mb-5">
+          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3">
             {title}
           </h2>
-          <h3 className="text-2xl sm:text-3xl font-regular text-gray-900 mb-2 sm:mb-3 md:mb-4">
+          <h3 className="text-4xl sm:text-5xl font-regular text-blue-600 mb-2 sm:mb-3">
             {subtitle}
           </h3>
-          <p className="text-base sm:text-lg leading-tight font-regular text-gray-800 mb-4 sm:mb-6">
+          <p className="text-base leading-tight font-regular text-gray-800 mb-4 sm:mb-6">
             {description}
           </p>
           <Link href={buttonLink}>
