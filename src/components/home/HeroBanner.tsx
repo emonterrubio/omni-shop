@@ -42,10 +42,10 @@ export function HeroBanner({
         
         {/* Text content - Takes up full width on mobile, 2 columns on desktop */}
         <div className="lg:col-span-2 text-center lg:text-left w-full order-2 lg:order-1">
-          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-3">
+          <h2 className="text-3xl sm:text-4xl font-regular text-blue-600 mb-3">
             {title}
           </h2>
-          <h3 className="text-4xl sm:text-5xl font-regular text-blue-600 mb-2 sm:mb-3">
+          <h3 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-2 sm:mb-3">
             {subtitle}
           </h3>
           <p className="text-base leading-tight font-regular text-gray-800 mb-4 sm:mb-6">
