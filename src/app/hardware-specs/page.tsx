@@ -10,7 +10,7 @@ export default function HardwareSpecsPage() {
       {/* Breadcrumb Navigation */}
       <Breadcrumb
         items={[
-          { label: "Request Hardware", href: "/request-hardware" },
+          { label: "Find Hardware", href: "/find-hardware" },
           { label: "About Hardware Specifications", isActive: true }
         ]}
         className="mb-6"
@@ -241,7 +241,7 @@ export default function HardwareSpecsPage() {
             to find the perfect device for your needs.
           </div>
           <a
-            href="/catalog"
+            href="/find-hardware"
             className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition-colors"
           >
             Browse Hardware

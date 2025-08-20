@@ -118,36 +118,45 @@ export function RecentOrders({ maxOrders = 2 }: RecentOrdersProps) {
           const firstItem = order.items[0];
           return (
             <div key={order.id} className="p-4">
-              <div className="flex items-start items-center space-x-3">
-                {/* Product Image */}
-                <div className="flex-shrink-0">
-                  <Image
-                    src={firstItem.image}
-                    alt={firstItem.model}
-                    width={60}
-                    height={60}
-                    className="rounded-lg object-cover"
-                  />
-                </div>
-                
-                  {/* Order Details */}
-                  <div className="flex-1 min-w-0">
-                    <h3 className="text-lg font-regular leading-tight text-gray-900 truncate">{firstItem.model}</h3>
+              <div className="flex items-start justify-between">
+                {/* Left side: Product Image and Info */}
+                <div className="flex items-start space-x-3">
+                  {/* Product Image */}
+                  <div className="flex-shrink-0">
+                    <Image
+                      src={firstItem.image}
+                      alt={firstItem.model}
+                      width={60}
+                      height={60}
+                      className="rounded-lg object-cover"
+                    />
+                  </div>
+                  
+                  {/* Product Name and Order Number */}
+                  <div className="flex flex-col min-w-0">
+                    <h3 className="text-lg font-regular leading-tight text-gray-900 truncate">
+                      {firstItem.model}
+                    </h3>
                     <Link 
                       href={`/developer-setup/details?orderId=${order.id}`}
-                      className="text-base text-blue-600 hover:text-blue-800 font-regular transition-colors"
+                      className="text-base text-blue-600 hover:text-blue-800 font-regular transition-colors block"
                     >
                       Order #{order.orderNumber}
                     </Link>
-                    <div className="flex items-center justify-between">
-                      <p className="text-sm text-gray-800">{order.orderDate}</p>
-                      <span
-                      className={`inline-block px-2 py-1 text-xs font-regular rounded-full ${getStatusColor(order.status)} text-white`}
-                      >
-                      {getStatusText(order.status)}
-                      </span>
-                    </div>
                   </div>
+                </div>
+                
+                {/* Right side: Status and Date */}
+                <div className="flex flex-col items-end text-right">
+                  <p className="text-sm text-gray-800 mb-1">
+                    {order.orderDate}
+                  </p>
+                  <span
+                    className={`inline-block px-2 py-1 text-xs font-regular rounded-full ${getStatusColor(order.status)} text-white`}
+                  >
+                    {getStatusText(order.status)}
+                  </span>
+                </div>
               </div>
             </div>
           );

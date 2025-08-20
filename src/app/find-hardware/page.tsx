@@ -13,7 +13,7 @@ interface FilterState {
   priceRange: string;
 }
 
-export default function RequestHardwarePage() {
+export default function FindHardwarePage() {
   // Debug: Check if hardwareData is available
   console.log('Hardware data available:', hardwareData?.length || 0);
   console.log('Sample product:', hardwareData?.[0]);
@@ -121,133 +121,84 @@ export default function RequestHardwarePage() {
   };
 
   const applyFilters = () => {
-    console.log('Applying filters:', filters);
-    
-    // Apply the filters and update the product grid
-    const filteredProducts = filterProducts();
-    setSuggestedProducts(filteredProducts);
+    const filtered = filterProducts();
+    setSuggestedProducts(filtered);
     setFiltersApplied(true);
     setShowFilters(false);
   };
 
-  // Enhanced filter products based on selected usage and features
   const filterProducts = () => {
-    const mapping = usageProductMapping[filters.usage as keyof typeof usageProductMapping];
-    if (!mapping) return [];
+    if (!hardwareData || hardwareData.length === 0) {
+      console.log('No hardware data available');
+      return [];
+    }
 
-    console.log('Filtering for usage:', filters.usage);
-    console.log('Mapping found:', mapping);
-
-    // Score each product based on how well it matches the usage criteria
-    const scoredProducts = hardwareData.map(product => {
+    console.log('Filtering products with:', filters);
+    
+    const filtered = hardwareData.filter(product => {
       let score = 0;
-      let matchDetails = [];
-
-      // Category match (base score)
-      if (mapping.categories.includes(product.category)) {
-        score += 50;
-        matchDetails.push('Category match');
+      const matchDetails: string[] = [];
+      
+      // Base category match
+      const usageConfig = usageProductMapping[filters.usage as keyof typeof usageProductMapping];
+      if (usageConfig && usageConfig.categories.includes(product.category)) {
+        score += 40;
+        matchDetails.push(`Category match: ${product.category}`);
       }
-
-      // Memory requirements
-      if ('minMemory' in mapping && mapping.minMemory) {
-        const productMemory = product.memory;
-        const requiredMemory = mapping.minMemory;
-        
-        if (productMemory.includes('GB')) {
-          const memoryGB = parseInt(productMemory.match(/(\d+)/)?.[1] || '0');
-          const requiredGB = parseInt(requiredMemory.match(/(\d+)/)?.[1] || '0');
-          
-          if (memoryGB >= requiredGB) {
+      
+      // Memory and storage scoring
+      if (product.memory) {
+        const memoryGB = parseInt(product.memory);
+        if (usageConfig?.minMemory) {
+          const minMemoryGB = parseInt(usageConfig.minMemory);
+          if (memoryGB >= minMemoryGB) {
             score += 20;
-            matchDetails.push(`Memory: ${memoryGB}GB (≥${requiredGB}GB)`);
-          } else {
-            score -= 10;
-            matchDetails.push(`Memory: ${memoryGB}GB (<${requiredGB}GB)`);
+            matchDetails.push(`Memory: ${product.memory} (meets minimum ${usageConfig.minMemory})`);
           }
         }
       }
-
-      // Storage requirements
-      if ('minStorage' in mapping && mapping.minStorage) {
-        const productStorage = product.storage;
-        const requiredStorage = mapping.minStorage;
-        
-        if (productStorage.includes('GB') || productStorage.includes('TB')) {
-          let storageGB = 0;
-          if (productStorage.includes('TB')) {
-            storageGB = parseInt(productStorage.match(/(\d+)/)?.[1] || '0') * 1024;
-          } else {
-            storageGB = parseInt(productStorage.match(/(\d+)/)?.[1] || '0');
-          }
-          
-          const requiredGB = requiredStorage.includes('TB') 
-            ? parseInt(requiredStorage.match(/(\d+)/)?.[1] || '0') * 1024
-            : parseInt(requiredStorage.match(/(\d+)/)?.[1] || '0');
-          
-          if (storageGB >= requiredGB) {
-            score += 15;
-            matchDetails.push(`Storage: ${storageGB >= 1024 ? (storageGB/1024).toFixed(1) + 'TB' : storageGB + 'GB'} (≥${requiredGB >= 1024 ? (requiredGB/1024).toFixed(1) + 'TB' : requiredGB + 'GB'})`);
-          } else {
-            score -= 5;
-            matchDetails.push(`Storage: ${storageGB >= 1024 ? (storageGB/1024).toFixed(1) + 'TB' : storageGB + 'GB'} (<${requiredGB >= 1024 ? (requiredGB/1024).toFixed(1) + 'TB' : requiredGB + 'GB'})`);
+      
+      if (product.storage) {
+        const storageGB = parseInt(product.storage);
+        if (usageConfig?.minStorage) {
+          const minStorageGB = parseInt(usageConfig.minStorage);
+          if (storageGB >= minStorageGB) {
+            score += 20;
+            matchDetails.push(`Storage: ${product.storage} (meets minimum ${usageConfig.minStorage})`);
           }
         }
       }
-
-      // Feature matching
-      if ('priorityFeatures' in mapping && mapping.priorityFeatures) {
-        const productText = `${product.features} ${product.description} ${product.card_description}`.toLowerCase();
-        
-        mapping.priorityFeatures.forEach(feature => {
-          const featureLower = feature.toLowerCase();
-          if (productText.includes(featureLower)) {
-            score += 10;
-            matchDetails.push(`Feature: ${feature}`);
-          }
-        });
-      }
-
-      // Display size matching for specific use cases
-      if ('priorityFeatures' in mapping && mapping.priorityFeatures?.includes('Large Screen')) {
-        const displayText = product.display.toLowerCase();
-        if (displayText.includes('15') || displayText.includes('16') || displayText.includes('17')) {
+      
+      // Feature-based scoring
+      if (product.features) {
+        const features = product.features.toLowerCase();
+        if (features.includes('ssd')) {
           score += 15;
-          matchDetails.push('Large screen (15"+');
+          matchDetails.push('SSD storage');
         }
-      }
-
-      // Battery life for portable use cases
-      if ('priorityFeatures' in mapping && mapping.priorityFeatures?.includes('Long Battery Life')) {
-        const batteryText = product.battery.toLowerCase();
-        if (batteryText.includes('18') || batteryText.includes('19') || batteryText.includes('20')) {
+        if (features.includes('usb-c') || features.includes('thunderbolt')) {
           score += 10;
-          matchDetails.push('Long battery life');
+          matchDetails.push('Modern connectivity');
+        }
+        if (features.includes('touchscreen')) {
+          score += 10;
+          matchDetails.push('Touchscreen capability');
         }
       }
-
-      // Touchscreen for creative work
-      if ('priorityFeatures' in mapping && mapping.priorityFeatures?.includes('Touchscreen')) {
-        const productText = `${product.features} ${product.description}`.toLowerCase();
-        if (productText.includes('touch') || productText.includes('pixel')) {
-          score += 15;
-          matchDetails.push('Touchscreen');
+      
+      // Price-based scoring
+      if (product.price && usageConfig?.minMemory) {
+        let price: number;
+        if (typeof product.price === 'string') {
+          const priceStr = product.price as string;
+          price = parseInt(priceStr.replace(/[^0-9]/g, ''));
+        } else {
+          price = Number(product.price);
         }
-      }
-
-      // High performance indicators
-      if ('priorityFeatures' in mapping && mapping.priorityFeatures?.includes('High Performance')) {
-        const processorText = product.processor.toLowerCase();
-        if (processorText.includes('i7') || processorText.includes('i9') || processorText.includes('ultra') || processorText.includes('m4')) {
-          score += 15;
-          matchDetails.push('High performance processor');
+        if (price < 2000) {
+          score += 10;
+          matchDetails.push('Good value');
         }
-      }
-
-      // Price consideration (bonus for good value)
-      if (product.price <= 2500) {
-        score += 5;
-        matchDetails.push('Good value');
       }
 
       // Apply key features filter if user has selected any
@@ -295,38 +246,60 @@ export default function RequestHardwarePage() {
           matchDetails.push(`Price mismatch: ${filters.priceRange}`);
         }
       }
-
+      
       console.log(`Product ${product.model}: Score=${score}, Details:`, matchDetails);
-
-      return {
-        ...product,
-        matchScore: score,
-        matchDetails
-      };
+      
+      return score > 30; // Only return products with decent match scores
     });
-
-    // Filter products that meet minimum requirements and sort by score
-    let filtered = scoredProducts
-      .filter(product => product.matchScore > 30) // Only show products with decent matches
-      .sort((a, b) => b.matchScore - a.matchScore); // Sort by score descending
-
-    console.log('Filtered products count:', filtered.length);
     
-    // If no products found with good scores, show some default products
-    if (filtered.length === 0) {
-      console.log('No products found with good scores, showing default products');
-      return hardwareData.slice(0, 6);
-    }
+    // Sort by score (highest first)
+    filtered.sort((a, b) => {
+      const scoreA = calculateScore(a);
+      const scoreB = calculateScore(b);
+      return scoreB - scoreA;
+    });
     
-    // Return top 6 products
     return filtered.slice(0, 6);
   };
 
-  // Initialize with default products on component mount
+  const calculateScore = (product: any) => {
+    let score = 0;
+    const usageConfig = usageProductMapping[filters.usage as keyof typeof usageProductMapping];
+    
+    if (usageConfig && usageConfig.categories.includes(product.category)) {
+      score += 40;
+    }
+    
+    if (product.memory && usageConfig?.minMemory) {
+      const memoryGB = parseInt(product.memory);
+      const minMemoryGB = parseInt(usageConfig.minMemory);
+      if (memoryGB >= minMemoryGB) {
+        score += 20;
+      }
+    }
+    
+    if (product.storage && usageConfig?.minStorage) {
+      const storageGB = parseInt(product.storage);
+      const minStorageGB = parseInt(usageConfig.minStorage);
+      if (storageGB >= minStorageGB) {
+        score += 20;
+      }
+    }
+    
+    if (product.features) {
+      const features = product.features.toLowerCase();
+      if (features.includes('ssd')) score += 15;
+      if (features.includes('usb-c') || features.includes('thunderbolt')) score += 10;
+      if (features.includes('touchscreen')) score += 10;
+    }
+    
+    if (product.price < 2000) score += 10;
+    
+    return score;
+  };
+
   useEffect(() => {
     const initialProducts = hardwareData.slice(0, 6);
-    console.log('Default products found:', initialProducts.length);
-    console.log('Available hardware data:', hardwareData.length);
     setDefaultProducts(initialProducts);
     setSuggestedProducts(initialProducts);
   }, []); // Empty dependency array means this runs once on mount
@@ -336,7 +309,7 @@ export default function RequestHardwarePage() {
         {/* Breadcrumb Navigation */}
         <Breadcrumb
           items={[
-            { label: "Request Hardware", isActive: true }
+            { label: "Find Hardware", isActive: true }
           ]}
           className="mb-6"
         />
@@ -447,7 +420,7 @@ export default function RequestHardwarePage() {
 
           {/* Filter Actions */}
           {showFilters && (
-            <div className="grid grid-cols-1 lg:grid-cols-2 justify-between bg-gray-50 rounded-lg p-4">
+            <div className="flex flex-col lg:flex-row justify-between bg-gray-50 rounded-lg">
               <div className="flex items-center gap-4">
                 <span className="text-base text-gray-800">
                   {filters.keyFeatures.length} key features selected
@@ -478,12 +451,12 @@ export default function RequestHardwarePage() {
 
         {/* Product Suggestions */}
         <div className="mt-8">
-          <div className="flex flex-col lg:flex-row items-end justify-between mb-4">
+          <div className="flex flex-col lg:flex-row items-start lg:items-end justify-between mb-4">
             <div>
               <h2 className="text-2xl font-semibold text-gray-900">
                 {filtersApplied ? `Results for ${filters.usage}` : 'Popular Devices'}
               </h2>
-              <p className="text-gray-600">
+              <p className="text-gray-600 mt-1">
                 {filtersApplied 
                   ? usageProductMapping[filters.usage as keyof typeof usageProductMapping]?.description
                   : 'Browse our selection of recommended hardware to get started'
@@ -495,7 +468,7 @@ export default function RequestHardwarePage() {
                 </div>
               )}
             </div>
-            <div className="text-base text-gray-800 mt-2">
+            <div className="text-base text-gray-800 mt-2 lg:mt-0">
               Showing {suggestedProducts.length} devices
             </div>
           </div>
@@ -506,61 +479,25 @@ export default function RequestHardwarePage() {
                 <div key={`${product.model}-${idx}`} className="relative">
                   <ProductCard 
                     product={{
-                      brand: product.brand,
-                      model: product.model,
-                      category: product.category,
-                      description: product.description,
-                      card_description: product.card_description,
-                      features: product.features,
-                      image: product.image,
-                      price: product.price,
-                      recommended: product.recommended,
-                    }} 
-                    fromCatalog={false}
+                      ...product,
+                      category: product.category || 'Hardware'
+                    }}
                   />
-                  {/* Match Score Badge */}
-                  {/* {product.matchScore && (
-                    <div className="absolute top-2 right-2 bg-blue-600 text-white text-xs px-2 py-1 rounded-full font-medium">
-                      {product.matchScore} pts
-                    </div>
-                  )} */}
-                  {/* Match Details Tooltip */}
-                  {/* {product.matchDetails && product.matchDetails.length > 0 && (
-                    <div className="mt-2 p-3 bg-gray-50 rounded-lg text-xs">
-                      <div className="font-medium text-gray-700 mb-1">Why this matches:</div>
-                      <ul className="space-y-1">
-                        {product.matchDetails.slice(0, 3).map((detail: string, detailIdx: number) => (
-                          <li key={detailIdx} className="text-gray-600">• {detail}</li>
-                        ))}
-                        {product.matchDetails.length > 3 && (
-                          <li className="text-gray-500">• +{product.matchDetails.length - 3} more...</li>
-                        )}
-                      </ul>
-                    </div>
-                  )} */}
                 </div>
               ))}
             </div>
           ) : (
-            <div className="text-center py-12 bg-gray-50 rounded-lg">
-              <div className="text-gray-400 mb-4">
-                <svg className="w-16 h-16 mx-auto" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
-                </svg>
-              </div>
-              <h3 className="text-lg font-medium text-gray-900 mb-2">No matches found</h3>
-              <p className="text-gray-600 mb-6">
-                Try adjusting your filters to see more product suggestions
-              </p>
+            <div className="text-center py-12">
+              <p className="text-gray-500 text-lg">No devices match your current filters.</p>
               <button
-                onClick={() => setShowFilters(true)}
-                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+                onClick={clearAllFilters}
+                className="mt-4 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
               >
-                Adjust Filters
+                Clear Filters
               </button>
             </div>
           )}
         </div>
-      </PageLayout>
-    );
-  }
+    </PageLayout>
+  );
+}

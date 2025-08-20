@@ -22,18 +22,18 @@ export function HeroBanner({
   imageAlt
 }: HeroBannerProps) {
   return (
-    <div className="bg-white border border-gray-200 rounded-lg px-8 sm:px-10 py-8 sm:mt-4 sm:mb-8">
+    <div className="py-2 sm:mt-4 sm:mb-8">
       <div className="grid grid-cols-1 lg:grid-cols-3 items-center gap-6 lg:gap-8">
         {/* Product image - Takes up full width on mobile, 1 column on desktop */}
         <div className="lg:col-span-1 flex justify-center w-full order-1 lg:order-2">
-          <div className="relative w-56 h-42 md:w-64 md:h-48 lg:w-80 lg:h-60">
+          <div className="relative w-80 h-auto md:w-96 md:h-auto lg:w-120 lg:h-auto">
             {/* Product image */}
             <div className="relative z-10 w-full h-full">
               <Image
                 src={imageSrc}
                 alt={imageAlt}
-                width={256}
-                height={192}
+                width={320}
+                height={240}
                 className="w-full h-full object-contain"
               />
             </div>
