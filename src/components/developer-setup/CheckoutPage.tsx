@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { BillingDetailsForm } from './BillingDetailsForm';
 import { ShippingDetailsForm } from './ShippingDetailsForm';
 import { OrderSummary } from '../ui/OrderSummary';
 import { CostCenter } from '../ui/CostCenter';
 import { useRouter } from "next/navigation";
 import { createOrderFromCheckout, saveOrder } from '@/services/orders';
+import { CartContext } from '../CartContext';
 
 interface Item {
   model: string;
@@ -24,6 +25,7 @@ interface CheckoutPageProps {
 
 export function CheckoutPage({ items, shippingCost, costCenter, onBack }: CheckoutPageProps) {
   const router = useRouter();
+  const { clearCart } = useContext(CartContext);
   
   // Billing form state
   const [billing, setBilling] = useState({
@@ -85,6 +87,8 @@ export function CheckoutPage({ items, shippingCost, costCenter, onBack }: Checko
   }
   const isFormValid = isBillingValid && isShippingValid;
 
+
+
   // Calculate totals
   const subtotal = items.reduce((sum, item) => {
     const price = typeof item.price === 'string' ? parseFloat(item.price.replace(/,/g, '')) : item.price;
@@ -94,6 +98,8 @@ export function CheckoutPage({ items, shippingCost, costCenter, onBack }: Checko
   const total = Math.round((subtotal + tax + shippingCost) * 100) / 100; // Total rounded to 2 decimal places
 
   const handlePlaceOrder = () => {
+    console.log('handlePlaceOrder called - clearing cart...');
+    
     // Create and save the order
     const order = createOrderFromCheckout(
       billing,
@@ -123,6 +129,9 @@ export function CheckoutPage({ items, shippingCost, costCenter, onBack }: Checko
       total,
     };
     localStorage.setItem("devSetupOrder", JSON.stringify(orderData));
+    
+    // Clear the cart after successful order submission
+    clearCart();
     
     // Pass the order ID as a query parameter to ensure we can find the order
     router.push(`/developer-setup/details?orderId=${order.id}`);

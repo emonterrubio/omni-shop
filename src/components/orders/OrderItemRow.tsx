@@ -71,12 +71,6 @@ export function OrderItemRow({ item }: OrderItemRowProps) {
                 >
                   Buy it again
                 </button>
-                <Link
-                  href={`/product/${encodeURIComponent(item.model)}`}
-                  className="px-3 py-2 text-sm bg-blue-100 text-blue-600 hover:text-blue-800 hover:bg-blue-200 font-medium"
-                >
-                  Track Order
-                </Link>
               </div>
             </div>
           </div>

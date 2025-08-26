@@ -22,7 +22,10 @@ export const MainNavigationClient = () => {
               Home
             </Link>
             <Link href="/catalog" className={`font-medium text-gray-900 border-b-4 py-3 border-transparent hover:border-b-4 hover:border-heritageBlue ${pathname === "/catalog" ? "border-b-4 border-heritageBlue !border-heritageBlue" : ""}`}>
-              Catalog
+              Hardware Catalog
+            </Link>
+            <Link href="/compare" className={`font-medium text-gray-900 border-b-4 py-3 border-transparent hover:border-b-4 hover:border-heritageBlue ${pathname === "/compare" ? "border-b-4 border-heritageBlue !border-heritageBlue" : ""}`}>
+              Compare
             </Link>
             <Link href="/orders" className={`font-medium text-gray-900 border-b-4 py-3 border-transparent hover:border-b-4 hover:border-heritageBlue ${pathname === "/orders" ? "border-b-4 border-heritageBlue !border-heritageBlue" : ""}`}>
               My Orders
@@ -55,7 +58,13 @@ export const MainNavigationClient = () => {
               href="/catalog"
               className={`block px-4 py-2 text-3xl font-regular text-gray-900 ${pathname === "/catalog" ? "!text-heritageBlue" : ""}`}
             >
-              Catalog
+              Hardware Catalog
+            </Link>
+            <Link
+              href="/compare"
+              className={`block px-4 py-2 text-3xl font-regular text-gray-900 ${pathname === "/compare" ? "!text-heritageBlue" : ""}`}
+            >
+              Compare
             </Link>
             <Link
               href="/orders"

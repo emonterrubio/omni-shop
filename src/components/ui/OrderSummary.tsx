@@ -37,17 +37,17 @@ export function OrderSummary({
         <h3 className="text-2xl font-regular tracking-normal mb-4">Order Summary</h3>
         <div className="flex justify-between font-regular text-gray-800 mb-2">
           <span>Subtotal {itemCount ? `(${itemCount} items)` : ''}</span>
-          <span>${subtotal.toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
+          <span>${Math.round(subtotal).toLocaleString()}</span>
         </div>
         {tax > 0 && (
           <div className="flex justify-between font-regular text-gray-800 mb-2">
             <span>Tax</span>
-            <span>${tax.toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
+            <span>${Math.round(tax).toLocaleString()}</span>
           </div>
         )}
         <div className="flex justify-between font-regular text-gray-800 mb-2">
           <span>Shipping</span>
-          <span>{shippingCost === 0 ? 'Free' : `$${shippingCost.toLocaleString(undefined, { minimumFractionDigits: 2 })}`}</span>
+          <span>{shippingCost === 0 ? 'Free' : `$${Math.round(shippingCost).toLocaleString()}`}</span>
         </div>
         {costCenter && (
           <div className="flex justify-between text-gray-800 mb-2">
@@ -63,7 +63,7 @@ export function OrderSummary({
         <div className="border-t border-gray-200 my-4"></div>
         <div className="flex justify-between font-bold text-xl mt-2">
           <span>Total</span>
-          <span>${total.toLocaleString(undefined, { minimumFractionDigits: 2 })}</span>
+          <span>${Math.round(total).toLocaleString()}</span>
         </div>
         
 

@@ -14,7 +14,7 @@ import { PageLayout } from "@/components/layout/PageLayout";
 import { Pagination } from "@/components/ui/Pagination";
 import { CatalogSidebar } from "@/components/catalog/CatalogSidebar";
 import { SortAsc, Filter, PackageSearch } from "lucide-react";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
 
 export default function CatalogPage() {
@@ -130,6 +130,24 @@ export default function CatalogPage() {
     productsByBrand[product.brand].push(product);
   });
 
+  // Function to get products by brand filtered by selected category
+  const getProductsByBrandForCategory = () => {
+    if (selectedCategory === "all") {
+      return productsByBrand;
+    } else {
+      const filteredProductsByBrand: { [brand: string]: typeof allProducts } = {};
+      Object.keys(productsByBrand).forEach(brand => {
+        const categoryProducts = productsByBrand[brand].filter(product => 
+          product.category && product.category.toLowerCase() === selectedCategory.toLowerCase()
+        );
+        if (categoryProducts.length > 0) {
+          filteredProductsByBrand[brand] = categoryProducts;
+        }
+      });
+      return filteredProductsByBrand;
+    }
+  };
+
   const [sortOption, setSortOption] = useState("all");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [selectedBrand, setSelectedBrand] = useState("all");
@@ -218,6 +236,16 @@ export default function CatalogPage() {
     setCurrentPage(1);
   }, [selectedCategory, selectedBrand, sortOption]);
 
+  // Reset selected brand when category changes to prevent invalid brand selection
+  useEffect(() => {
+    if (selectedCategory !== "all") {
+      const availableBrands = getProductsByBrandForCategory();
+      if (!availableBrands[selectedBrand]) {
+        setSelectedBrand("all");
+      }
+    }
+  }, [selectedCategory]);
+
   // Function to get brand counts based on selected category
   const getBrandCountsForCategory = () => {
     if (selectedCategory === "all") {
@@ -227,18 +255,22 @@ export default function CatalogPage() {
         return acc;
       }, {} as { [brand: string]: number });
     } else {
-      // If category is selected, count only products in that category
-      return Object.keys(productsByBrand).reduce((acc, brand) => {
+      // If category is selected, count only products in that category and filter out brands with 0 products
+      const brandCounts: { [brand: string]: number } = {};
+      Object.keys(productsByBrand).forEach(brand => {
         const count = productsByBrand[brand].filter(product => 
           product.category && product.category.toLowerCase() === selectedCategory.toLowerCase()
         ).length;
-        acc[brand] = count;
-        return acc;
-      }, {} as { [brand: string]: number });
+        if (count > 0) {
+          brandCounts[brand] = count;
+        }
+      });
+      return brandCounts;
     }
   };
 
-  const brandCounts = getBrandCountsForCategory();
+  // Get brand counts dynamically based on selected category
+  const brandCounts = useMemo(() => getBrandCountsForCategory(), [selectedCategory]);
 
   return (
     <PageLayout>
@@ -285,7 +317,7 @@ export default function CatalogPage() {
             selectedBrand={selectedBrand}
             onCategorySelect={setSelectedCategory}
             onBrandSelect={setSelectedBrand}
-            productsByBrand={productsByBrand}
+            productsByBrand={getProductsByBrandForCategory()}
           />
         </div>
         
@@ -306,7 +338,7 @@ export default function CatalogPage() {
                   className="border border-gray-300 rounded-md px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                   <option value="all">All Brands</option>
-                  {Object.keys(productsByBrand).sort().map((brand) => (
+                  {Object.keys(brandCounts).sort().map((brand) => (
                     <option key={brand} value={brand}>
                       {brand} ({brandCounts[brand]})
                     </option>
@@ -355,7 +387,7 @@ export default function CatalogPage() {
                   >
                     All Brands
                   </button>
-                  {Object.keys(productsByBrand).sort().map((brand) => (
+                  {Object.keys(brandCounts).sort().map((brand) => (
                     <button
                       key={brand}
                       className={`block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${selectedBrand === brand ? "bg-gray-100 font-semibold" : ""}`}

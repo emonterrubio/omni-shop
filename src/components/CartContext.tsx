@@ -105,7 +105,6 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const clearCart = () => {
     setCartItems([]);
     localStorage.removeItem('cart');
-    addToast("Cart cleared", "info");
   };
 
   const cartCount = cartItems.reduce((sum, item) => sum + (item.quantity || 1), 0);

@@ -98,18 +98,18 @@ export function ProductCard({ product, fromCatalog = false }: { product: Product
         </div> */}
         {/* Action buttons */}
         <div className="flex gap-2">
+        <Link
+            href={fromCatalog ? `/product/${encodeURIComponent(product.model)}?from=catalog` : `/product/${encodeURIComponent(product.model)}`}
+            className="flex-1 bg-blue-50 text-blue-600 px-2 py-2 hover:bg-blue-100 transition-colors rounded-md font-medium text-center"
+          >
+            View Details
+          </Link>
           <button
             onClick={handleAddToCart}
             className="flex-1 bg-blue-600 text-white px-2 py-2 hover:bg-blue-700 transition-colors rounded-md font-medium"
           >
             Add to Cart
           </button>
-          <Link
-            href={fromCatalog ? `/product/${encodeURIComponent(product.model)}?from=catalog` : `/product/${encodeURIComponent(product.model)}`}
-            className="flex-1 bg-blue-50 text-blue-600 px-2 py-2 hover:bg-blue-100 transition-colors rounded-md font-medium text-center"
-          >
-            View Details
-          </Link>
         </div>
       </div>
     </div>

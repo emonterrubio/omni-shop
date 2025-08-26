@@ -23,6 +23,7 @@ export default function CartPage() {
       shippingCost: shippingCost,
     };
     localStorage.setItem("cartCheckout", JSON.stringify(checkoutData));
+    
     router.push("/checkout");
   };
 

@@ -9,7 +9,7 @@ interface OrderHeaderProps {
 
 export function OrderHeader({ order }: OrderHeaderProps) {
   return (
-    <div className="bg-gray-100 px-6 lg:px-8 py-6 border-b border-gray-200">
+    <div className="bg-gray-100 px-6 lg:px-8 py-4 border-b border-gray-200">
       {/* Mobile: Card Layout */}
       <div className="lg:hidden">
         <div>

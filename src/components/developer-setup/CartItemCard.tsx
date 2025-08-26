@@ -18,10 +18,9 @@ interface CartItemCardProps {
   onQuantityChange: (model: string, quantity: number) => void;
   onRemove: (model: string) => void;
   onCompare: (model: string) => void;
-  onShare?: (model: string) => void;
 }
 
-export function CartItemCard({ item, onQuantityChange, onRemove, onCompare, onShare }: CartItemCardProps) {
+export function CartItemCard({ item, onQuantityChange, onRemove, onCompare }: CartItemCardProps) {
   // Helper function to infer category from model name if not provided
   const inferCategory = (model: string): string => {
     const name = model.toLowerCase();
@@ -35,9 +34,16 @@ export function CartItemCard({ item, onQuantityChange, onRemove, onCompare, onSh
   const isLaptopOrDesktop = itemCategory === 'Laptops' || itemCategory === 'Desktops';
   
   const handleQuantityChange = (newQuantity: number) => {
-    if (newQuantity >= 1 && newQuantity <= 10) {
-      onQuantityChange(item.model, newQuantity);
+    // Enforce quantity limits based on product category
+    if (isLaptopOrDesktop && newQuantity > 1) {
+      newQuantity = 1;
+    } else if (newQuantity < 1) {
+      newQuantity = 1;
+    } else if (newQuantity > 10) {
+      newQuantity = 10;
     }
+    
+    onQuantityChange(item.model, newQuantity);
   };
 
   const formatPrice = (price: number | string) => {
@@ -47,20 +53,7 @@ export function CartItemCard({ item, onQuantityChange, onRemove, onCompare, onSh
     return `$${price.toLocaleString()}`;
   };
 
-  const handleShare = () => {
-    if (onShare) {
-      onShare(item.model);
-    } else {
-      // Default share behavior - copy product URL to clipboard
-      const productUrl = `${window.location.origin}/product/${item.model}`;
-      navigator.clipboard.writeText(productUrl).then(() => {
-        // You could add a toast notification here
-        console.log('Product URL copied to clipboard');
-      }).catch(err => {
-        console.error('Failed to copy URL: ', err);
-      });
-    }
-  };
+
 
   return (
     <div className="flex items-start gap-4 py-6 px-2 border-b border-gray-200 last:border-b-0">
@@ -109,7 +102,7 @@ export function CartItemCard({ item, onQuantityChange, onRemove, onCompare, onSh
                   </span>
                   <button
                     onClick={() => handleQuantityChange(item.quantity + 1)}
-                    disabled={item.quantity >= 10 || isLaptopOrDesktop}
+                    disabled={item.quantity >= (isLaptopOrDesktop ? 1 : 10)}
                     className="px-3 py-1 text-gray-600 hover:text-gray-800 disabled:text-gray-300 disabled:cursor-not-allowed"
                   >
                     +
@@ -137,13 +130,6 @@ export function CartItemCard({ item, onQuantityChange, onRemove, onCompare, onSh
                 >
                   <span className="hidden lg:inline">Compare with similar items</span>
                   <span className="lg:hidden">Compare</span>
-                </button>
-                <span className="mx-2 text-gray-400">|</span>
-                <button
-                  onClick={handleShare}
-                  className="text-blue-600 hover:text-blue-800 font-medium"
-                >
-                  Share
                 </button>
               </div>
             </div>
