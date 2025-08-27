@@ -171,14 +171,14 @@ export function RecentOrders({ maxOrders = 2 }: RecentOrdersProps) {
                     >
                       Order #{order.orderNumber}
                     </Link>
+                    <p className="text-sm text-gray-800">
+                      {formatDateWithAbbreviatedMonth(order.orderDate)}
+                    </p>
                   </div>
                 </div>
                 
                 {/* Right side: Status and Date */}
                 <div className="flex flex-col items-end text-right">
-                  <p className="text-sm text-gray-800 mb-1">
-                    {formatDateWithAbbreviatedMonth(order.orderDate)}
-                  </p>
                   <span
                     className={`inline-block px-2 py-1 text-xs font-regular rounded-full ${getStatusColor(order.status)} text-white`}
                   >

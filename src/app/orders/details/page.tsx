@@ -6,9 +6,7 @@ import { PageLayout } from "@/components/layout/PageLayout";
 import { OrderSummary } from "@/components/ui/OrderSummary";
 import { CartContext } from "@/components/CartContext";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
-import { OrderDetailsHeader } from "@/components/orders/OrderDetailsHeader";
 import { OrderSummaryCard } from "@/components/orders/OrderSummaryCard";
-import { OrderProductList } from "@/components/orders/OrderProductList";
 import { OrderActions } from "@/components/orders/OrderActions";
 
 function generateOrderNumber() {
@@ -212,10 +210,7 @@ export default function OrderDetailsPage() {
         className="mb-6"
       />
       
-      {/* Order Details Header */}
-      <OrderDetailsHeader orderNumber={orderNumber} orderDate={orderDate} />
-
-      {/* Combined Order Details and Product List */}
+            {/* Combined Order Details and Product List */}
       <OrderSummaryCard
         orderNumber={orderNumber}
         orderDate={orderDate}

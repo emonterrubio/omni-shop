@@ -43,8 +43,13 @@ function getRandomHeroBanner(products: any[]) {
     const category = product.category?.toLowerCase() || '';
     const model = product.model?.toLowerCase() || '';
     return category === 'laptops' || category === 'desktops' || 
-           category === 'monitors' || model.includes('laptop') || 
-           model.includes('desktop') || model.includes('monitor');
+           category === 'monitors' || category === 'keyboards' || 
+           category === 'mice' || category === 'headphones' || 
+           category === 'webcams' || category === 'docking stations' ||
+           category === 'backpacks' || model.includes('laptop') || 
+           model.includes('desktop') || model.includes('monitor') ||
+           model.includes('keyboard') || model.includes('mouse') ||
+           model.includes('headphone') || model.includes('webcam');
   });
 
   if (heroEligibleProducts.length === 0) {
@@ -67,20 +72,44 @@ function generateHeroBannerContent(product: any) {
   let title, subtitle, description;
   
   if (category.toLowerCase() === 'laptops' || product.model?.toLowerCase().includes('laptop')) {
-    title = `Trending Products`;
+    title = `Featured ${category}`;
     subtitle = `${brand} ${model}`;
     // Use product description if available, otherwise fallback to generic
     description = productDescription || `Experience next-generation performance with cutting-edge technology. Perfect for productivity, creativity, and everything in between.`;
   } else if (category.toLowerCase() === 'desktops' || product.model?.toLowerCase().includes('desktop')) {
-    title = `Powerful ${category.slice(0, -1)}`;
+    title = `Featured ${category}`;
     subtitle = `${brand} ${model}`;
     description = productDescription || `Unleash your potential with desktop-grade performance. Built for demanding workloads and seamless multitasking.`;
   } else if (category.toLowerCase() === 'monitors' || product.model?.toLowerCase().includes('monitor')) {
-    title = `Crystal Clear ${category.slice(0, -1)}`;
+    title = `Featured ${category}`;
     subtitle = `${brand} ${model}`;
     description = productDescription || `Immerse yourself in stunning visuals with our premium display technology. Enhanced productivity meets exceptional clarity.`;
+  } else if (category.toLowerCase() === 'keyboards' || product.model?.toLowerCase().includes('keyboard')) {
+    title = `Featured ${category}`;
+    subtitle = `${brand} ${model}`;
+    description = productDescription || `Elevate your typing experience with premium keyboard technology. Precision, comfort, and style for every keystroke.`;
+  } else if (category.toLowerCase() === 'mice' || product.model?.toLowerCase().includes('mouse')) {
+    title = `Featured ${category}`;
+    subtitle = `${brand} ${model}`;
+    description = productDescription || `Navigate with precision and comfort. Advanced tracking technology meets ergonomic design for seamless control.`;
+  } else if (category.toLowerCase() === 'headphones' || product.model?.toLowerCase().includes('headphone')) {
+    title = `Featured ${category}`;
+    subtitle = `${brand} ${model}`;
+    description = productDescription || `Immerse yourself in crystal-clear audio. Premium sound quality meets comfort for hours of listening pleasure.`;
+  } else if (category.toLowerCase() === 'webcams' || product.model?.toLowerCase().includes('webcam')) {
+    title = `Featured ${category}`;
+    subtitle = `${brand} ${model}`;
+    description = productDescription || `Connect with confidence through high-quality video. Crystal-clear imaging for professional meetings and personal calls.`;
+  } else if (category.toLowerCase() === 'docking stations' || product.model?.toLowerCase().includes('dock')) {
+    title = `Featured ${category}`;
+    subtitle = `${brand} ${model}`;
+    description = productDescription || `Transform your workspace with powerful connectivity. Seamless integration for maximum productivity and organization.`;
+  } else if (category.toLowerCase() === 'backpacks' || product.model?.toLowerCase().includes('backpack')) {
+    title = `Featured ${category}`;
+    subtitle = `${brand} ${model}`;
+    description = productDescription || `Carry your essentials with style and protection. Premium materials and smart organization for the modern professional.`;
   } else {
-    title = `Premium ${category}`;
+    title = `Featured ${category}`;
     subtitle = `${brand} ${model}`;
     description = productDescription || `Discover exceptional quality and performance. Designed to enhance your workflow and exceed expectations.`;
   }

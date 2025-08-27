@@ -79,10 +79,11 @@ export function ProductCard({ product, fromCatalog = false }: { product: Product
             {product.model}
           </h3>
         </Link>
+        {/* price */}
         <div className="space-y-2 pb-4 flex-1">
           {(product.card_description || product.description) && <div className="text-gray-700 text-base leading-tight">{product.card_description || product.description}</div>}
           <div className="text-xl font-semibold text-gray-900 mt-2">
-            ${product.price.toLocaleString()}
+            ${product.price.toLocaleString()}<span className="text-base font-normal text-gray-500"> USD</span>
           </div>
         </div>
         {/* <div className="flex items-center justify-between mb-4">

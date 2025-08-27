@@ -239,10 +239,10 @@ export function ShoppingCart({ selectedItems, onEdit, onCheckout, onRemove }: Sh
         {/* Right Column: Cost Center and Order Checkout */}
         <div className="flex flex-col gap-4">
           {/* Cost Center */}
-          <CostCenter 
+          {/* <CostCenter 
             value={costCenter}
             onChange={handleCostCenterChange}
-          />
+          /> */}
           <OrderSummary
             subtotal={subtotal}
             tax={tax}

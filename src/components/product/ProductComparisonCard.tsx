@@ -93,7 +93,8 @@ export function ComparisonProductCard({
           {isEligible ? "Available" : ""}
         </div>
         <div className="text-gray-600 text-sm">Recommended based on your role</div> */}
-        <div className="text-2xl font-semibold">${price.toLocaleString()}.00</div>
+        {/* price */}
+        <div className="text-2xl font-semibold">${price.toLocaleString()}<span className="text-base font-normal text-gray-500"> USD</span></div>
         <div className="flex gap-2 w-full pt-4">
           <button 
             className="flex-1 bg-blue-600 text-white rounded-md py-2 font-medium hover:bg-blue-700 transition"

@@ -1,6 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { Trash2 } from 'lucide-react';
+import Link from 'next/link';
 
 interface CartItemCardProps {
   item: {
@@ -74,11 +75,16 @@ export function CartItemCard({ item, onQuantityChange, onRemove, onCompare }: Ca
             {/* Desktop Price - positioned to the right */}
             <div className="hidden sm:block absolute top-0 right-0">
               <p className="text-xl font-medium text-gray-900">
-                {formatPrice(item.price)}
+                {formatPrice(item.price)}<span className="text-base font-normal text-gray-500"> USD</span>
               </p>
             </div>
             <h3 className="text-xl font-medium text-gray-900 sm:w-4/5">
-              {item.brand} {item.model}
+              <Link 
+                href={`/product/${encodeURIComponent(item.model)}`}
+                className="hover:text-blue-600 transition-colors cursor-pointer"
+              >
+                {item.brand} {item.model}
+              </Link>
             </h3>
             {(item.card_description || item.description) && (
               <p className="text-sm text-gray-600 mb-1 sm:w-4/5">{item.card_description || item.description}</p>
@@ -86,7 +92,7 @@ export function CartItemCard({ item, onQuantityChange, onRemove, onCompare }: Ca
             {/* Price - Mobile: below description, Desktop: to the right */}
             <div className="block sm:hidden mb-1">
               <p className="text-xl font-medium text-gray-900">
-                {formatPrice(item.price)}
+                {formatPrice(item.price)}<span className="text-sm text-gray-500 font-normal"> USD</span>
               </p>
             </div>
             {/* Quantity Controls and Action Links */}

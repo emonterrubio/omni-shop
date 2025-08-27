@@ -26,9 +26,10 @@ export function OrderItemRow({ item }: OrderItemRowProps) {
 
   return (
     <div className="px-4 lg:px-6 py-4">
-      <div className="flex items-center gap-4">
-        {/* Product Image */}
-        <div className="w-16 h-12 relative flex-shrink-0">
+      {/* Mobile Layout: Vertical Stacking */}
+      <div className="flex flex-col items-center gap-4 sm:hidden">
+        {/* Product Image - Centered on mobile */}
+        <div className="w-32 h-24 relative flex-shrink-0">
           <Image 
             src={item.image} 
             alt={item.model} 
@@ -37,7 +38,49 @@ export function OrderItemRow({ item }: OrderItemRowProps) {
           />
         </div>
 
-        {/* Product Details */}
+        {/* Product Details - Stacked below image on mobile */}
+        <div className="text-center w-full">
+          <Link 
+            href={`/product/${encodeURIComponent(item.model)}?from=orders`}
+            className="text-lg font-medium text-gray-900 hover:text-blue-600 transition-colors block"
+          >
+            {item.brand} {item.model}
+          </Link>
+          <div className="text-sm text-gray-800 mt-1">
+            {item.description}
+          </div>
+          
+          {/* Action Buttons - Below description on mobile */}
+          <div className="flex gap-2 justify-center mt-3">
+            <button
+              onClick={handleBuyAgain}
+              className="w-full px-3 py-2 text-sm bg-blue-600 text-white rounded hover:bg-blue-700 font-medium"
+            >
+              Buy it again
+            </button>
+            <Link
+              href={`/product/${encodeURIComponent(item.model)}`}
+              className="w-full px-3 py-2 text-sm bg-blue-100 text-blue-700 rounded hover:bg-blue-200 font-medium transition-colors"
+            >
+              View Item
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      {/* Desktop Layout: Horizontal Layout */}
+      <div className="hidden sm:flex items-center gap-4">
+        {/* Product Image - Left side on desktop */}
+        <div className="w-20 h-16 relative flex-shrink-0">
+          <Image 
+            src={item.image} 
+            alt={item.model} 
+            fill 
+            className="object-contain rounded" 
+          />
+        </div>
+
+        {/* Product Details - Right side on desktop */}
         <div className="flex-1 min-w-0">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
             <div className="flex-1 min-w-0">
@@ -52,27 +95,23 @@ export function OrderItemRow({ item }: OrderItemRowProps) {
               </div>
             </div>
             
-            {/* Price and Actions */}
-            <div className="flex items-center gap-4">
-              {/* <div className="text-right">
-                <div className="text-lg font-semibold text-gray-900">
-                  ${item.price.toLocaleString()}
+            {/* Action Buttons - Far right on desktop */}
+                          <div className="flex items-center gap-4">
+                <div className="flex gap-2">
+                  <button
+                    onClick={handleBuyAgain}
+                    className="px-3 py-2 text-sm bg-blue-600 text-white rounded hover:bg-blue-700 font-medium"
+                  >
+                    Buy it again
+                  </button>
+                  <Link
+                    href={`/product/${encodeURIComponent(item.model)}`}
+                    className="px-3 py-2 text-sm bg-blue-100 text-blue-700 rounded hover:bg-blue-200 font-medium transition-colors"
+                  >
+                    View Item
+                  </Link>
                 </div>
-                <div className="text-sm text-gray-600">
-                  Qty: {item.quantity}
-                </div>
-              </div> */}
-              
-              {/* Action Buttons */}
-              <div className="flex gap-2">
-              <button
-                  onClick={handleBuyAgain}
-                  className="px-3 py-2 text-sm bg-blue-600 text-white rounded hover:bg-blue-700 font-medium"
-                >
-                  Buy it again
-                </button>
               </div>
-            </div>
           </div>
         </div>
       </div>

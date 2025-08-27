@@ -167,10 +167,10 @@ export function CheckoutPage({ items, shippingCost, costCenter, onBack }: Checko
 
         {/* Right Column: Cost Center and Order Summary */}
         <div className="flex flex-col gap-2">
-          <CostCenter 
+          {/* <CostCenter 
             value={costCenterValue}
             onChange={setCostCenterValue}
-          />
+          /> */}
           <OrderSummary
             subtotal={subtotal}
             tax={tax}
