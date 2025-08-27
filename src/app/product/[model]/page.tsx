@@ -366,7 +366,7 @@ export default function ProductDetailPage() {
               title={product.model}
               price={product.price}
               available={isEligible}
-              deliveryTime={"2 Days"}
+              deliveryTime={"Within 5 days"}
               description={product.description}
               quantity={quantity}
               category={product.category}
@@ -392,7 +392,9 @@ export default function ProductDetailPage() {
             />
           </div>
         </div>
-        <ProductSpecsTable specs={specs} />
+        <div className="mt-6">
+          <ProductSpecsTable specs={specs} />
+        </div>
         <RequestHardwareBanner />
         {/* --- Comparison Cards --- */}
         <div ref={compareSectionRef}>
