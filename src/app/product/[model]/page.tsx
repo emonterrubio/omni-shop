@@ -364,7 +364,6 @@ export default function ProductDetailPage() {
             <ProductInfoPanel
               brand={product.brand}
               title={product.model}
-              sku={"sku" in product ? product.sku : product.model}
               price={product.price}
               available={isEligible}
               deliveryTime={"2 Days"}

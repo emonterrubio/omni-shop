@@ -1,10 +1,11 @@
 "use client";
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { ShoppingCart, User, Search as SearchIcon } from "lucide-react";
 import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 import { CartContext } from "../CartContext";
 import type { CartContextType } from "../CartContext";
+import { useSpring, animated } from "@react-spring/web";
 
 export function Header({ cartItems: cartItemsProp }: { cartItems?: number }) {
   const router = useRouter();
@@ -12,6 +13,21 @@ export function Header({ cartItems: cartItemsProp }: { cartItems?: number }) {
   const isHome = pathname === "/";
   const { cartItems: cartItemsContext, cartCount } = useContext(CartContext) as CartContextType;
   const cartItems = cartItemsProp !== undefined ? cartItemsProp : cartCount;
+  const [styles, api] = useSpring(() => ({ scale: 1 }));
+
+  // Trigger animation when cart count changes
+  useEffect(() => {
+    if (cartItems > 0) {
+      api.start({
+        scale: 1.4,
+        config: { tension: 450, friction: 20 }
+      });
+      // Reset scale after animation
+      setTimeout(() => {
+        api.start({ scale: 1 });
+      }, 150);
+    }
+  }, [cartItems, api]);
 
   return (
     <header className="sticky top-0 z-50 bg-deepBlue relative">
@@ -67,9 +83,12 @@ export function Header({ cartItems: cartItemsProp }: { cartItems?: number }) {
             <Link href="/cart" className="relative p-2 text-white hover:text-gray-100" aria-label="Cart">
               <ShoppingCart className="w-6 h-6" />
               {cartItems > 0 && (
-                <span className="absolute top-0 right-0 inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-600 rounded-full">
+                <animated.span 
+                  style={styles}
+                  className="absolute top-0 right-0 inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-600 rounded-full"
+                >
                   {cartItems}
-                </span>
+                </animated.span>
               )}
             </Link>
             {/* User Avatar */}

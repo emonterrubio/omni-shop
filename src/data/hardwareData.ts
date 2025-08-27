@@ -17,14 +17,12 @@ export interface HardwareSpec {
   image: string;
   price: number;
   recommended: boolean;
-  sku: string;
 }
 
 export const hardwareData: HardwareSpec[] = [
   {
       brand: "Apple",
-      model: "MacBook Pro 14-inch",
-      sku: "APP-BOOKPRO-5520-001",
+      model: "MacBook Pro 14",
       category: "Laptops",
       card_description: "The perfect companion for creative professionals who demand performance and portability.",
       description: "The perfect companion for creative professionals who demand performance and portability. Features the latest Apple M4 chip, 18GB of unified memory, and a 512GB SSD. Perfect for creative professionals who demand performance and portability.",
@@ -45,7 +43,6 @@ export const hardwareData: HardwareSpec[] = [
     {
       brand: "Microsoft",
       model: "Surface Laptop 5",
-      sku: "MIC-SURLAP5-5520-002",
       category: "Laptops",
       card_description: "A premium Windows experience that combines elegant design with all-day productivity.",
       description: "A premium Windows experience that combines elegant design with all-day productivity. Features the latest Intel Core i7 processor, 16GB of RAM, and a fast 512GB SSD. Perfect for demanding business applications, video conferencing, and multitasking. Includes enterprise-grade security features and a durable build quality.",
@@ -65,8 +62,7 @@ export const hardwareData: HardwareSpec[] = [
     },
     {
       brand: "Apple",
-      model: "MacBook Air 13-inch",
-      sku: "APP-AIR13-5520-003",
+      model: "MacBook Air 13",
       category: "Laptops",
       card_description: "The ultimate everyday laptop that goes anywhere with you, delivering impressive performance in an impossibly thin design.",
       description: "The ultimate everyday laptop that goes anywhere with you, delivering impressive performance in an impossibly thin design. Features the latest Apple M4 chip, 16GB of unified memory, and a 256GB SSD. Perfect for everyday use, including web browsing, email, and light productivity tasks.",
@@ -87,7 +83,6 @@ export const hardwareData: HardwareSpec[] = [
     {
       brand: "Microsoft",
       model: "Surface Laptop Studio 2",
-      sku: "MIC-STUDIO2-5520-004",
       category: "Laptops",
       card_description: "High-performance business laptop designed for professionals.",
       description: "High-performance business laptop designed for professionals. Features the latest Intel Core i7 processor, 16GB of RAM, and a fast 512GB SSD. Perfect for demanding business applications, video conferencing, and multitasking. Includes enterprise-grade security features and a durable build quality.",
@@ -108,7 +103,6 @@ export const hardwareData: HardwareSpec[] = [
     {
       brand: "Microsoft",
       model: "Surface Pro 10",
-      sku: "MIC-SURPRO10-5520-005",
       category: "Laptops",
       card_description: "The most versatile Windows tablet that adapts to your work style, whether you're creating, presenting, or collaborating.",
       description: "The most versatile Windows tablet that adapts to your work style, whether you're creating, presenting, or collaborating. Features the latest Intel Core Ultra processor, 16GB of RAM, and a fast 512GB SSD. Perfect for demanding business applications, video conferencing, and multitasking. Includes enterprise-grade security features and a durable build quality.",
@@ -128,8 +122,7 @@ export const hardwareData: HardwareSpec[] = [
     },
     {
       brand: "Apple",
-      model: "MacBook Air 15-inch",
-      sku: "APP-AIR15-5520-006",
+      model: "MacBook Air 15",
       category: "Laptops",
       card_description: "Experience the perfect balance of screen space and portability in our most versatile MacBook Air.",
       description: "Experience the perfect balance of screen space and portability in our most versatile MacBook Air. Features the latest Apple M4 chip, 16GB of unified memory, and a 512GB SSD. Perfect for everyday use, including web browsing, email, and light productivity tasks.",
@@ -150,7 +143,6 @@ export const hardwareData: HardwareSpec[] = [
     {
       brand: "Microsoft",
       model: "Surface Pro 11",
-      sku: "MIC-SURPRO11-5520-007",
       category: "Laptops",
       card_description: "Experience the future of computing with a device that adapts to your needs and keeps you productive all day.",
       description: "Experience the future of computing with a device that adapts to your needs and keeps you productive all day. Features the latest Intel Core Ultra processor, 16GB of RAM, and a fast 512GB SSD. Perfect for demanding business applications, video conferencing, and multitasking. Includes enterprise-grade security features and a durable build quality.",
@@ -171,7 +163,6 @@ export const hardwareData: HardwareSpec[] = [
     {
       brand: "Lenovo",
       model: "Legion Pro 7",
-      sku: "LEN-LEGION7-5520-008",
       category: "Laptops",
       card_description: "High-performance gaming and multitasking in a sleek, modern design.",
       description: "High-performance gaming and multitasking in a sleek, modern design. Features the latest Intel Core Ultra 9 processor, 64GB of RAM, and a fast 2TB SSD. Perfect for gaming and multitasking. Includes enterprise-grade security features and a durable build quality.",
@@ -192,7 +183,6 @@ export const hardwareData: HardwareSpec[] = [
     {
       brand: "Microsoft",
       model: "Surface Laptop 6",
-      sku: "MIC-SURLAP6-5520-009",
       category: "Laptops",
       card_description: "Step into the future of computing with AI-powered features that make your device smarter and more intuitive.",
       description: "Step into the future of computing with AI-powered features that make your device smarter and more intuitive. Features the latest Intel Core Ultra 5 or Ultra 7 processor, 8GB, 16GB, 32GB, or 64GB of RAM, and a fast 256GB, 512GB, or 1TB SSD. Perfect for demanding business applications, video conferencing, and multitasking. Includes enterprise-grade security features and a durable build quality.",
@@ -213,7 +203,6 @@ export const hardwareData: HardwareSpec[] = [
     {
       brand: "Lenovo",
       model: "ThinkPad X1 Carbon 12",
-      sku: "LEN-TPX1C12-5520-010",
       category: "Laptops",
       card_description: "Ultra-light, ultra-tough—your perfect travel companion for work and play.",
       description: "Ultra-light, ultra-tough—your perfect travel companion for work and play. Features the latest Intel Core Ultra 7 processor, 16GB of RAM, and a fast 512GB SSD. Perfect for travel and work. Includes enterprise-grade security features and a durable build quality.",
@@ -233,8 +222,7 @@ export const hardwareData: HardwareSpec[] = [
     },
     {
       brand: "Apple",
-      model: "MacBook Pro 16-inch",
-      sku: "APP-BOOKPRO16-5520-011",
+      model: "MacBook Pro 16",
       category: "Laptops",
       card_description: "Unleash your creativity with the most powerful MacBook Pro, featuring an immersive experience.",
       description: "Unleash your creativity with the most powerful MacBook Pro, featuring an immersive experience. Features the latest Apple M4 Pro chip, 48GB of unified memory, and a 512GB SSD. Perfect for creative professionals who demand performance and portability.",
@@ -255,7 +243,6 @@ export const hardwareData: HardwareSpec[] = [
     {
       brand: "Lenovo",
       model: "Yoga Slim 7",
-      sku: "LEN-YOGASLIM7-5520-012",
       category: "Laptops",
       card_description: "Super slim, stylish, and ready for work or entertainment anywhere.",
       description: "Super slim, stylish, and ready for work or entertainment anywhere. Features the latest AMD Ryzen 7 5800U processor, 16GB of RAM, and a fast 1TB SSD. Perfect for work or entertainment. Includes enterprise-grade security features and a durable build quality.",
@@ -276,7 +263,6 @@ export const hardwareData: HardwareSpec[] = [
     {
       brand: "Lenovo",
       model: "ThinkPad P1 Gen 6",
-      sku: "LEN-TPP1G6-5520-013",
       category: "Laptops",
       card_description: "Big screen power for creators and professionals on the go.",
       description: "Big screen power for creators and professionals on the go. Features the latest Intel Core i7 processor, 32GB of RAM, and a fast 1TB SSD. Perfect for creators and professionals. Includes enterprise-grade security features and a durable build quality.",
@@ -297,7 +283,6 @@ export const hardwareData: HardwareSpec[] = [
     {
       brand: "Dell",
       model: "Latitude 7440",
-      sku: "DEL-LAT7440-5520-014",
       category: "Laptops",
       card_description: "A stunning display and premium design for work or entertainment.",
       description: "A stunning display and premium design for work or entertainment. Features the latest Intel Core i7 processor, 16GB of RAM, and a fast 512GB SSD. Perfect for work or entertainment. Includes enterprise-grade security features and a durable build quality.",
@@ -318,7 +303,6 @@ export const hardwareData: HardwareSpec[] = [
     {
       brand: "Microsoft",
       model: "Surface Laptop 7",
-      sku: "MIC-SURLAP7-5520-015",
       category: "Laptops",
       card_description: "Redefine what's possible with an ultra-thin design that keeps up with your most ambitious ideas.",
       description: "Redefine what's possible with a stunning display and ultra-thin design that keeps up with your most ambitious ideas. Features the latest Intel Core Ultra 5 or Ultra 7 processor, 16GB or 32GB of RAM, and a fast 256GB, 512GB, or 1TB SSD. Perfect for work or entertainment. Includes enterprise-grade security features and a durable build quality.",
@@ -339,7 +323,6 @@ export const hardwareData: HardwareSpec[] = [
     {
       brand: "Dell",
       model: "XPS 13 Plus 9320",
-      sku: "DEL-XPS13P9320-5520-016",
       category: "Laptops",
       card_description: "Sleek, modern, and ready for anything—your go-to laptop for life on the move.",
       description: "Sleek, modern, and ready for anything—your go-to laptop for life on the move. Features the latest Intel Core i7 processor, 16GB of RAM, and a fast 512GB SSD. Perfect for work or entertainment. Includes enterprise-grade security features and a durable build quality.",
@@ -360,7 +343,6 @@ export const hardwareData: HardwareSpec[] = [
     {
       brand: "Dell",
       model: "Precision 7875 Tower",
-      sku: "DEL-PREC7875-5520-017",
       category: "Desktops",
       card_description: "ISV-certified workstation chassis with lockable design, intrusion detection, and flexible storage expansion options",
       description: "ISV-certified workstation chassis with lockable design, intrusion detection, and flexible storage expansion options. Features the latest AMD Ryzen Threadripper PRO 7945WX processor, 16GB DDR5-5200 RDIMM ECC, and a fast 512GB M.2 2230/2280 PCIe NVMe Gen4 SSD. Perfect for demanding workloads. Includes enterprise-grade security features and a durable build quality.",
@@ -381,7 +363,6 @@ export const hardwareData: HardwareSpec[] = [
     {
       brand: "Dell",
       model: "Precision 3680 Tower",
-      sku: "DEL-PREC3680-5520-018",
       category: "Desktops",
       card_description: "Compact workstation tower with 14th Gen Intel performance and scalable storage options",
       description: "Compact workstation tower with 14th Gen Intel performance and scalable storage options. Features the latest Intel Core i5-14500 processor, 8GB DDR5-4400, and a fast 512GB M.2 2280 Gen 4 PCIe NVMe SSD. Perfect for smaller workspaces without compromising on power. Includes enterprise-grade security features and a durable build quality.",
@@ -402,7 +383,6 @@ export const hardwareData: HardwareSpec[] = [
     {
       brand: "Dell",
       model: "Inspiron 16 Plus",
-      sku: "DEL-INSP16P-5520-019",
       category: "Laptops",
       card_description: "Effortless productivity in a portable, business-ready package.",
       description: "Effortless productivity in a portable, business-ready package. Features the latest Intel Core i7-12700H processor, 16GB of RAM, and a fast 512GB SSD. Perfect for work or entertainment. Includes enterprise-grade security features and a durable build quality.",
@@ -422,8 +402,7 @@ export const hardwareData: HardwareSpec[] = [
     },
     {
       brand: "Razer",
-      model: "Blade 14-inch",
-      sku: "RAZ-BLADE14-5520-020",
+      model: "Blade 14",
       category: "Laptops",
       card_description: "Game, create, and work anywhere with this ultra-slim powerhouse.",
       description: "Game, create, and work anywhere with this ultra-slim powerhouse. Features the latest AMD Ryzen AI 9 365 processor, 16GB LPDDR5x-8000 soldered, and a fast 2TB PCIe 4.0 NVMe SSD. Perfect for gaming and creative work. Includes enterprise-grade security features and a durable build quality.",
@@ -443,8 +422,7 @@ export const hardwareData: HardwareSpec[] = [
     },
     {
       brand: "Razer",
-      model: "Blade 16-inch",
-      sku: "RAZ-BLADE16-5520-021",
+      model: "Blade 16",
       category: "Laptops",
       card_description: "Portable, stylish, and fast—your everyday laptop with a gaming edge.",
       description: "Portable, stylish, and fast—your everyday laptop with a gaming edge. Features the latest AMD Ryzen AI 9 HX 370 processor, 32GB LPDDR5-8000 soldered, and a fast 2TB PCIe 4.0 NVMe SSD. Perfect for gaming and creative work. Includes enterprise-grade security features and a durable build quality.",
@@ -464,8 +442,7 @@ export const hardwareData: HardwareSpec[] = [
     },
     {
       brand: "Razer",
-      model: "Blade 18-inch",
-      sku: "RAZ-BLADE18-5520-022",
+      model: "Blade 18",
       category: "Laptops",
       card_description: "Portable, stylish, and fast—your everyday laptop with a gaming edge.",
       description: "Portable, stylish, and fast—your everyday laptop with a gaming edge. Features the latest AMD Ryzen AI 9 HX 370 processor, 32GB LPDDR5-8000 soldered, and a fast 2TB PCIe 4.0 NVMe SSD. Perfect for gaming and creative work. Includes enterprise-grade security features and a durable build quality.",
@@ -486,7 +463,6 @@ export const hardwareData: HardwareSpec[] = [
     {
       brand: "Dell",
       model: "Precision 5570",
-      sku: "DEL-PREC5570-5520-023",
       category: "Laptops",
       card_description: "Portable, stylish, and fast—your everyday laptop with a gaming edge.",
       description: "Portable, stylish, and fast—your everyday laptop with a gaming edge. Features the i7 Fourteen-Core Processor 3.5GHz, 32GB LPDDR5-8000 soldered, and a fast 2TB PCIe 4.0 NVMe SSD. Perfect for gaming and creative work.",

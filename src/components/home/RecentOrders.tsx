@@ -14,6 +14,31 @@ interface RecentOrdersProps {
 export function RecentOrders({ maxOrders = 2 }: RecentOrdersProps) {
   const [orders, setOrders] = useState<Order[]>([]);
 
+  // Helper function to format date with abbreviated month
+  const formatDateWithAbbreviatedMonth = (dateString: string): string => {
+    try {
+      const date = new Date(dateString);
+      if (isNaN(date.getTime())) {
+        // If parsing fails, try to extract month from existing format
+        const monthMatch = dateString.match(/^(\w+)\s+(\d+),\s+(\d+)/);
+        if (monthMatch) {
+          const month = monthMatch[1].substring(0, 3);
+          const day = monthMatch[2];
+          const year = monthMatch[3];
+          return `${month} ${day}, ${year}`;
+        }
+        return dateString; // Return original if parsing fails
+      }
+      
+      const month = date.toLocaleDateString('en-US', { month: 'short' });
+      const day = date.getDate();
+      const year = date.getFullYear();
+      return `${month} ${day}, ${year}`;
+    } catch (error) {
+      return dateString; // Return original if any error occurs
+    }
+  };
+
   useEffect(() => {
     const userOrders = getOrders();
     // Sort by order date (newest first) and take the most recent orders
@@ -137,9 +162,12 @@ export function RecentOrders({ maxOrders = 2 }: RecentOrdersProps) {
                     <h3 className="text-lg font-regular leading-tight text-gray-900 truncate">
                       {firstItem.model}
                     </h3>
+                    <p className="text-sm text-gray-600">
+                      {order.items.length} items total
+                    </p>
                     <Link 
                       href={`/developer-setup/details?orderId=${order.id}`}
-                      className="text-base text-blue-600 hover:text-blue-800 font-regular transition-colors block"
+                      className="text-sm lg:text-base text-blue-600 hover:text-blue-800 font-regular transition-colors block"
                     >
                       Order #{order.orderNumber}
                     </Link>
@@ -149,7 +177,7 @@ export function RecentOrders({ maxOrders = 2 }: RecentOrdersProps) {
                 {/* Right side: Status and Date */}
                 <div className="flex flex-col items-end text-right">
                   <p className="text-sm text-gray-800 mb-1">
-                    {order.orderDate}
+                    {formatDateWithAbbreviatedMonth(order.orderDate)}
                   </p>
                   <span
                     className={`inline-block px-2 py-1 text-xs font-regular rounded-full ${getStatusColor(order.status)} text-white`}

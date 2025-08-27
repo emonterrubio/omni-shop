@@ -1,7 +1,6 @@
 export interface MouseSpec {
   brand: string;
   model: string;
-  sku: string;
   description: string;
   battery: string;
   connectivity: string;
@@ -16,7 +15,6 @@ export const mouseData: MouseSpec[] = [
   {
     brand: "HP",
     model: "X3000 G3 Wireless Mouse",
-    sku: "HP-X3000G3-5520-001",
     description: "Slim, portable mouse with Bluetooth connectivity, side grips for control and optical tracking",
     battery: "1× AA battery (up to 12 months)",
     connectivity: "Bluetooth 4.0",
@@ -29,7 +27,6 @@ export const mouseData: MouseSpec[] = [
   {
     brand: "Logitech",
     model: "M185 WirelessMouse",
-    sku: "LOG-M185-5520-002",
     description: "Ergonomic high-performance optical tracking mouse with MagSpeed scroll wheel",
     battery: "Rechargeable Li-Po (up to 70 days)",
     connectivity: "Bluetooth, Unifying USB receiver",
@@ -42,7 +39,6 @@ export const mouseData: MouseSpec[] = [
   {
     brand: "Apple",
     model: "Magic Mouse 2",
-    sku: "APP-MAGICMOUSE2-5520-003",
     description: "Multi-touch surface mouse with rechargeable battery",
     battery: "Built-in rechargeable (up to 1 month)",
     connectivity: "Bluetooth 4.2",
@@ -55,7 +51,6 @@ export const mouseData: MouseSpec[] = [
   {
     brand: "Cherry",
     model: "MW 8C Ergo Wireless",
-    sku: "CHE-MW8CERGO-5520-004",
     description: "Rechargeable ergonomic mouse with 8 programmable buttons and encrypted high-performance sensor",
     battery: "1× AA battery (up to 9 months)",
     connectivity: "Bluetooth 5.0",
@@ -68,7 +63,6 @@ export const mouseData: MouseSpec[] = [
   {
     brand: "Logitech",
     model: "M510 Wireless Mouse",
-    sku: "LOG-M510-5520-005",
     description: "Compact travel mouse with high-precision optical sensor",
     battery: "1× AAA battery (up to 8 months)",
     connectivity: "2.4 GHz USB receiver",
@@ -81,7 +75,6 @@ export const mouseData: MouseSpec[] = [
   {
     brand: "Logitech",
     model: "MX Master 2S Bluetooth Edition",
-    sku: "LOG-MXMASTER2S-5520-006",
     description: "RGB gaming mouse with adjustable DPI and ergonomic grip",
     battery: "Rechargeable Li-ion (up to 40 hours)",
     connectivity: "Wired USB-C",
@@ -94,7 +87,6 @@ export const mouseData: MouseSpec[] = [
   {
     brand: "Logitech",
     model: "M650 Signature Wireless Mouse",
-    sku: "LOG-M650-5520-007",
     description: "Lightweight esports mouse with HERO sensor with silent clicks and customizable buttons",
     battery: "Rechargeable Li-Po (up to 60 hours)",
     connectivity: "Wireless USB receiver",
@@ -107,7 +99,6 @@ export const mouseData: MouseSpec[] = [
   {
     brand: "Dell",
     model: "MS700 Bluetooth Travel Mouse",
-    sku: "DEL-MS700-5520-008",
     description: "Slim and light weight with twistable design so you can take it wherever you go",
     battery: "Rechargeable Li-ion (up to 8 weeks)",
     connectivity: "Bluetooth, USB receiver",
@@ -120,7 +111,6 @@ export const mouseData: MouseSpec[] = [
   {
     brand: "Nulea",
     model: "M501 Wireless Trackball Mouse",
-    sku: "NUL-M501-5520-009",
     description: "Move your cursor by the smooth trackball and let the easy and smooth thumb control help you reduce your muscle stress",
     battery: "2× AAA batteries (up to 12 months)",
     connectivity: "2.4 GHz USB dongle",

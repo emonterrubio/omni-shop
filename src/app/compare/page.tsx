@@ -32,33 +32,45 @@ export default function ComparePage() {
     const specs = [];
     
     // Add basic product information
-    if (product.manufacturer) specs.push({ label: "Manufacturer", value: product.manufacturer });
+    if (product.brand) specs.push({ label: "Brand", value: product.brand });
     if (product.model) specs.push({ label: "Model", value: product.model });
     if (product.category) specs.push({ label: "Category", value: product.category });
-    if (product.price_usd) specs.push({ label: "Price", value: `$${product.price_usd.toLocaleString()}` });
-    if ((product as any).price_cad) specs.push({ label: "Price CAD", value: `$${(product as any).price_cad.toLocaleString()} CAD` });
+    if (product.price) specs.push({ label: "Price", value: `$${product.price.toLocaleString()}` });
+
     
     // Add category-specific specifications
-    if (product.category === "Laptop" || product.category === "Laptops") {
-      if ((product as any).os) specs.push({ label: "Operating System", value: (product as any).os });
-      if ((product as any).cpu) specs.push({ label: "CPU", value: (product as any).cpu });
-      if ((product as any).gpu) specs.push({ label: "GPU", value: (product as any).gpu });
-      if ((product as any).memory) specs.push({ label: "Memory", value: (product as any).memory });
-      if ((product as any).storage) specs.push({ label: "Storage", value: (product as any).storage });
-      if ((product as any).screen_size) specs.push({ label: "Screen Size", value: (product as any).screen_size });
-      if ((product as any).weight_lbs) specs.push({ label: "Weight", value: `${(product as any).weight_lbs} lbs` });
-      if ((product as any).battery_life_hrs) specs.push({ label: "Battery Life", value: `${(product as any).battery_life_hrs} hours` });
-    } else if (product.category === "Monitor") {
-      if ((product as any).screen_size) specs.push({ label: "Screen Size", value: (product as any).screen_size });
-      if ((product as any).resolution) specs.push({ label: "Resolution", value: (product as any).resolution });
-      if ((product as any).refresh_rate) specs.push({ label: "Refresh Rate", value: (product as any).refresh_rate });
-      if ((product as any).panel_type) specs.push({ label: "Panel Type", value: (product as any).panel_type });
-    } else if (product.category === "Docking Station") {
-      if ((product as any).ports) specs.push({ label: "Ports", value: (product as any).ports });
-      if ((product as any).power_delivery) specs.push({ label: "Power Delivery", value: (product as any).power_delivery });
-    } else if (product.category === "Headset") {
-      if ((product as any).connection_type) specs.push({ label: "Connection", value: (product as any).connection_type });
-      if ((product as any).microphone) specs.push({ label: "Microphone", value: (product as any).microphone ? "Yes" : "No" });
+    if (product.category === "Laptops") {
+      if (product.processor) specs.push({ label: "Processor", value: product.processor });
+      if (product.memory) specs.push({ label: "Memory", value: product.memory });
+      if (product.storage) specs.push({ label: "Storage", value: product.storage });
+      if (product.display) specs.push({ label: "Display", value: product.display });
+      if (product.graphics) specs.push({ label: "Graphics", value: product.graphics });
+      if (product.operating_system) specs.push({ label: "Operating System", value: product.operating_system });
+      if (product.ports) specs.push({ label: "Ports", value: product.ports });
+      if (product.battery) specs.push({ label: "Battery", value: product.battery });
+      if (product.other) specs.push({ label: "Other", value: product.other });
+    } else if (product.category === "Monitors") {
+      if (product.display) specs.push({ label: "Display", value: product.display });
+      if (product.ports) specs.push({ label: "Ports", value: product.ports });
+      if (product.other) specs.push({ label: "Features", value: product.other });
+    } else if (product.category === "Docking Stations") {
+      if (product.ports) specs.push({ label: "Ports", value: product.ports });
+      if (product.other) specs.push({ label: "Features", value: product.other });
+    } else if (product.category === "Headphones" || product.category === "Headsets") {
+      if (product.features) specs.push({ label: "Features", value: product.features });
+      if (product.other) specs.push({ label: "Specifications", value: product.other });
+    } else {
+      // For other categories, show available specs
+      if (product.processor) specs.push({ label: "Processor", value: product.processor });
+      if (product.memory) specs.push({ label: "Memory", value: product.memory });
+      if (product.storage) specs.push({ label: "Storage", value: product.storage });
+      if (product.display) specs.push({ label: "Display", value: product.display });
+      if (product.graphics) specs.push({ label: "Graphics", value: product.graphics });
+      if (product.operating_system) specs.push({ label: "Operating System", value: product.operating_system });
+      if (product.ports) specs.push({ label: "Ports", value: product.ports });
+      if (product.battery) specs.push({ label: "Battery", value: product.battery });
+      if (product.features) specs.push({ label: "Features", value: product.features });
+      if (product.other) specs.push({ label: "Other", value: product.other });
     }
 
     return specs;

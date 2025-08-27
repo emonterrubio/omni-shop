@@ -12,7 +12,7 @@ interface CartItemCardProps {
     price: number | string;
     recommended?: boolean;
     quantity: number;
-    sku?: string;
+
     category?: string;
   };
   onQuantityChange: (model: string, quantity: number) => void;
@@ -74,9 +74,6 @@ export function CartItemCard({ item, onQuantityChange, onRemove, onCompare }: Ca
             <h3 className="text-xl font-medium text-gray-900">
               {item.brand} {item.model}
             </h3>
-            {item.sku && (
-              <p className="text-sm text-gray-500 mb-2">SKU: {item.sku}</p>
-            )}
             {(item.card_description || item.description) && (
               <p className="text-sm text-gray-600 mb-3">{item.card_description || item.description}</p>
             )}
