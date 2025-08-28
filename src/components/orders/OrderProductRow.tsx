@@ -18,13 +18,13 @@ export function OrderProductRow({ item, isLast }: OrderProductRowProps) {
   };
 
   return (
-    <div className={`pb-4 ${!isLast ? "border-b border-gray-200" : ""}`}>
+    <div className={`px-4 pb-4 ${!isLast ? "border-b border-gray-200" : ""}`}>
       {/* Mobile: Vertical stacking with centered content */}
-      <div className="flex flex-col items-center gap-4 lg:hidden">
+      <div className="flex flex-col gap-2 lg:hidden">
         <div className="w-20 h-16 relative flex-shrink-0">
           <Image src={item.image} alt={item.model} fill className="object-contain rounded" />
         </div>
-        <div className="text-center w-full">
+        <div className="w-full">
           <Link 
             href={`/product/${encodeURIComponent(item.model)}?from=orders`}
             className="text-xl font-regular text-gray-900 hover:text-blue-600 mb-1 block transition-colors"
@@ -33,8 +33,8 @@ export function OrderProductRow({ item, isLast }: OrderProductRowProps) {
           </Link>
           <div className="text-base leading-tight text-gray-600 mb-2">{item.card_description || item.description}</div>
           <div className="flex flex-col">
-            <span className="text-sm text-gray-700">Quantity: {item.quantity || 1}</span>
-            <span className="text-base font-bold text-gray-900">
+            <span className="text-sm text-gray-700 mb-1">Quantity: {item.quantity || 1}</span>
+            <span className="text-xl font-bold text-gray-900">
               {formatPrice(item.price)}
             </span>
           </div>

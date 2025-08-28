@@ -28,7 +28,7 @@ export function OrderProductList({ items }: OrderProductListProps) {
   }
 
   return (
-    <div className="px-4 lg:px-8 py-6">
+    <div className="lg:px-8 py-6">
       {/* Mobile: Product list layout */}
       <div className="lg:hidden">
         <div className="bg-gray-100 rounded-t-lg px-4 py-3 mb-4">

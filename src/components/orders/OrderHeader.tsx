@@ -61,7 +61,7 @@ export function OrderHeader({ order }: OrderHeaderProps) {
       {/* Desktop: Original Layout */}
       <div className="hidden lg:block">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex flex-col md:flex-row sm:items-center gap-4 md:gap-6 xl:gap-10 text-base">
+          <div className="flex flex-col md:flex-row sm:items-center gap-6 md:gap-10 text-base">
             <div className="flex flex-col">
               <span className="font-regular text-sm text-gray-700">Order number</span>
               <span className="text-sm xl:text-base text-gray-600 font-bold">{order.orderNumber}</span>
