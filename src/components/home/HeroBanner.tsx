@@ -26,7 +26,7 @@ export function HeroBanner({
       <div className="grid grid-cols-1 lg:grid-cols-3 items-center gap-6 lg:gap-8">
         {/* Product image - Takes up full width on mobile, 1 column on desktop */}
         <div className="lg:col-span-1 flex justify-center w-full order-1 lg:order-2">
-          <div className="relative w-80 h-auto md:w-96 md:h-auto lg:w-120 lg:h-auto">
+          <div className="relative w-80 h-64 md:w-96 md:h-72 lg:w-120 lg:h-80">
             {/* Product image */}
             <div className="relative z-10 w-full h-full">
               <Image
