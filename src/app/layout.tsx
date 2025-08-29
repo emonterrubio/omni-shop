@@ -3,6 +3,8 @@ import "./styles/globals.css";
 import { CartProvider } from "../components/CartContext";
 import { ToastProvider } from "../components/ToastContext";
 import { ToastContainer } from "../components/ui/ToastContainer";
+import { PasswordProtection } from "../components/auth/PasswordProtection";
+import { AUTH_CONFIG } from "../config/auth";
 
 export const metadata: Metadata = {
   title: "Omni Shopping - IT Equipment Store",
@@ -24,8 +26,10 @@ export default function RootLayout({
       <body className="font-sans">
         <ToastProvider>
           <CartProvider>
-            {children}
-            <ToastContainer />
+            <PasswordProtection correctPassword={AUTH_CONFIG.ACCESS_PASSWORD}>
+              {children}
+              <ToastContainer />
+            </PasswordProtection>
           </CartProvider>
         </ToastProvider>
       </body>
