@@ -21,7 +21,15 @@ interface ITStorefrontProps {
 }
 
 function getRandomItems(arr: any[], n: number) {
-  const shuffled = [...arr].sort(() => 0.5 - Math.random());
+  // Use deterministic sorting based on current date to avoid hydration issues
+  const today = new Date();
+  const dayOfYear = Math.floor((today.getTime() - new Date(today.getFullYear(), 0, 0).getTime()) / (1000 * 60 * 60 * 24));
+  const shuffled = [...arr].sort((a, b) => {
+    // Use a hash of the item's model to create deterministic but varied ordering
+    const hashA = (a.model || '').split('').reduce((acc: number, char: string) => acc + char.charCodeAt(0), 0);
+    const hashB = (b.model || '').split('').reduce((acc: number, char: string) => acc + char.charCodeAt(0), 0);
+    return (hashA + dayOfYear) % 3 - 1; // Creates varied but deterministic ordering
+  });
   return shuffled.slice(0, n);
 }
 
@@ -32,7 +40,10 @@ function getFeaturedProducts(products: any[], n = 3) {
 function getRecommendedProducts(products: any[], n = 3) {
   const eligibleProducts = products.filter((product) => Boolean(product.battery));
   const brands = Array.from(new Set(eligibleProducts.map((p) => p.brand)));
-  const selectedBrand = brands[Math.floor(Math.random() * brands.length)];
+  // Use deterministic selection based on current date to avoid hydration issues
+  const today = new Date();
+  const dayOfYear = Math.floor((today.getTime() - new Date(today.getFullYear(), 0, 0).getTime()) / (1000 * 60 * 60 * 24));
+  const selectedBrand = brands[dayOfYear % brands.length] || brands[0];
   const brandProducts = eligibleProducts.filter((p) => p.brand === selectedBrand);
   const displayedProducts = getRandomItems(brandProducts, n);
   const showCompareButton = eligibleProducts.length > 3;
@@ -56,10 +67,15 @@ function getRandomHeroBanner(products: any[]) {
 
   if (heroEligibleProducts.length === 0) {
     // Fallback to any product if no eligible ones found
-    return products[Math.floor(Math.random() * products.length)];
+    return products[0]; // Use first product instead of random
   }
 
-  return heroEligibleProducts[Math.floor(Math.random() * heroEligibleProducts.length)];
+  // Use a deterministic selection based on current date to avoid hydration issues
+  // This ensures the same product is selected on both server and client for the same day
+  const today = new Date();
+  const dayOfYear = Math.floor((today.getTime() - new Date(today.getFullYear(), 0, 0).getTime()) / (1000 * 60 * 60 * 24));
+  const index = dayOfYear % heroEligibleProducts.length;
+  return heroEligibleProducts[index];
 }
 
 function generateHeroBannerContent(product: any) {
@@ -155,20 +171,25 @@ export function ITStorefront({
   const featuredProducts = getFeaturedProducts(products);
   const { displayedProducts, showCompareButton } = getRecommendedProducts(products);
   const names = ["Ed", "Marlon", "Marcus", "Lekeedra", "Eric", "Krish", "Michael", "Kamal", "Eve"];
-  const randomName = names[Math.floor(Math.random() * names.length)];
+  // Use deterministic selection based on current date to avoid hydration issues
+  const today = new Date();
+  const dayOfYear = Math.floor((today.getTime() - new Date(today.getFullYear(), 0, 0).getTime()) / (1000 * 60 * 60 * 24));
+  const randomName = names[dayOfYear % names.length];
 
-  // Generate dynamic hero banner content with useEffect to ensure randomization on each render
+  // Generate dynamic hero banner content - only randomize on mount and when products change
   const [heroBannerContent, setHeroBannerContent] = useState(() => {
     const randomHeroProduct = getRandomHeroBanner(products);
     return generateHeroBannerContent(randomHeroProduct);
   });
 
-  // Force re-randomization on each render to ensure different products
+  // Only randomize when products array changes, not on every render
   useEffect(() => {
-    const randomHeroProduct = getRandomHeroBanner(products);
-    const newHeroBannerContent = generateHeroBannerContent(randomHeroProduct);
-    setHeroBannerContent(newHeroBannerContent);
-  }, [products]);
+    if (products.length > 0) {
+      const randomHeroProduct = getRandomHeroBanner(products);
+      const newHeroBannerContent = generateHeroBannerContent(randomHeroProduct);
+      setHeroBannerContent(newHeroBannerContent);
+    }
+  }, [products]); // Only depend on products array reference, not on every render
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">

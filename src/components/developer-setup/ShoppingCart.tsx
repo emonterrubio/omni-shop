@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { SummaryProductCard } from './SummaryProductCard';
 import { CartItemCard } from './CartItemCard';
 import { OrderSummary } from '../ui/OrderSummary';
 import { CostCenter } from '../ui/CostCenter';
