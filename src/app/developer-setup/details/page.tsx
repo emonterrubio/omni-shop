@@ -144,7 +144,7 @@ export default function OrderDetailsPage() {
             billing: {
               name: orderedByParts[0] || '',
               lastName: orderedByParts.slice(1).join(' ') || '',
-              requestedBy: existingOrder.orderedBy || '',
+              requestedBy: latestOrder.orderedBy || '',
               onBehalfOf: '',
               businessUnit: '',
               department: '',
