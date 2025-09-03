@@ -143,7 +143,15 @@ export default function OrderDetailsPage() {
           const convertedOrder = {
             billing: {
               name: orderedByParts[0] || '',
-              lastName: orderedByParts.slice(1).join(' ') || ''
+              lastName: orderedByParts.slice(1).join(' ') || '',
+              requestedBy: existingOrder.orderedBy || '',
+              onBehalfOf: '',
+              businessUnit: '',
+              department: '',
+              projectCode: '',
+              fpaApprover: '',
+              businessOwner: '',
+              businessJustification: ''
             },
             shipping: {
               firstName: orderedForParts[0] || '',

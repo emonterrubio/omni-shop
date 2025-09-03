@@ -70,7 +70,8 @@ export default function OrderDetailsPage() {
         const convertedOrder = {
           billing: {
             name: orderedByParts[0] || '',
-            lastName: orderedByParts.slice(1).join(' ') || ''
+            lastName: orderedByParts.slice(1).join(' ') || '',
+            requestedBy: existingOrder.orderedBy || ''
           },
           shipping: {
             firstName: orderedForParts[0] || '',
@@ -141,7 +142,8 @@ export default function OrderDetailsPage() {
           const convertedOrder = {
             billing: {
               name: orderedByParts[0] || '',
-              lastName: orderedByParts.slice(1).join(' ') || ''
+              lastName: orderedByParts.slice(1).join(' ') || '',
+              requestedBy: latestOrder.orderedBy || ''
             },
             shipping: {
               firstName: orderedForParts[0] || '',
@@ -182,7 +184,7 @@ export default function OrderDetailsPage() {
   if (!order) {
     return (
       <PageLayout>
-        <div className="max-w-3xl mx-auto flex flex-col items-center justify-center px-4">
+        <div className="max-w-7xl mx-auto flex flex-col items-center justify-center px-4">
           <h1 className="text-3xl font-semibold mb-4">No Order Found</h1>
           <p className="mb-6 text-gray-600">It looks like you haven't placed an order yet.</p>
           <button
@@ -210,7 +212,7 @@ export default function OrderDetailsPage() {
         className="mb-6"
       />
       
-            {/* Combined Order Details and Product List */}
+      {/* Combined Order Details and Product List */}
       <OrderSummaryCard
         orderNumber={orderNumber}
         orderDate={orderDate}

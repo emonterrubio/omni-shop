@@ -11,6 +11,7 @@ export interface OrderItem {
 export interface BillingInfo {
   name: string;
   lastName: string;
+  requestedBy: string;
 }
 
 export interface ShippingInfo {

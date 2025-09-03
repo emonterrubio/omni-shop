@@ -152,7 +152,7 @@ export function RecentOrders({ maxOrders = 2 }: RecentOrdersProps) {
                       src={firstItem.image}
                       alt={firstItem.model}
                       width={60}
-                      height={60}
+                      height={40}
                       className="rounded-lg object-cover"
                     />
                   </div>

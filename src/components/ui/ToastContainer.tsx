@@ -10,14 +10,24 @@ export function ToastContainer() {
   if (toasts.length === 0) return null;
 
   return (
-    <div className="fixed top-20 left-1/2 transform -translate-x-1/2 z-50 space-y-2 max-w-md w-full px-4">
-      {toasts.map((toast) => (
-        <ToastComponent
-          key={toast.id}
-          toast={toast}
-          onRemove={removeToast}
-        />
-      ))}
-    </div>
+    <>
+      {/* Global notification live region, render this permanently at the end of the document */}
+      <div
+        aria-live="assertive"
+        className="pointer-events-none fixed inset-0 flex items-end px-4 py-6 sm:items-start sm:p-6 z-50"
+      >
+        <div className="flex w-full flex-col items-center space-y-4 sm:items-end">
+          {/* Notification panels, dynamically insert these into the live region when they need to be displayed */}
+          {toasts.map((toast) => (
+            <ToastComponent
+              key={toast.id}
+              toast={toast}
+              onRemove={removeToast}
+              show={true}
+            />
+          ))}
+        </div>
+      </div>
+    </>
   );
 } 

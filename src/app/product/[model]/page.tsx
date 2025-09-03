@@ -23,6 +23,7 @@ import { RequestHardwareBanner } from '@/components/product/RequestHardwareBanne
 import { ProductComparisonList } from '@/components/product/ProductComparisonList';
 import { SupportBanner } from '@/components/product/SupportBanner';
 import { Breadcrumb } from '@/components/ui/Breadcrumb';
+import { ChevronDownIcon } from "@heroicons/react/24/outline";
 
 function findProductByModel(model: string): any {
   let product = hardwareData.find(p => p.model === model);
@@ -286,21 +287,31 @@ export default function ProductDetailPage() {
   ];
   // Exclude current product
   const others = allProducts.filter(p => p.model !== product?.model);
-  // Helper: price closeness (within 20% of current product price)
-  function isClosePrice(a: number = 0, b: number = 0) {
-    if (!a || !b) return false;
-    const diff = Math.abs(a - b);
-    const avg = (a + b) / 2;
-    return diff / avg <= 0.2;
-  }
-
   
-  // 1. Find all same-brand, same-category products (excluding current)
-  let sameBrand = others.filter(p => p.category === product?.category && p.brand === product?.brand);
-  // 2. Find all same-category, other-brand products
-  let otherBrand = others.filter(p => p.category === product?.category && p.brand !== product?.brand);
-  // Compose final comparisonProducts
-  let comparisonProducts = [...sameBrand, ...otherBrand].slice(0, 3);
+  // --- Dropdown comparison state ---
+  const [selectedComparisonProducts, setSelectedComparisonProducts] = useState<any[]>([]);
+  
+  // Initialize with default comparison products
+  React.useEffect(() => {
+    if (product && selectedComparisonProducts.length === 0) {
+      // 1. Find all same-brand, same-category products (excluding current)
+      let sameBrand = others.filter(p => p.category === product.category && p.brand === product.brand);
+      // 2. Find all same-category, other-brand products
+      let otherBrand = others.filter(p => p.category === product.category && p.brand !== product.brand);
+      // Compose final comparisonProducts
+      let defaultComparisonProducts = [...sameBrand, ...otherBrand].slice(0, 3);
+      setSelectedComparisonProducts(defaultComparisonProducts);
+    }
+  }, [product, others, selectedComparisonProducts.length]);
+
+  const handleProductChange = (index: number, productModel: string) => {
+    const selectedProduct = others.find(p => p.model === productModel);
+    if (selectedProduct) {
+      const newSelectedProducts = [...selectedComparisonProducts];
+      newSelectedProducts[index] = selectedProduct;
+      setSelectedComparisonProducts(newSelectedProducts);
+    }
+  };
 
   const handleBackClick = () => {
     // Use browser back navigation if there's history, otherwise fallback to home
@@ -398,7 +409,59 @@ export default function ProductDetailPage() {
         <RequestHardwareBanner />
         {/* --- Comparison Cards --- */}
         <div ref={compareSectionRef}>
-          <ProductComparisonList products={comparisonProducts} getProductSpecs={getProductSpecs} />
+          <div className="mt-8">
+            <h2 className="text-2xl font-medium mb-4">Compare with similar items</h2>
+            <p className="text-base text-gray-600 mb-6">Select products to compare with {product?.model}</p>
+            
+            {/* Product Selection Dropdowns */}
+            <div className="mb-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {[0, 1, 2].map((index) => (
+                  <div key={index} className="relative">
+                    <select
+                      value={selectedComparisonProducts[index]?.model || ""}
+                      onChange={(e) => handleProductChange(index, e.target.value)}
+                      className="w-full appearance-none rounded-md bg-white py-2 pr-8 pl-3 text-base text-gray-900 border border-gray-300 focus:outline-2 focus:outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                    >
+                      <option value="">Select a product...</option>
+                      {others.map((product) => (
+                        <option key={product.model} value={product.model}>
+                          {product.brand} {product.model}
+                        </option>
+                      ))}
+                    </select>
+                    <ChevronDownIcon
+                      aria-hidden="true"
+                      className="pointer-events-none absolute right-2 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500"
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Comparison Results */}
+            {selectedComparisonProducts.length > 0 && selectedComparisonProducts.some(p => p) && (
+              <ProductComparisonList 
+                products={selectedComparisonProducts.filter(p => p)} 
+                getProductSpecs={getProductSpecs} 
+              />
+            )}
+
+            {/* Empty State */}
+            {selectedComparisonProducts.length === 0 && (
+              <div className="bg-white rounded-lg shadow p-8 text-center">
+                <div className="text-gray-400 mb-4">
+                  <svg className="h-16 w-16 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                  </svg>
+                </div>
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">No products selected for comparison</h3>
+                <p className="text-gray-600">
+                  Use the dropdown selectors above to choose up to 3 products to compare with {product?.model}.
+                </p>
+              </div>
+            )}
+          </div>
         </div>
         <SupportBanner />
     </PageLayout>

@@ -5,6 +5,7 @@ import { PageLayout } from "@/components/layout/PageLayout";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { ProductComparisonList } from "@/components/product/ProductComparisonList";
 import { hardwareData, HardwareSpec } from "@/data/hardwareData";
+import { ChevronDownIcon } from "@heroicons/react/24/outline";
 
 export default function ComparePage() {
   const [selectedProducts, setSelectedProducts] = useState<HardwareSpec[]>([]);
@@ -95,23 +96,26 @@ export default function ComparePage() {
         <div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
             {[0, 1, 2].map((index) => (
-              <div key={index} className="flex flex-col">
+              <div key={index} className="relative">
                 <select
                   value={selectedProducts[index]?.model || ""}
                   onChange={(e) => handleProductChange(index, e.target.value)}
-                  className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full appearance-none rounded-md bg-white py-2 pr-8 pl-3 text-base text-gray-900 border border-gray-300 focus:outline-2 focus:outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                 >
                   <option value="">Select a product...</option>
                   {availableProducts.map((product) => (
                     <option key={product.model} value={product.model}>
-                      {product.brand} {product.model}
+                      {product.model}
                     </option>
                   ))}
                 </select>
+                <ChevronDownIcon
+                  aria-hidden="true"
+                  className="pointer-events-none absolute right-2 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500"
+                />
               </div>
             ))}
           </div>
-
         </div>
 
         {/* Comparison Results */}

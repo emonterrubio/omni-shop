@@ -37,11 +37,11 @@ export function createOrderFromCheckout(
   if (shippingType === 'residential') {
     shippingAddress = `${shipping.address1}, ${shipping.city}, ${shipping.country} ${shipping.zip}`;
   } else {
-    shippingAddress = `${shipping.officeLocation}, Building ${shipping.buildingNumber}, Desk ${shipping.workspaceLocation}`;
+    shippingAddress = `${shipping.officeLocation}`;
   }
 
   // Determine who ordered vs who is receiving
-  const orderedBy = `${billing.name} ${billing.lastName}`;
+  const orderedBy = `${billing.requestedBy}`;
   const orderedFor = shippingType === 'residential' 
     ? `${shipping.firstName} ${shipping.lastName}`
     : `${shipping.officeFirstName} ${shipping.officeLastName}`;

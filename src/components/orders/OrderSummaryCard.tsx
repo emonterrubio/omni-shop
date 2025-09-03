@@ -45,7 +45,7 @@ export function OrderSummaryCard({
             </div>
             <div className="flex flex-col">
               <span className="font-regular text-sm text-gray-700">Ordered by</span>
-              <span className="text-base text-gray-900 font-bold">{billing.name} {billing.lastName}</span>
+              <span className="text-base text-gray-900 font-bold">{billing.requestedBy}</span>
             </div>
             <div className="flex flex-col">
               <span className="font-regular text-sm text-gray-700">Order Total</span>
@@ -72,7 +72,7 @@ export function OrderSummaryCard({
           <div className="flex flex-col">
             <h2 className="text-base font-bold text-gray-900">Ordered by</h2>
             <div className="text-base font-regular text-gray-900">
-              {billing.name} {billing.lastName}
+              {billing.requestedBy}
             </div>
           </div>
           <div className="flex flex-col">
